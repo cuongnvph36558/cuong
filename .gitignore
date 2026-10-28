@@ -1,0 +1,49 @@
+# Dependencies
+/node_modules
+/vendor
+
+# Build output
+/public/build
+/public/hot
+/public/storage
+/bootstrap/ssr
+
+# Environment files & secrets
+.env
+.env.backup
+.env.production
+.env.deploy
+.env.local
+.env.*.local
+auth.json
+
+# Local database dumps / exports (never deploy)
+/database/*.sql
+/database/tables/
+/list_tables.php
+
+# Dev-only artifacts
+/public/fonts-manifest.dev.json
+/storage/*.key
+/storage/pail
+/storage/logs/*.log
+
+# Test & tool caches
+/.phpunit.cache
+.phpunit.result.cache
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+/.ai/rules/.aiignore
+
+# Logs
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp

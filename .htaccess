@@ -1,0 +1,33 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # 1) Serve public assets (Vite build, images, uploaded files) from the "public" subfolder
+    RewriteCond %{DOCUMENT_ROOT}/public/build%{REQUEST_URI} -f
+    RewriteRule ^(build)/(.*)$ public/$1/$2 [L]
+
+    RewriteCond %{DOCUMENT_ROOT}/public/images%{REQUEST_URI} -f
+    RewriteRule ^(images)/(.*)$ public/$1/$2 [L]
+
+    RewriteCond %{DOCUMENT_ROOT}/public/storage%{REQUEST_URI} -f
+    RewriteRule ^(storage)/(.*)$ public/$1/$2 [L]
+
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
+    RewriteRule ^(favicon\.ico|favicon\.svg|robots\.txt|apple-touch-icon\.png)$ public/$1 [L]
+
+    # 2) Block sensitive files and folders that live in the project root
+    RewriteRule ^(app|bootstrap|config|database|resources|routes|tests|vendor|node_modules)/ - [F,L]
+    RewriteRule ^(storage)/(?!home-content) - [F,L]
+    RewriteRule ^(\.env|\.env\..*|composer\.(json|lock)|package(-lock)?\.json|artisan)$ - [F,L]
+
+    # 3) Never touch real files or folders that live in the project root
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 4) Everything else goes to the front controller
+    RewriteRule ^ index.php [L]
+</IfModule>

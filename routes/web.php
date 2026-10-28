@@ -37,3 +37,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
 });
 
 require __DIR__.'/settings.php';
+
+if (app()->environment('local')) {
+    require __DIR__.'/__preview.php';
+}

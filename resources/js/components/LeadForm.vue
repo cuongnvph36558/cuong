@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,8 +19,6 @@ type Props = {
     withSymptoms?: boolean;
     /** Button label. */
     submitLabel?: string;
-    /** Layout variant. */
-    variant?: 'light' | 'dark';
     /** Plant type options offered in the select. */
     plantTypes?: string[];
     /** Symptom options offered as checkboxes. */
@@ -34,7 +32,6 @@ const props = withDefaults(defineProps<Props>(), {
     withPlantType: true,
     withSymptoms: true,
     submitLabel: 'ĐĂNG KÝ NGAY',
-    variant: 'light',
     plantTypes: () => [
         'Cây ăn quả',
         'Cây cảnh',
@@ -65,8 +62,6 @@ const form = useForm({
 
 const submitted = ref(false);
 
-const isDark = computed(() => props.variant === 'dark');
-
 function toggleSymptom(symptom: string): void {
     const index = form.symptoms.indexOf(symptom);
 
@@ -92,29 +87,20 @@ function submit(): void {
 
 <template>
     <div
-        class="rounded-3xl border p-6 shadow-2xl sm:p-8"
-        :class="
-            isDark
-                ? 'border-white/15 bg-white/10 backdrop-blur-xl'
-                : 'border-green-900/10 bg-white'
-        "
+        class="rounded-3xl border border-emerald-900/10 bg-white p-5 shadow-xl shadow-emerald-900/10 sm:p-8"
     >
         <h3
-            class="text-xl font-extrabold uppercase sm:text-2xl"
-            :class="isDark ? 'text-white' : 'text-green-950'"
+            class="text-lg font-extrabold text-emerald-950 uppercase sm:text-2xl"
         >
             {{ props.title }}
         </h3>
-        <p
-            class="mt-2 text-sm"
-            :class="isDark ? 'text-white/80' : 'text-slate-600'"
-        >
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">
             {{ props.subtitle }}
         </p>
 
         <div
             v-if="submitted"
-            class="mt-6 rounded-2xl border border-emerald-500/40 bg-emerald-500/15 p-6 text-center"
+            class="mt-6 rounded-2xl border border-emerald-500/40 bg-emerald-50 p-6 text-center"
         >
             <p class="text-lg font-bold text-emerald-700">
                 Cảm ơn bác đã để lại thông tin!
@@ -127,7 +113,7 @@ function submit(): void {
 
         <form v-else class="mt-6 space-y-4" @submit.prevent="submit">
             <div>
-                <label class="mb-1 block text-sm font-semibold" for="lead-name">
+                <label class="mb-1.5 block text-sm font-semibold" for="lead-name">
                     Họ và tên
                 </label>
                 <Input
@@ -136,6 +122,7 @@ function submit(): void {
                     name="name"
                     placeholder="Họ và tên"
                     autocomplete="name"
+                    class="h-11 bg-white"
                 />
                 <p v-if="form.errors.name" class="mt-1 text-xs text-red-600">
                     {{ form.errors.name }}
@@ -144,7 +131,7 @@ function submit(): void {
 
             <div>
                 <label
-                    class="mb-1 block text-sm font-semibold"
+                    class="mb-1.5 block text-sm font-semibold"
                     for="lead-phone"
                 >
                     Số điện thoại
@@ -157,6 +144,7 @@ function submit(): void {
                     inputmode="tel"
                     placeholder="Số điện thoại"
                     autocomplete="tel"
+                    class="h-11 bg-white"
                 />
                 <p v-if="form.errors.phone" class="mt-1 text-xs text-red-600">
                     {{ form.errors.phone }}
@@ -165,7 +153,7 @@ function submit(): void {
 
             <div>
                 <label
-                    class="mb-1 block text-sm font-semibold"
+                    class="mb-1.5 block text-sm font-semibold"
                     for="lead-address"
                 >
                     Địa chỉ
@@ -176,12 +164,13 @@ function submit(): void {
                     name="address"
                     placeholder="Địa chỉ"
                     autocomplete="street-address"
+                    class="h-11 bg-white"
                 />
             </div>
 
             <div v-if="props.withPlantType">
                 <label
-                    class="mb-1 block text-sm font-semibold"
+                    class="mb-1.5 block text-sm font-semibold"
                     for="lead-plant"
                 >
                     Loại cây trồng
@@ -190,12 +179,7 @@ function submit(): void {
                     id="lead-plant"
                     v-model="form.plant_type"
                     name="plant_type"
-                    class="h-9 w-full rounded-md border bg-transparent px-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                    :class="
-                        isDark
-                            ? 'border-white/25 text-white'
-                            : 'border-input text-slate-900'
-                    "
+                    class="h-11 w-full rounded-md border border-input bg-white px-3 text-sm text-slate-900 outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 >
                     <option value="">Chọn loại cây</option>
                     <option
@@ -217,13 +201,11 @@ function submit(): void {
                         v-for="symptom in props.symptoms"
                         :key="symptom"
                         type="button"
-                        class="rounded-full border px-3 py-1.5 text-xs font-bold uppercase transition-all"
+                        class="rounded-full border px-3 py-2 text-xs font-bold uppercase transition-all"
                         :class="
                             form.symptoms.includes(symptom)
-                                ? 'border-emerald-600 bg-emerald-600 text-white shadow-lg shadow-emerald-600/30'
-                                : isDark
-                                  ? 'border-white/25 text-white hover:border-white/60'
-                                  : 'border-slate-300 text-slate-700 hover:border-emerald-600'
+                                ? 'border-emerald-600 bg-emerald-600 text-white shadow-lg shadow-emerald-600/25'
+                                : 'border-slate-300 text-slate-700 hover:border-emerald-600 hover:bg-emerald-50'
                         "
                         @click="toggleSymptom(symptom)"
                     >
@@ -239,7 +221,7 @@ function submit(): void {
             </div>
 
             <div>
-                <label class="mb-1 block text-sm font-semibold" for="lead-note">
+                <label class="mb-1.5 block text-sm font-semibold" for="lead-note">
                     Ghi chú
                 </label>
                 <Textarea
@@ -248,12 +230,13 @@ function submit(): void {
                     name="note"
                     rows="3"
                     placeholder="Mô tả thêm về vườn cây của bạn..."
+                    class="bg-white"
                 />
             </div>
 
             <div>
                 <label
-                    class="mb-1 block text-sm font-semibold"
+                    class="mb-1.5 block text-sm font-semibold"
                     for="lead-coupon"
                 >
                     Mã giảm giá
@@ -263,22 +246,20 @@ function submit(): void {
                     v-model="form.coupon_code"
                     name="coupon_code"
                     placeholder="Mã giảm giá"
+                    class="h-11 bg-white"
                 />
             </div>
 
             <Button
                 type="submit"
                 size="lg"
-                class="w-full bg-emerald-600 font-extrabold tracking-wide text-white uppercase shadow-lg shadow-emerald-600/30 hover:bg-emerald-700"
+                class="h-12 w-full bg-emerald-600 font-extrabold tracking-wide text-white uppercase shadow-lg shadow-emerald-600/25 hover:bg-emerald-700"
                 :disabled="form.processing"
             >
                 {{ form.processing ? 'Đang gửi...' : props.submitLabel }}
             </Button>
 
-            <p
-                class="text-center text-xs"
-                :class="isDark ? 'text-white/60' : 'text-slate-500'"
-            >
+            <p class="text-center text-xs text-slate-500">
                 Chúng tôi sẽ không chia sẻ thông tin của bạn cho bên thứ ba.
             </p>
         </form>

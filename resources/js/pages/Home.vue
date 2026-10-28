@@ -906,9 +906,102 @@ onUnmounted(() => clearInterval(sliderTimer));
             </div>
         </section>
 
+        <!-- ===== CUSTOMER FEEDBACK ===== -->
+        <section
+            v-if="props.feedbacks.length"
+            class="relative order-[13] overflow-hidden bg-lime-50 py-14 sm:py-16"
+        >
+            <div class="mx-auto max-w-7xl px-4 sm:px-6">
+                <h2
+                    data-reveal
+                    class="text-center text-2xl font-black tracking-tight text-emerald-950 uppercase sm:text-3xl"
+                >
+                    Hình ảnh vườn cây của bà con
+                </h2>
+                <p
+                    data-reveal
+                    class="mx-auto mt-3 max-w-2xl text-center text-sm text-slate-600 sm:text-base"
+                >
+                    Bà con tự tay chụp và gửi hình vườn cây sau khi dùng phân bón
+                    ROOTBIO. Mọi hình ảnh đều được chia sẻ thật từ khách hàng.
+                </p>
+
+                <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                    <article
+                        v-for="feedback in props.feedbacks"
+                        :key="feedback.id"
+                        data-reveal
+                        class="flex h-full flex-col rounded-2xl border border-emerald-900/10 bg-white p-5 shadow-sm"
+                    >
+                        <div class="flex items-center gap-3">
+                            <img
+                                v-if="feedback.image"
+                                :src="feedback.image"
+                                :alt="feedback.name"
+                                class="size-12 shrink-0 rounded-xl object-cover"
+                            />
+                            <div
+                                v-else
+                                class="flex size-12 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-base font-black text-emerald-900"
+                            >
+                                {{ feedback.name.charAt(0) }}
+                            </div>
+
+                            <div class="min-w-0 flex-1">
+                                <p class="truncate font-black text-emerald-900">
+                                    {{ feedback.name }}
+                                </p>
+                                <p
+                                    v-if="feedback.role"
+                                    class="truncate text-xs text-slate-500"
+                                >
+                                    {{ feedback.role }}
+                                </p>
+                            </div>
+
+                            <div
+                                class="flex shrink-0 gap-0.5 text-amber-500"
+                            >
+                                <span
+                                    v-for="star in 5"
+                                    :key="star"
+                                    class="text-xs"
+                                    :class="
+                                        star <= feedback.rating
+                                            ? 'opacity-100'
+                                            : 'opacity-25'
+                                    "
+                                >
+                                    ★
+                                </span>
+                            </div>
+                        </div>
+
+                        <p class="mt-4 flex-1 text-sm leading-relaxed text-slate-600 italic">
+                            "{{ feedback.content }}"
+                        </p>
+
+                        <div
+                            v-if="feedback.photos?.length"
+                            class="mt-4 grid grid-cols-3 gap-2"
+                        >
+                            <img
+                                v-for="(photo, index) in feedback.photos"
+                                :key="index"
+                                :src="photo"
+                                :alt="`Ảnh cây trồng của ${feedback.name}`"
+                                class="aspect-square w-full rounded-xl object-cover"
+                                loading="lazy"
+                            />
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
         <!-- ===== FINAL CTA ===== -->
         <section
-            class="relative order-13 overflow-hidden bg-gradient-to-br from-emerald-700 via-emerald-600 to-lime-600 py-12 text-center text-white sm:py-16"
+            class="relative order-[14] overflow-hidden bg-gradient-to-br from-emerald-700 via-emerald-600 to-lime-600 py-12 text-center text-white sm:py-16"
         >
             <div class="rootbio-cta-aurora absolute inset-0 opacity-70"></div>
 
@@ -953,7 +1046,7 @@ onUnmounted(() => clearInterval(sliderTimer));
 
         <!-- ===== FOOTER ===== -->
         <footer
-            class="rootbio-footer order-14 border-t border-emerald-900/10 bg-emerald-50/60 pt-10 pb-28 text-slate-600 sm:pb-12"
+            class="rootbio-footer order-[15] border-t border-emerald-900/10 bg-emerald-50/60 pt-10 pb-28 text-slate-600 sm:pb-12"
         >
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
                 <div class="grid gap-8 md:grid-cols-3">

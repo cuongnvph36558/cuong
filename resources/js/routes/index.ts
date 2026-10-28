@@ -366,3 +366,74 @@ dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
     
     dashboard.form = dashboardForm
+/**
+ * @see routes/__preview.php:8
+ * @route '/__preview_login'
+ */
+export const __preview_login = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: __preview_login.url(options),
+    method: 'get',
+})
+
+__preview_login.definition = {
+    methods: ["get","head"],
+    url: '/__preview_login',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+ * @see routes/__preview.php:8
+ * @route '/__preview_login'
+ */
+__preview_login.url = (options?: RouteQueryOptions) => {
+    return __preview_login.definition.url + queryParams(options)
+}
+
+/**
+ * @see routes/__preview.php:8
+ * @route '/__preview_login'
+ */
+__preview_login.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: __preview_login.url(options),
+    method: 'get',
+})
+/**
+ * @see routes/__preview.php:8
+ * @route '/__preview_login'
+ */
+__preview_login.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: __preview_login.url(options),
+    method: 'head',
+})
+
+    /**
+ * @see routes/__preview.php:8
+ * @route '/__preview_login'
+ */
+    const __preview_loginForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: __preview_login.url(options),
+        method: 'get',
+    })
+
+            /**
+ * @see routes/__preview.php:8
+ * @route '/__preview_login'
+ */
+        __preview_loginForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: __preview_login.url(options),
+            method: 'get',
+        })
+            /**
+ * @see routes/__preview.php:8
+ * @route '/__preview_login'
+ */
+        __preview_loginForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: __preview_login.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    __preview_login.form = __preview_loginForm

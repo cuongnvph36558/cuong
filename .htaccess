@@ -6,13 +6,13 @@
     RewriteEngine On
 
     # 1) Serve public assets (Vite build, images, uploaded files) from the "public" subfolder
-    RewriteCond %{DOCUMENT_ROOT}/public/build%{REQUEST_URI} -f
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
     RewriteRule ^(build)/(.*)$ public/$1/$2 [L]
 
-    RewriteCond %{DOCUMENT_ROOT}/public/images%{REQUEST_URI} -f
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
     RewriteRule ^(images)/(.*)$ public/$1/$2 [L]
 
-    RewriteCond %{DOCUMENT_ROOT}/public/storage%{REQUEST_URI} -f
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
     RewriteRule ^(storage)/(.*)$ public/$1/$2 [L]
 
     RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f

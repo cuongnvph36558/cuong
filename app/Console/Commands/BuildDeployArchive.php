@@ -41,6 +41,18 @@ class BuildDeployArchive extends Command
     ];
 
     /**
+     * The production environment file that ships with the archive.
+     *
+     * It is renamed to `.env` on the host, so it is only added when it exists.
+     */
+    private const ENVIRONMENT_FILE = '.env.deploy';
+
+    /**
+     * The SQL dump that seeds the host database.
+     */
+    private const DATABASE_DUMP = 'database/production_import.sql';
+
+    /**
      * Files that are shipped to the host.
      *
      * @var list<string>
@@ -55,6 +67,8 @@ class BuildDeployArchive extends Command
         'tsconfig.json',
         'index.php',
         '.htaccess',
+        self::ENVIRONMENT_FILE,
+        self::DATABASE_DUMP,
     ];
 
     /**
@@ -67,6 +81,7 @@ class BuildDeployArchive extends Command
         'storage/framework/cache/locks/.gitignore',
         'storage/framework/sessions/.gitignore',
         'storage/framework/testing/.gitignore',
+        'storage/framework/views/.gitignore',
         'storage/logs/.gitignore',
         'storage/app/private/.gitignore',
     ];
@@ -109,6 +124,18 @@ class BuildDeployArchive extends Command
         if (! extension_loaded('zip')) {
             $this->error('The "zip" PHP extension is required to build the archive.');
 
+            return self::FAILURE;
+        }
+
+        $this->refreshDatabaseDump();
+
+        if (! is_file(base_path(self::ENVIRONMENT_FILE))) {
+            $this->warn(sprintf(
+                '%s is missing. Run deploy.bat / deploy.sh (or copy .env.production to %s) before uploading.',
+                self::ENVIRONMENT_FILE,
+                self::ENVIRONMENT_FILE,
+            ));
+        } elseif (! $this->guardEnvironmentFile()) {
             return self::FAILURE;
         }
 
@@ -157,6 +184,80 @@ class BuildDeployArchive extends Command
         $this->info("Wrote {$outputPath} ({$size} MB)");
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Refuse to ship an environment file that still carries local settings.
+     */
+    private function guardEnvironmentFile(): bool
+    {
+        $values = $this->readEnvironmentFile();
+
+        $problems = [];
+
+        if (($values['APP_ENV'] ?? null) !== 'production') {
+            $problems[] = 'APP_ENV must be "production"';
+        }
+
+        if (($values['APP_DEBUG'] ?? null) !== 'false') {
+            $problems[] = 'APP_DEBUG must be "false"';
+        }
+
+        if (($values['APP_KEY'] ?? '') === '') {
+            $this->warn('APP_KEY is empty. Run "php artisan key:generate" on the host after extracting the archive.');
+        }
+
+        if ($problems !== []) {
+            $this->error(sprintf(
+                '%s is not production ready: %s.',
+                self::ENVIRONMENT_FILE,
+                implode('; ', $problems),
+            ));
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Read the environment file into a key/value map.
+     *
+     * @return array<string, string>
+     */
+    private function readEnvironmentFile(): array
+    {
+        $lines = (string) file_get_contents(base_path(self::ENVIRONMENT_FILE));
+
+        $values = [];
+
+        foreach (preg_split('/\R/', $lines) ?: [] as $line) {
+            $line = trim($line);
+
+            if ($line === '' || str_starts_with($line, '#') || ! str_contains($line, '=')) {
+                continue;
+            }
+
+            [$key, $value] = explode('=', $line, 2);
+
+            $values[trim($key)] = trim(trim($value), "\"'");
+        }
+
+        return $values;
+    }
+
+    /**
+     * Regenerate the MySQL dump so the archive never ships a stale database.
+     */
+    private function refreshDatabaseDump(): void
+    {
+        if (! is_file(base_path(self::DATABASE_DUMP))) {
+            return;
+        }
+
+        $this->callSilently('app:export-production-sql', [
+            '--output' => self::DATABASE_DUMP,
+        ]);
     }
 
     /**

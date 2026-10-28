@@ -3,7 +3,6 @@
 /vendor
 
 # Build output
-/public/build
 /public/hot
 /bootstrap/ssr
 /rootbio-deploy.zip

@@ -1,6 +1,6 @@
 -- ============================================================
 -- ROOTBIO - schema + data for MySQL / MariaDB
--- Generated: 2026-10-28 10:57:40
+-- Generated: 2026-10-28 11:41:54
 -- Import this file into phpMyAdmin to get a ready-to-use database.
 -- ============================================================
 

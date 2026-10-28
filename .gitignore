@@ -6,6 +6,7 @@
 /public/hot
 /bootstrap/ssr
 /rootbio-deploy.zip
+/vendor.zip
 
 # Environment files & secrets
 .env
@@ -21,7 +22,6 @@ auth.json
 /list_tables.php
 
 # Dev-only artifacts
-/public/fonts-manifest.dev.json
 /storage/*.key
 /storage/pail
 /storage/logs/*.log

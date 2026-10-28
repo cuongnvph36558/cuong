@@ -3,7 +3,7 @@ REM ============================================================
 REM Deploy ROOTBIO (Laravel 13 + Inertia 3 + Vue 3) len shared hosting cPanel
 REM ============================================================
 REM Cach dung:
-REM   1. Tao .env.production tu .env.example, dien thong tin DB + domain
+REM   1. Tao .env.production tu .env.production.example, dien thong tin DB + domain
 REM   2. Chay: deploy.bat
 REM   3. Upload rootbio-deploy.zip len hosting, giai nen vao public_html
 REM   4. Doi ten .env.deploy thanh .env
@@ -15,8 +15,11 @@ REM ============================================================
 setlocal
 cd /d "%~dp0"
 
-set ARCHIVE=rootbio-deploy.zip
-set ENV_FILE=.env.production
+if not exist ".env.production" (
+    echo !! Khong tim thay .env.production
+    echo    Hay tao file nay tu .env.production.example va dien thong tin DB + domain truoc khi deploy.
+    exit /b 1
+)
 
 echo ==^> Building frontend assets...
 call npm install --no-audit --no-fund
@@ -28,24 +31,14 @@ call composer install --no-dev --optimize-autoloader --no-interaction --prefer-d
 echo ==^> Clearing caches...
 call php artisan optimize:clear
 
-if not exist "%ENV_FILE%" (
-    echo !! Khong tim thay %ENV_FILE%
-    echo    Hay tao file nay tu .env.example va dien thong tin DB + domain truoc khi deploy.
-    exit /b 1
-)
-
-echo ==^> Creating archive...
-if exist "%ARCHIVE%" del "%ARCHIVE%"
-
-if not exist ".env.deploy" copy ".env.production" ".env.deploy"
-
-powershell -NoProfile -Command ^
-  "$items = @('app','bootstrap','config','database\seeders','database\migrations','public','resources','routes','storage','artisan','composer.json','composer.lock','package.json','package-lock.json','vite.config.ts','tsconfig.json','index.php','.htaccess','.env.deploy'); Compress-Archive -Path $items -DestinationPath '%ARCHIVE%' -Force"
+echo ==^> Building deploy archive...
+copy /Y ".env.production" ".env.deploy" >nul
+call php artisan app:build-deploy-archive
 
 echo.
 echo ==^> HOAN TAT!
-echo    File: %ARCHIVE%
-echo    1. Upload %ARCHIVE% len hosting
+echo    File: rootbio-deploy.zip
+echo    1. Upload rootbio-deploy.zip len hosting
 echo    2. Giai nen vao public_html
 echo    3. Doi ten .env.deploy thanh .env
 echo    4. SSH: php artisan migrate --force

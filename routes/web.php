@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
 use App\Http\Controllers\Admin\HomeContentController as AdminHomeContentController;
 use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 use App\Http\Controllers\HomeController;
@@ -25,6 +26,14 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     Route::put('home-content', [AdminHomeContentController::class, 'update'])->name('home-content.update');
     Route::post('home-content/reset', [AdminHomeContentController::class, 'reset'])->name('home-content.reset');
     Route::post('home-content/upload', [AdminHomeContentController::class, 'uploadImage'])->name('home-content.upload');
+
+    Route::get('feedbacks', [AdminFeedbackController::class, 'index'])->name('feedbacks.index');
+    Route::get('feedbacks/create', [AdminFeedbackController::class, 'create'])->name('feedbacks.create');
+    Route::post('feedbacks', [AdminFeedbackController::class, 'store'])->name('feedbacks.store');
+    Route::get('feedbacks/{feedback}/edit', [AdminFeedbackController::class, 'edit'])->name('feedbacks.edit');
+    Route::put('feedbacks/{feedback}', [AdminFeedbackController::class, 'update'])->name('feedbacks.update');
+    Route::delete('feedbacks/{feedback}', [AdminFeedbackController::class, 'destroy'])->name('feedbacks.destroy');
+    Route::post('feedbacks/upload', [AdminFeedbackController::class, 'uploadImage'])->name('feedbacks.upload');
 });
 
 require __DIR__.'/settings.php';

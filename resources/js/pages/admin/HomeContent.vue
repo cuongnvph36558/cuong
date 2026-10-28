@@ -7,7 +7,9 @@ import {
     Beaker,
     Building2,
     ClipboardList,
+    ExternalLink,
     Globe,
+    LayoutTemplate,
     Leaf,
     Phone,
     Plus,
@@ -27,16 +29,11 @@ import {
 } from '@lucide/vue';
 import { computed, ref } from 'vue';
 import { toast } from 'vue-sonner';
+import AdminPageHeader from '@/components/admin/AdminPageHeader.vue';
+import AdminPanel from '@/components/admin/AdminPanel.vue';
 import HomeContentImageField from '@/components/admin/HomeContentImageField.vue';
 import HomeContentTextField from '@/components/admin/HomeContentTextField.vue';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { home as homeRoute } from '@/routes';
 import {
@@ -160,9 +157,7 @@ function addListItem(sectionKey: string, field: HomeContentField): void {
 
     for (const itemField of field.itemFields ?? []) {
         blank[itemField.key] =
-            itemField.type === 'number'
-                ? 0
-                : String(itemField.default ?? '');
+            itemField.type === 'number' ? 0 : String(itemField.default ?? '');
     }
 
     items.push(blank);
@@ -242,25 +237,16 @@ async function restoreDefaults(): Promise<void> {
 <template>
     <Head title="Nội dung trang chủ" />
 
-    <div
-        class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
-    >
-        <!-- Toolbar -->
-        <div
-            class="sticky top-0 z-20 flex flex-wrap items-center justify-between gap-3 rounded-lg border bg-background/95 p-3 backdrop-blur"
+    <div class="admin-page p-4 md:p-6">
+        <AdminPageHeader
+            title="Nội dung trang chủ"
+            description="Chỉnh sửa toàn bộ nội dung hiển thị trên trang chủ ROOTBIO."
+            :icon="LayoutTemplate"
         >
-            <div>
-                <h1 class="text-2xl font-bold tracking-tight">
-                    Nội dung trang chủ
-                </h1>
-                <p class="text-sm text-muted-foreground">
-                    Chỉnh sửa toàn bộ nội dung hiển thị trên trang chủ ROOTBIO.
-                </p>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-2">
+            <template #actions>
                 <Button variant="outline" as-child>
                     <a :href="homeRoute().url" target="_blank" rel="noopener">
+                        <ExternalLink />
                         Xem trang chủ
                     </a>
                 </Button>
@@ -274,30 +260,33 @@ async function restoreDefaults(): Promise<void> {
                     Khôi phục mặc định
                 </Button>
 
-                <Button
-                    :disabled="saveForm.processing || !dirty"
-                    @click="save"
-                >
+                <Button :disabled="saveForm.processing || !dirty" @click="save">
                     <Save />
                     {{ saveForm.processing ? 'Đang lưu...' : 'Lưu thay đổi' }}
                 </Button>
-            </div>
-        </div>
+            </template>
+        </AdminPageHeader>
 
-        <div class="grid gap-4 lg:grid-cols-[260px_1fr]">
+        <p
+            v-if="dirty"
+            class="flex items-center gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-2.5 text-sm text-amber-700 dark:text-amber-300"
+        >
+            <TriangleAlert class="size-4 shrink-0" />
+            Bạn có thay đổi chưa được lưu. Nhấn "Lưu thay đổi" để áp dụng.
+        </p>
+
+        <div class="grid gap-5 lg:grid-cols-[260px_1fr]">
             <!-- Section navigation -->
-            <nav
-                class="h-fit space-y-1 rounded-lg border p-2 lg:sticky lg:top-24"
-            >
+            <nav class="admin-panel h-fit space-y-1 p-2 lg:sticky lg:top-24">
                 <button
                     v-for="section in props.schema"
                     :key="section.key"
                     type="button"
-                    class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition"
+                    class="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition"
                     :class="
                         activeSection === section.key
-                            ? 'bg-primary text-primary-foreground'
-                            : 'hover:bg-accent hover:text-accent-foreground'
+                            ? 'bg-primary text-primary-foreground shadow-sm'
+                            : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                     "
                     @click="activeSection = section.key"
                 >
@@ -310,69 +299,55 @@ async function restoreDefaults(): Promise<void> {
             </nav>
 
             <!-- Section editor -->
-            <div v-if="activeSectionData" class="space-y-4">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>{{ activeSectionData.label }}</CardTitle>
-                        <CardDescription>
-                            {{ activeSectionData.description }}
-                        </CardDescription>
-                    </CardHeader>
+            <AdminPanel v-if="activeSectionData" flush>
+                <template #header>
+                    <h2 class="admin-panel-title">
+                        {{ activeSectionData.label }}
+                    </h2>
+                    <p class="admin-panel-description">
+                        {{ activeSectionData.description }}
+                    </p>
+                </template>
 
-                    <CardContent class="space-y-5">
-                        <div
-                            v-for="field in activeSectionData.fields"
-                            :key="field.key"
-                            class="space-y-2 border-b pb-5 last:border-0 last:pb-0"
+                <div class="space-y-6 p-5">
+                    <div
+                        v-for="field in activeSectionData.fields"
+                        :key="field.key"
+                        class="space-y-2 border-b border-border/50 pb-6 last:border-0 last:pb-0"
+                    >
+                        <!-- Simple text / textarea / number field -->
+                        <template
+                            v-if="
+                                field.type !== 'list' && field.type !== 'image'
+                            "
                         >
-                            <!-- Simple text / textarea / number field -->
-                            <template
-                                v-if="field.type !== 'list' && field.type !== 'image'"
+                            <Label
+                                :for="`${activeSectionData.key}-${field.key}`"
+                                class="text-foreground"
                             >
-                                <Label :for="`${activeSectionData.key}-${field.key}`">
-                                    {{ field.label }}
-                                </Label>
+                                {{ field.label }}
+                            </Label>
 
-                                <HomeContentTextField
-                                    :id="`${activeSectionData.key}-${field.key}`"
-                                    :multiline="field.type === 'textarea'"
-                                    :type="
-                                        field.type === 'number' ? 'number' : 'text'
-                                    "
-                                    :model-value="
-                                        field.type === 'number'
-                                            ? Number(
-                                                  fieldValue(
-                                                      activeSectionData.key,
-                                                      field.key,
-                                                  ) ?? 0,
-                                              )
-                                            : String(
-                                                  fieldValue(
-                                                      activeSectionData.key,
-                                                      field.key,
-                                                  ) ?? '',
-                                              )
-                                    "
-                                    @update:model-value="
-                                        updateField(
-                                            activeSectionData.key,
-                                            field.key,
-                                            $event,
-                                        )
-                                    "
-                                />
-                            </template>
-
-                            <!-- Image field -->
-                            <HomeContentImageField
-                                v-else-if="field.type === 'image'"
-                                :label="field.label"
+                            <HomeContentTextField
+                                :id="`${activeSectionData.key}-${field.key}`"
+                                :multiline="field.type === 'textarea'"
+                                :type="
+                                    field.type === 'number' ? 'number' : 'text'
+                                "
                                 :model-value="
-                                    String(
-                                        fieldValue(activeSectionData.key, field.key) ??
-                                            '',
-                                    )
+                                    field.type === 'number'
+                                        ? Number(
+                                              fieldValue(
+                                                  activeSectionData.key,
+                                                  field.key,
+                                              ) ?? 0,
+                                          )
+                                        : String(
+                                              fieldValue(
+                                                  activeSectionData.key,
+                                                  field.key,
+                                              ) ?? '',
+                                          )
                                 "
                                 @update:model-value="
                                     updateField(
@@ -382,197 +357,220 @@ async function restoreDefaults(): Promise<void> {
                                     )
                                 "
                             />
+                        </template>
 
-                            <!-- Repeatable list field -->
-                            <template v-else>
-                                <div class="flex items-center justify-between">
-                                    <Label>{{ field.label }}</Label>
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        size="sm"
-                                        @click="
-                                            addListItem(activeSectionData.key, field)
-                                        "
-                                    >
-                                        <Plus />
-                                        Thêm
-                                    </Button>
-                                </div>
+                        <!-- Image field -->
+                        <HomeContentImageField
+                            v-else-if="field.type === 'image'"
+                            :label="field.label"
+                            :model-value="
+                                String(
+                                    fieldValue(
+                                        activeSectionData.key,
+                                        field.key,
+                                    ) ?? '',
+                                )
+                            "
+                            @update:model-value="
+                                updateField(
+                                    activeSectionData.key,
+                                    field.key,
+                                    $event,
+                                )
+                            "
+                        />
 
-                                <div
-                                    class="space-y-3"
-                                    :class="
+                        <!-- Repeatable list field -->
+                        <template v-else>
+                            <div
+                                class="flex items-center justify-between gap-3"
+                            >
+                                <Label class="text-foreground">
+                                    {{ field.label }}
+                                </Label>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    @click="
+                                        addListItem(
+                                            activeSectionData.key,
+                                            field,
+                                        )
+                                    "
+                                >
+                                    <Plus />
+                                    Thêm
+                                </Button>
+                            </div>
+
+                            <div
+                                class="space-y-3"
+                                :class="
+                                    listItems(activeSectionData.key, field.key)
+                                        .length === 0
+                                        ? 'rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground'
+                                        : ''
+                                "
+                            >
+                                <p
+                                    v-if="
                                         listItems(
                                             activeSectionData.key,
                                             field.key,
                                         ).length === 0
-                                            ? 'rounded-md border border-dashed p-6 text-center text-sm text-muted-foreground'
-                                            : ''
                                     "
                                 >
-                                    <p
-                                        v-if="
-                                            listItems(
-                                                activeSectionData.key,
-                                                field.key,
-                                            ).length === 0
-                                        "
-                                    >
-                                        Chưa có mục nào. Bấm "Thêm" để bắt
-                                        đầu.
-                                    </p>
+                                    Chưa có mục nào. Bấm "Thêm" để bắt đầu.
+                                </p>
 
+                                <div
+                                    v-for="(item, index) in listItems(
+                                        activeSectionData.key,
+                                        field.key,
+                                    )"
+                                    :key="index"
+                                    class="space-y-3 rounded-xl border border-border/70 bg-muted/30 p-4"
+                                >
                                     <div
-                                        v-for="(item, index) in listItems(
-                                            activeSectionData.key,
-                                            field.key,
-                                        )"
-                                        :key="index"
-                                        class="space-y-3 rounded-lg border bg-muted/30 p-3"
+                                        class="flex items-center justify-between"
                                     >
-                                        <div class="flex items-center justify-between">
-                                            <span
-                                                class="text-xs font-semibold text-muted-foreground"
-                                            >
-                                                {{ field.itemLabel }}
-                                                #{{ index + 1 }}
-                                            </span>
-
-                                            <div class="flex items-center gap-1">
-                                                <Button
-                                                    type="button"
-                                                    variant="ghost"
-                                                    size="icon-sm"
-                                                    :disabled="index === 0"
-                                                    @click="
-                                                        moveListItem(
-                                                            activeSectionData.key,
-                                                            field.key,
-                                                            index,
-                                                            -1,
-                                                        )
-                                                    "
-                                                >
-                                                    <ArrowUp />
-                                                </Button>
-                                                <Button
-                                                    type="button"
-                                                    variant="ghost"
-                                                    size="icon-sm"
-                                                    :disabled="
-                                                        index ===
-                                                        listItems(
-                                                            activeSectionData.key,
-                                                            field.key,
-                                                        ).length -
-                                                            1
-                                                    "
-                                                    @click="
-                                                        moveListItem(
-                                                            activeSectionData.key,
-                                                            field.key,
-                                                            index,
-                                                            1,
-                                                        )
-                                                    "
-                                                >
-                                                    <ArrowDown />
-                                                </Button>
-                                                <Button
-                                                    type="button"
-                                                    variant="ghost"
-                                                    size="icon-sm"
-                                                    class="text-destructive"
-                                                    @click="
-                                                        removeListItem(
-                                                            activeSectionData.key,
-                                                            field.key,
-                                                            index,
-                                                        )
-                                                    "
-                                                >
-                                                    <Trash2 />
-                                                </Button>
-                                            </div>
-                                        </div>
-
-                                        <div
-                                            v-for="itemField in field.itemFields ??
-                                            []"
-                                            :key="itemField.key"
-                                            class="space-y-2"
+                                        <span
+                                            class="text-xs font-semibold text-muted-foreground"
                                         >
-                                            <Label
-                                                :for="`${activeSectionData.key}-${field.key}-${index}-${itemField.key}`"
+                                            {{ field.itemLabel }}
+                                            #{{ index + 1 }}
+                                        </span>
+
+                                        <div class="flex items-center gap-1">
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="icon-sm"
+                                                :disabled="index === 0"
+                                                @click="
+                                                    moveListItem(
+                                                        activeSectionData.key,
+                                                        field.key,
+                                                        index,
+                                                        -1,
+                                                    )
+                                                "
                                             >
-                                                {{ itemField.label }}
-                                            </Label>
-
-                                            <HomeContentImageField
-                                                v-if="itemField.type === 'image'"
-                                                :label="itemField.label"
-                                                :model-value="
-                                                    String(
-                                                        item[itemField.key] ??
-                                                            '',
-                                                    )
+                                                <ArrowUp />
+                                            </Button>
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="icon-sm"
+                                                :disabled="
+                                                    index ===
+                                                    listItems(
+                                                        activeSectionData.key,
+                                                        field.key,
+                                                    ).length -
+                                                        1
                                                 "
-                                                @update:model-value="
-                                                    updateListItem(
+                                                @click="
+                                                    moveListItem(
                                                         activeSectionData.key,
                                                         field.key,
                                                         index,
-                                                        itemField.key,
-                                                        $event,
+                                                        1,
                                                     )
                                                 "
-                                            />
-
-                                            <HomeContentTextField
-                                                v-else
-                                                :id="`${activeSectionData.key}-${field.key}-${index}-${itemField.key}`"
-                                                :multiline="
-                                                    itemField.type === 'textarea'
-                                                "
-                                                :type="
-                                                    itemField.type === 'number'
-                                                        ? 'number'
-                                                        : 'text'
-                                                "
-                                                :model-value="
-                                                    itemField.type === 'number'
-                                                        ? Number(
-                                                              item[
-                                                                  itemField
-                                                                      .key
-                                                              ] ?? 0,
-                                                          )
-                                                        : String(
-                                                              item[
-                                                                  itemField
-                                                                      .key
-                                                              ] ?? '',
-                                                          )
-                                                "
-                                                @update:model-value="
-                                                    updateListItem(
+                                            >
+                                                <ArrowDown />
+                                            </Button>
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="icon-sm"
+                                                class="text-destructive hover:text-destructive"
+                                                @click="
+                                                    removeListItem(
                                                         activeSectionData.key,
                                                         field.key,
                                                         index,
-                                                        itemField.key,
-                                                        $event,
                                                     )
                                                 "
-                                            />
+                                            >
+                                                <Trash2 />
+                                            </Button>
                                         </div>
                                     </div>
+
+                                    <div
+                                        v-for="itemField in field.itemFields ??
+                                        []"
+                                        :key="itemField.key"
+                                        class="space-y-2"
+                                    >
+                                        <Label
+                                            :for="`${activeSectionData.key}-${field.key}-${index}-${itemField.key}`"
+                                            class="text-foreground"
+                                        >
+                                            {{ itemField.label }}
+                                        </Label>
+
+                                        <HomeContentImageField
+                                            v-if="itemField.type === 'image'"
+                                            :label="itemField.label"
+                                            :model-value="
+                                                String(
+                                                    item[itemField.key] ?? '',
+                                                )
+                                            "
+                                            @update:model-value="
+                                                updateListItem(
+                                                    activeSectionData.key,
+                                                    field.key,
+                                                    index,
+                                                    itemField.key,
+                                                    $event,
+                                                )
+                                            "
+                                        />
+
+                                        <HomeContentTextField
+                                            v-else
+                                            :id="`${activeSectionData.key}-${field.key}-${index}-${itemField.key}`"
+                                            :multiline="
+                                                itemField.type === 'textarea'
+                                            "
+                                            :type="
+                                                itemField.type === 'number'
+                                                    ? 'number'
+                                                    : 'text'
+                                            "
+                                            :model-value="
+                                                itemField.type === 'number'
+                                                    ? Number(
+                                                          item[itemField.key] ??
+                                                              0,
+                                                      )
+                                                    : String(
+                                                          item[itemField.key] ??
+                                                              '',
+                                                      )
+                                            "
+                                            @update:model-value="
+                                                updateListItem(
+                                                    activeSectionData.key,
+                                                    field.key,
+                                                    index,
+                                                    itemField.key,
+                                                    $event,
+                                                )
+                                            "
+                                        />
+                                    </div>
                                 </div>
-                            </template>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </AdminPanel>
         </div>
     </div>
 </template>

@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
+import { Download, Search, Trash2, Users, X } from '@lucide/vue';
 import { computed, ref, watch } from 'vue';
+import AdminEmptyState from '@/components/admin/AdminEmptyState.vue';
+import AdminPageHeader from '@/components/admin/AdminPageHeader.vue';
+import AdminPagination from '@/components/admin/AdminPagination.vue';
+import AdminPanel from '@/components/admin/AdminPanel.vue';
+import AdminStatCard from '@/components/admin/AdminStatCard.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
     Select,
@@ -77,6 +82,10 @@ watch(
 
 const symptomOptions = Object.keys(props.symptoms);
 
+const hasFilters = computed(
+    () => search.value !== '' || symptom.value !== 'all',
+);
+
 function applyFilters(): void {
     router.get(
         leadsIndex().url,
@@ -127,253 +136,223 @@ function formatDate(value: string): string {
 <template>
     <Head title="Danh sách khách hàng" />
 
-    <div
-        class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
-    >
-        <div class="flex flex-wrap items-center justify-between gap-3">
-            <div>
-                <h1 class="text-2xl font-bold tracking-tight">
-                    Dữ liệu khách hàng
-                </h1>
-                <p class="text-sm text-muted-foreground">
-                    Tất cả khách hàng đăng ký từ trang chủ ROOTBIO.
-                </p>
-            </div>
-
-            <Button variant="outline" @click="exportCsv"> Xuất CSV </Button>
-        </div>
+    <div class="admin-page p-4 md:p-6">
+        <AdminPageHeader
+            title="Dữ liệu khách hàng"
+            description="Tất cả khách hàng đăng ký từ trang chủ ROOTBIO."
+            :icon="Users"
+        >
+            <template #actions>
+                <Button variant="outline" @click="exportCsv">
+                    <Download />
+                    Xuất CSV
+                </Button>
+            </template>
+        </AdminPageHeader>
 
         <div class="grid gap-4 sm:grid-cols-3">
-            <Card>
-                <CardHeader class="pb-2">
-                    <CardTitle
-                        class="text-sm font-medium text-muted-foreground"
-                    >
-                        Tổng khách hàng
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p class="text-3xl font-bold">
-                        {{ props.stats.total }}
-                    </p>
-                </CardContent>
-            </Card>
-
-            <Card>
-                <CardHeader class="pb-2">
-                    <CardTitle
-                        class="text-sm font-medium text-muted-foreground"
-                    >
-                        Hôm nay
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p class="text-3xl font-bold">
-                        {{ props.stats.today }}
-                    </p>
-                </CardContent>
-            </Card>
-
-            <Card>
-                <CardHeader class="pb-2">
-                    <CardTitle
-                        class="text-sm font-medium text-muted-foreground"
-                    >
-                        7 ngày gần nhất
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p class="text-3xl font-bold">
-                        {{ props.stats.week }}
-                    </p>
-                </CardContent>
-            </Card>
+            <AdminStatCard
+                label="Tổng khách hàng"
+                :value="props.stats.total"
+                :icon="Users"
+                tone="primary"
+            />
+            <AdminStatCard
+                label="Khách hàng hôm nay"
+                :value="props.stats.today"
+                hint="Số lead mới trong ngày"
+                tone="success"
+            />
+            <AdminStatCard
+                label="7 ngày gần nhất"
+                :value="props.stats.week"
+                hint="Tổng lead trong tuần"
+                tone="warning"
+            />
         </div>
 
-        <Card>
-            <CardHeader>
-                <CardTitle>Bộ lọc</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div class="flex flex-wrap items-end gap-3">
-                    <div class="w-full sm:w-72">
-                        <label
-                            for="admin-search"
-                            class="mb-1 block text-sm font-medium"
-                        >
-                            Tìm theo tên / số điện thoại
-                        </label>
-                        <Input
-                            id="admin-search"
-                            v-model="search"
-                            placeholder="Nhập từ khoá..."
-                            @keyup.enter="applyFilters"
-                        />
-                    </div>
-
-                    <div class="w-full sm:w-56">
-                        <span class="mb-1 block text-sm font-medium">
-                            Tình trạng cây
-                        </span>
-                        <Select v-model="symptom">
-                            <SelectTrigger>
-                                <SelectValue placeholder="Tất cả" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">Tất cả</SelectItem>
-                                <SelectItem
-                                    v-for="option in symptomOptions"
-                                    :key="option"
-                                    :value="option"
-                                >
-                                    {{ option }} ({{ props.symptoms[option] }})
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    <Button @click="applyFilters">Lọc</Button>
-                    <Button variant="ghost" @click="resetFilters">
-                        Đặt lại
-                    </Button>
+        <AdminPanel>
+            <template #header>
+                <div class="flex items-center gap-2">
+                    <Search class="size-4 text-muted-foreground" />
+                    <h2 class="admin-panel-title">Bộ lọc</h2>
                 </div>
-            </CardContent>
-        </Card>
+            </template>
 
-        <Card>
-            <CardHeader>
-                <CardTitle>
-                    Danh sách
-                    <span class="text-sm font-normal text-muted-foreground">
-                        ({{ props.leads.total }} bản ghi)
-                    </span>
-                </CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead
-                            class="border-b text-xs text-muted-foreground uppercase"
-                        >
-                            <tr>
-                                <th class="px-3 py-2">#</th>
-                                <th class="px-3 py-2">Họ tên</th>
-                                <th class="px-3 py-2">Số điện thoại</th>
-                                <th class="px-3 py-2">Địa chỉ</th>
-                                <th class="px-3 py-2">Loại cây</th>
-                                <th class="px-3 py-2">Tình trạng</th>
-                                <th class="px-3 py-2">Mã</th>
-                                <th class="px-3 py-2">Thời gian</th>
-                                <th class="px-3 py-2"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr
-                                v-for="(lead, index) in props.leads.data"
-                                :key="lead.id"
-                                class="border-b last:border-0 hover:bg-muted/50"
-                            >
-                                <td class="px-3 py-3 text-muted-foreground">
-                                    {{
-                                        (props.leads.current_page - 1) * 15 +
-                                        index +
-                                        1
-                                    }}
-                                </td>
-                                <td class="px-3 py-3 font-medium">
-                                    {{ lead.name }}
-                                    <p
-                                        v-if="lead.note"
-                                        class="mt-0.5 max-w-xs truncate text-xs text-muted-foreground"
-                                    >
-                                        {{ lead.note }}
-                                    </p>
-                                </td>
-                                <td class="px-3 py-3">
-                                    <a
-                                        :href="`tel:${lead.phone}`"
-                                        class="font-medium text-primary underline-offset-4 hover:underline"
-                                    >
-                                        {{ lead.phone }}
-                                    </a>
-                                </td>
-                                <td class="px-3 py-3 text-muted-foreground">
-                                    {{ lead.address ?? '—' }}
-                                </td>
-                                <td class="px-3 py-3 text-muted-foreground">
-                                    {{ lead.plant_type ?? '—' }}
-                                </td>
-                                <td class="px-3 py-3">
-                                    <div class="flex flex-wrap gap-1">
-                                        <Badge
-                                            v-for="item in lead.symptoms ?? []"
-                                            :key="item"
-                                            variant="secondary"
-                                        >
-                                            {{ item }}
-                                        </Badge>
-                                        <span
-                                            v-if="!lead.symptoms?.length"
-                                            class="text-muted-foreground"
-                                        >
-                                            —
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="px-3 py-3">
-                                    <Badge variant="outline">
-                                        {{ lead.coupon_code ?? '—' }}
-                                    </Badge>
-                                </td>
-                                <td
-                                    class="px-3 py-3 whitespace-nowrap text-muted-foreground"
-                                >
-                                    {{ formatDate(lead.created_at) }}
-                                </td>
-                                <td class="px-3 py-3 text-right">
-                                    <button
-                                        type="button"
-                                        class="text-xs font-medium text-destructive hover:underline"
-                                        @click="removeLead(lead.id)"
-                                    >
-                                        Xoá
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr v-if="!props.leads.data.length">
-                                <td
-                                    colspan="9"
-                                    class="px-3 py-10 text-center text-muted-foreground"
-                                >
-                                    Chưa có dữ liệu khách hàng.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div
-                    v-if="props.leads.last_page > 1"
-                    class="mt-4 flex flex-wrap items-center gap-1"
-                >
-                    <Link
-                        v-for="link in props.leads.links"
-                        :key="link.label"
-                        :href="link.url ?? '#'"
-                        class="rounded-md border px-3 py-1.5 text-xs font-medium transition hover:bg-accent"
-                        :class="
-                            link.active
-                                ? 'border-primary bg-primary text-primary-foreground'
-                                : 'text-muted-foreground'
-                        "
-                        preserve-scroll
+            <div class="flex flex-wrap items-end gap-3">
+                <div class="min-w-56 flex-1">
+                    <label
+                        for="admin-search"
+                        class="mb-1.5 block text-sm font-medium text-foreground"
                     >
-                        {{ link.label }}
-                    </Link>
+                        Tìm theo tên / số điện thoại
+                    </label>
+                    <Input
+                        id="admin-search"
+                        v-model="search"
+                        placeholder="Nhập từ khoá..."
+                        @keyup.enter="applyFilters"
+                    />
                 </div>
-            </CardContent>
-        </Card>
+
+                <div class="w-full sm:w-64">
+                    <span
+                        class="mb-1.5 block text-sm font-medium text-foreground"
+                    >
+                        Tình trạng cây
+                    </span>
+                    <Select v-model="symptom">
+                        <SelectTrigger class="w-full">
+                            <SelectValue placeholder="Tất cả" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">Tất cả</SelectItem>
+                            <SelectItem
+                                v-for="option in symptomOptions"
+                                :key="option"
+                                :value="option"
+                            >
+                                {{ option }} ({{ props.symptoms[option] }})
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                <Button @click="applyFilters">
+                    <Search />
+                    Lọc
+                </Button>
+                <Button
+                    variant="ghost"
+                    :disabled="!hasFilters"
+                    @click="resetFilters"
+                >
+                    <X />
+                    Đặt lại
+                </Button>
+            </div>
+        </AdminPanel>
+
+        <AdminPanel flush>
+            <template #header>
+                <div class="flex items-center justify-between gap-3">
+                    <h2 class="admin-panel-title">
+                        Danh sách khách hàng
+                        <span
+                            class="ml-1 text-sm font-normal text-muted-foreground"
+                        >
+                            ({{ props.leads.total }} bản ghi)
+                        </span>
+                    </h2>
+                </div>
+            </template>
+
+            <div v-if="!props.leads.data.length" class="p-5">
+                <AdminEmptyState
+                    :icon="Users"
+                    title="Chưa có dữ liệu khách hàng"
+                    description="Khi có khách hàng đăng ký từ trang chủ, dữ liệu sẽ hiển thị tại đây."
+                />
+            </div>
+
+            <div v-else class="overflow-x-auto">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th class="w-16">#</th>
+                            <th>Họ tên</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                            <th>Loại cây</th>
+                            <th>Tình trạng</th>
+                            <th>Mã</th>
+                            <th>Thời gian</th>
+                            <th class="w-20 text-right">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            v-for="(lead, index) in props.leads.data"
+                            :key="lead.id"
+                        >
+                            <td class="text-muted-foreground">
+                                {{
+                                    (props.leads.current_page - 1) * 15 +
+                                    index +
+                                    1
+                                }}
+                            </td>
+                            <td>
+                                <span class="font-medium text-foreground">
+                                    {{ lead.name }}
+                                </span>
+                                <p
+                                    v-if="lead.note"
+                                    class="mt-0.5 max-w-xs truncate text-xs text-muted-foreground"
+                                >
+                                    {{ lead.note }}
+                                </p>
+                            </td>
+                            <td>
+                                <a
+                                    :href="`tel:${lead.phone}`"
+                                    class="font-medium text-primary underline-offset-4 hover:underline"
+                                >
+                                    {{ lead.phone }}
+                                </a>
+                            </td>
+                            <td class="text-muted-foreground">
+                                {{ lead.address ?? '—' }}
+                            </td>
+                            <td class="text-muted-foreground">
+                                {{ lead.plant_type ?? '—' }}
+                            </td>
+                            <td>
+                                <div class="flex flex-wrap gap-1">
+                                    <Badge
+                                        v-for="item in lead.symptoms ?? []"
+                                        :key="item"
+                                        variant="secondary"
+                                    >
+                                        {{ item }}
+                                    </Badge>
+                                    <span
+                                        v-if="!lead.symptoms?.length"
+                                        class="text-muted-foreground"
+                                    >
+                                        —
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <Badge variant="outline">
+                                    {{ lead.coupon_code ?? '—' }}
+                                </Badge>
+                            </td>
+                            <td class="whitespace-nowrap text-muted-foreground">
+                                {{ formatDate(lead.created_at) }}
+                            </td>
+                            <td class="text-right">
+                                <Button
+                                    variant="ghost"
+                                    size="icon-sm"
+                                    class="text-destructive hover:text-destructive"
+                                    title="Xoá"
+                                    @click="removeLead(lead.id)"
+                                >
+                                    <Trash2 />
+                                </Button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <AdminPagination
+                v-if="props.leads.last_page > 1"
+                :links="props.leads.links"
+            />
+        </AdminPanel>
 
         <p v-if="!isAdmin" class="text-xs text-muted-foreground">
             Bạn đang xem trang quản trị dưới quyền không đầy đủ.

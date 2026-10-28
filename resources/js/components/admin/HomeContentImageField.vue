@@ -59,7 +59,8 @@ async function onFileChange(event: Event): Promise<void> {
         if (response?.path) {
             emit('update:modelValue', response.path);
             toast.success('Đã tải ảnh lên thành công.');
-        }    } catch {
+        }
+    } catch {
         toast.error('Không tải được ảnh lên.');
     } finally {
         input.value = '';
@@ -73,11 +74,13 @@ function clear(): void {
 
 <template>
     <div class="space-y-2">
-        <Label :for="`image-${label}`">{{ props.label }}</Label>
+        <Label :for="`image-${props.label}`" class="text-foreground">
+            {{ props.label }}
+        </Label>
 
         <div class="flex items-start gap-3">
             <div
-                class="flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-muted"
+                class="flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/70 bg-muted"
             >
                 <img
                     v-if="props.modelValue"
@@ -90,7 +93,7 @@ function clear(): void {
 
             <div class="min-w-0 flex-1 space-y-2">
                 <HomeContentTextField
-                    :id="`image-${label}`"
+                    :id="`image-${props.label}`"
                     :model-value="props.modelValue"
                     @update:model-value="
                         emit('update:modelValue', String($event))
@@ -114,7 +117,7 @@ function clear(): void {
                         type="button"
                         variant="ghost"
                         size="sm"
-                        class="text-destructive"
+                        class="text-destructive hover:text-destructive"
                         @click="clear"
                     >
                         <Trash2 />

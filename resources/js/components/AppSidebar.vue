@@ -5,6 +5,7 @@ import {
     FolderGit2,
     LayoutGrid,
     LayoutTemplate,
+    MessageSquareQuote,
     Users,
 } from '@lucide/vue';
 import { computed } from 'vue';
@@ -24,6 +25,7 @@ import {
 } from '@/components/ui/sidebar';
 import { edit as homeContentEdit } from '@/routes/admin/home-content';
 import { index as leadsIndex } from '@/routes/admin/leads';
+import { index as feedbacksIndex } from '@/routes/admin/feedbacks';
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
@@ -44,6 +46,12 @@ const mainNavItems = computed<NavItem[]>(() => {
             title: 'Nội dung trang chủ',
             href: homeContentEdit(),
             icon: LayoutTemplate,
+        });
+
+        items.push({
+            title: 'Phản hồi khách hàng',
+            href: feedbacksIndex(),
+            icon: MessageSquareQuote,
         });
 
         items.push({

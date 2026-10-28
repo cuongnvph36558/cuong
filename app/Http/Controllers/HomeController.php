@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Feedback;
 use App\Support\HomeContent;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
@@ -15,6 +16,12 @@ class HomeController extends Controller
     {
         return Inertia::render('Home', [
             'content' => HomeContent::get(),
+            'feedbacks' => Feedback::query()
+                ->where('is_featured', true)
+                ->orderByDesc('sort_order')
+                ->latest()
+                ->limit(9)
+                ->get(),
         ]);
     }
 }

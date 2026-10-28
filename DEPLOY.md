@@ -20,8 +20,8 @@ Trong cPanel → **Select PHP Version**, chọn PHP 8.3+ và bật các extensio
 ```bash
 cd C:\Users\nvcuo\Herd\tungg-hosting
 
-# Tạo file .env.production từ .env.example, điền thông tin DB + domain
-copy .env.example .env.production
+# Tạo file .env.production từ .env.production.example, điền thông tin DB + domain
+copy .env.production.example .env.production
 
 deploy.bat   # Windows
 # hoặc

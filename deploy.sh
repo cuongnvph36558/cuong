@@ -38,19 +38,22 @@ if [ ! -f "$ENV_FILE" ]; then
 fi
 
 echo "==> Creating archive..."
+if [ ! -f "$ENV_FILE" ]; then
+    echo "!! Khong tim thay $ENV_FILE."
+    echo "   Hay tao file .env.production (copy tu .env.production.example) va dien thong tin DB + domain truoc khi deploy."
+    exit 1
+fi
+
+cp "$ENV_FILE" ".env.deploy"
+
 zip -r "$ARCHIVE" \
     app bootstrap config database/seeders database/migrations public resources routes storage \
     artisan composer.json composer.lock package.json package-lock.json vite.config.ts tsconfig.json \
-    index.php .htaccess \
+    index.php .htaccess .env.deploy \
     -x "node_modules/*" "vendor/*" \
        "storage/framework/views/*" "storage/framework/cache/*" "storage/framework/sessions/*" \
        "storage/logs/*" "storage/app/private/*" \
        "database/database.sqlite" "*.map" ".env" ".env.*"
-
-cp "$ENV_FILE" ".env.deploy"
-
-echo "==> Adding .env to archive..."
-zip "$ARCHIVE" ".env.deploy"
 
 echo ""
 echo "==> HOAN TAT!"

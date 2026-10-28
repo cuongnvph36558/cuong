@@ -37,6 +37,8 @@ if not exist "%ENV_FILE%" (
 echo ==^> Creating archive...
 if exist "%ARCHIVE%" del "%ARCHIVE%"
 
+if not exist ".env.deploy" copy ".env.production" ".env.deploy"
+
 powershell -NoProfile -Command ^
   "$items = @('app','bootstrap','config','database\seeders','database\migrations','public','resources','routes','storage','artisan','composer.json','composer.lock','package.json','package-lock.json','vite.config.ts','tsconfig.json','index.php','.htaccess','.env.deploy'); Compress-Archive -Path $items -DestinationPath '%ARCHIVE%' -Force"
 

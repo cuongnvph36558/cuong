@@ -69,14 +69,14 @@ return [
     | Symbolic Links
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the symbolic links that will be created when the
-    | `storage:link` Artisan command is executed. The array keys should be
-    | the locations of the links and the values should be their targets.
+    | Shared hosting does not always allow creating symbolic links, and the
+    | "public" disk already writes straight into `public/storage`, so there
+    | is no link that needs to be generated here.
     |
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        //
     ],
 
 ];

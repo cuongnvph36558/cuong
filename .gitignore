@@ -5,7 +5,6 @@
 # Build output
 /public/build
 /public/hot
-/public/storage
 /bootstrap/ssr
 
 # Environment files & secrets

@@ -7,7 +7,7 @@ Dự án Laravel 13 + Inertia 3 + Vue 3 + Tailwind 4 (giống hệt bản gốc 
 | Thành phần | Yêu cầu tối thiểu |
 |---|---|
 | PHP | 8.3+ (khuyến nghị 8.4/8.5) |
-| Extension | `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `fileinfo`, `curl` |
+| Extension | `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `fileinfo`, `curl`, `zip` |
 | Database | MySQL 5.7+ / MariaDB 10.3+ |
 | Web server | Apache (có `mod_rewrite`) |
 
@@ -31,7 +31,10 @@ bash deploy.sh   # Git Bash / WSL
 Lệnh này sẽ:
 - `npm install` + `npm run build` → sinh `public/build`
 - `composer install --no-dev --optimize-autoloader`
-- Đóng gói thành `rootbio-deploy.zip` (không kèm `vendor`, `node_modules`, `.env` local)
+- `php artisan app:build-deploy-archive` → đóng gói thành `rootbio-deploy.zip`
+
+Archive **đã kèm sẵn `vendor/`**, nên trên hosting **không cần chạy composer** (nhiều shared host không cho cài extension).
+Tất cả entry trong zip dùng dấu `/` nên giải nén trên Linux không bị lỗi thư mục.
 
 ### Bước 2 — Upload lên hosting
 
@@ -83,8 +86,9 @@ Trong cPanel → **Domains** → trỏ domain về `public_html`. Nếu domain d
 
 ### Layout thư mục
 Bản này dùng layout **project root = document root** (toàn bộ project nằm trong `public_html`):
-- File `.htaccess` ở root sẽ tự forward request về `public/index.php`.
+- File `.htaccess` ở root sẽ tự forward request về `public/index.php` (shim `index.php` ở root).
 - Assets (`/build`, `/images`, `/storage`) được serve từ thư mục `public/`.
+- `.htaccess` chặn truy cập `app/`, `config/`, `database/`, `storage/`, `vendor/`, `.env`, `composer.json`…
 
 Nếu hosting cho phép trỏ document root vào thư mục `public` (khuyến nghị hơn), chỉ cần copy nội dung `public/` lên `public_html` và bỏ `.htaccess`/`index.php` ở root.
 
@@ -129,4 +133,14 @@ Trên hosting sau khi giải nén lần 2:
 php artisan optimize:clear
 php artisan migrate --force
 php artisan optimize
+```
+
+## 6. Các lệnh Artisan hữu ích
+
+```bash
+# Xuất lại database MySQL từ dữ liệu local (đã cập nhật nội dung trên hosting)
+php artisan app:export-production-sql
+
+# Đóng gói lại archive deploy
+php artisan app:build-deploy-archive
 ```

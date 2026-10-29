@@ -25,6 +25,7 @@ auth.json
 /storage/*.key
 /storage/pail
 /storage/logs/*.log
+/routes/__preview.php
 
 # Test & tool caches
 /.phpunit.cache

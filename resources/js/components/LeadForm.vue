@@ -4,6 +4,7 @@ import { useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 import { store as storeLead } from '@/routes/leads';
 
 type Props = {
@@ -23,6 +24,10 @@ type Props = {
     plantTypes?: string[];
     /** Symptom options offered as checkboxes. */
     symptoms?: string[];
+    /** Renders a tighter layout that fits inside a modal. */
+    compact?: boolean;
+    /** Tracking source stored with the submitted lead. */
+    source?: string;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -48,6 +53,8 @@ const props = withDefaults(defineProps<Props>(), {
         'KHÔNG RA HOA',
         'CÂY HÉO ÚA',
     ],
+    compact: false,
+    source: 'landing',
 });
 
 const form = useForm({
@@ -58,6 +65,7 @@ const form = useForm({
     plant_type: '',
     symptoms: [] as string[],
     note: '',
+    source: props.source,
 });
 
 const submitted = ref(false);
@@ -80,6 +88,7 @@ function submit(): void {
             submitted.value = true;
             form.reset();
             form.coupon_code = props.couponCode;
+            form.source = props.source;
         },
     });
 }
@@ -87,22 +96,39 @@ function submit(): void {
 
 <template>
     <div
-        class="rounded-3xl border border-emerald-900/10 bg-white p-5 shadow-xl shadow-emerald-900/10 sm:p-8"
+        :class="
+            cn(
+                'rounded-3xl border border-emerald-900/10 bg-white shadow-xl shadow-emerald-900/10',
+                props.compact ? 'p-4 sm:p-5' : 'p-5 sm:p-8',
+            )
+        "
     >
         <h3
-            class="text-lg font-extrabold text-emerald-950 uppercase sm:text-2xl"
+            class="font-extrabold text-emerald-950 uppercase"
+            :class="props.compact ? 'text-base sm:text-lg' : 'text-lg sm:text-2xl'"
         >
             {{ props.title }}
         </h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">
+        <p
+            class="leading-relaxed text-slate-600"
+            :class="props.compact ? 'mt-1 text-xs' : 'mt-2 text-sm'"
+        >
             {{ props.subtitle }}
         </p>
 
         <div
             v-if="submitted"
-            class="mt-6 rounded-2xl border border-emerald-500/40 bg-emerald-50 p-6 text-center"
+            :class="
+                cn(
+                    'rounded-2xl border border-emerald-500/40 bg-emerald-50 text-center',
+                    props.compact ? 'mt-4 p-4' : 'mt-6 p-6',
+                )
+            "
         >
-            <p class="text-lg font-bold text-emerald-700">
+            <p
+                class="font-bold text-emerald-700"
+                :class="props.compact ? 'text-base' : 'text-lg'"
+            >
                 Cảm ơn bác đã để lại thông tin!
             </p>
             <p class="mt-2 text-sm text-slate-600">
@@ -111,44 +137,53 @@ function submit(): void {
             </p>
         </div>
 
-        <form v-else class="mt-6 space-y-4" @submit.prevent="submit">
-            <div>
-                <label class="mb-1.5 block text-sm font-semibold" for="lead-name">
-                    Họ và tên
-                </label>
-                <Input
-                    id="lead-name"
-                    v-model="form.name"
-                    name="name"
-                    placeholder="Họ và tên"
-                    autocomplete="name"
-                    class="h-11 bg-white"
-                />
-                <p v-if="form.errors.name" class="mt-1 text-xs text-red-600">
-                    {{ form.errors.name }}
-                </p>
-            </div>
+        <form
+            v-else
+            :class="props.compact ? 'mt-4 space-y-3' : 'mt-6 space-y-4'"
+            @submit.prevent="submit"
+        >
+            <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                    <label
+                        class="mb-1.5 block text-sm font-semibold"
+                        for="lead-name"
+                    >
+                        Họ và tên
+                    </label>
+                    <Input
+                        id="lead-name"
+                        v-model="form.name"
+                        name="name"
+                        placeholder="Họ và tên"
+                        autocomplete="name"
+                        :class="props.compact ? 'h-10 bg-white' : 'h-11 bg-white'"
+                    />
+                    <p v-if="form.errors.name" class="mt-1 text-xs text-red-600">
+                        {{ form.errors.name }}
+                    </p>
+                </div>
 
-            <div>
-                <label
-                    class="mb-1.5 block text-sm font-semibold"
-                    for="lead-phone"
-                >
-                    Số điện thoại
-                </label>
-                <Input
-                    id="lead-phone"
-                    v-model="form.phone"
-                    name="phone"
-                    type="tel"
-                    inputmode="tel"
-                    placeholder="Số điện thoại"
-                    autocomplete="tel"
-                    class="h-11 bg-white"
-                />
-                <p v-if="form.errors.phone" class="mt-1 text-xs text-red-600">
-                    {{ form.errors.phone }}
-                </p>
+                <div>
+                    <label
+                        class="mb-1.5 block text-sm font-semibold"
+                        for="lead-phone"
+                    >
+                        Số điện thoại
+                    </label>
+                    <Input
+                        id="lead-phone"
+                        v-model="form.phone"
+                        name="phone"
+                        type="tel"
+                        inputmode="tel"
+                        placeholder="Số điện thoại"
+                        autocomplete="tel"
+                        :class="props.compact ? 'h-10 bg-white' : 'h-11 bg-white'"
+                    />
+                    <p v-if="form.errors.phone" class="mt-1 text-xs text-red-600">
+                        {{ form.errors.phone }}
+                    </p>
+                </div>
             </div>
 
             <div>
@@ -164,7 +199,7 @@ function submit(): void {
                     name="address"
                     placeholder="Địa chỉ"
                     autocomplete="street-address"
-                    class="h-11 bg-white"
+                    :class="props.compact ? 'h-10 bg-white' : 'h-11 bg-white'"
                 />
             </div>
 
@@ -179,7 +214,8 @@ function submit(): void {
                     id="lead-plant"
                     v-model="form.plant_type"
                     name="plant_type"
-                    class="h-11 w-full rounded-md border border-input bg-white px-3 text-sm text-slate-900 outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                    class="w-full rounded-md border border-input bg-white px-3 text-sm text-slate-900 outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                    :class="props.compact ? 'h-10' : 'h-11'"
                 >
                     <option value="">Chọn loại cây</option>
                     <option
@@ -221,14 +257,17 @@ function submit(): void {
             </div>
 
             <div>
-                <label class="mb-1.5 block text-sm font-semibold" for="lead-note">
+                <label
+                    class="mb-1.5 block text-sm font-semibold"
+                    for="lead-note"
+                >
                     Ghi chú
                 </label>
                 <Textarea
                     id="lead-note"
                     v-model="form.note"
                     name="note"
-                    rows="3"
+                    :rows="props.compact ? 2 : 3"
                     placeholder="Mô tả thêm về vườn cây của bạn..."
                     class="bg-white"
                 />
@@ -246,14 +285,21 @@ function submit(): void {
                     v-model="form.coupon_code"
                     name="coupon_code"
                     placeholder="Mã giảm giá"
-                    class="h-11 bg-white"
+                    :class="props.compact ? 'h-10 bg-white' : 'h-11 bg-white'"
                 />
             </div>
 
             <Button
                 type="submit"
                 size="lg"
-                class="h-12 w-full bg-emerald-600 font-extrabold tracking-wide text-white uppercase shadow-lg shadow-emerald-600/25 hover:bg-emerald-700"
+                class="rootbio-cta rootbio-cta-ring w-full bg-emerald-600 font-extrabold tracking-wide text-white uppercase shadow-lg shadow-emerald-600/25"
+                :class="
+                    cn(
+                        props.compact ? 'h-12' : 'h-14',
+                        'text-base sm:text-lg',
+                        form.processing ? '' : 'rootbio-cta-shake',
+                    )
+                "
                 :disabled="form.processing"
             >
                 {{ form.processing ? 'Đang gửi...' : props.submitLabel }}

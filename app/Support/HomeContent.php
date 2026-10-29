@@ -190,6 +190,206 @@ class HomeContent
                 ],
             ],
             [
+                'key' => 'gallery',
+                'label' => 'Thư viện ảnh',
+                'icon' => 'images',
+                'description' => 'Bộ sưu tập hình ảnh sản phẩm và vườn cây hiển thị trên trang chủ.',
+                'fields' => [
+                    [
+                        'key' => 'heading',
+                        'label' => 'Tiêu đề section',
+                        'type' => 'text',
+                        'default' => 'Thư viện hình ảnh sản phẩm',
+                    ],
+                    [
+                        'key' => 'description',
+                        'label' => 'Mô tả',
+                        'type' => 'textarea',
+                        'default' => 'Bấm vào ảnh để xem phóng to hình ảnh sản phẩm và vườn cây thực tế của bà con.',
+                    ],
+                    [
+                        'key' => 'items',
+                        'label' => 'Các ảnh',
+                        'type' => 'list',
+                        'itemLabel' => 'Ảnh',
+                        'itemFields' => [
+                            [
+                                'key' => 'image',
+                                'label' => 'Ảnh',
+                                'type' => 'image',
+                            ],
+                            [
+                                'key' => 'title',
+                                'label' => 'Tiêu đề',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'description',
+                                'label' => 'Mô tả',
+                                'type' => 'textarea',
+                            ],
+                        ],
+                        'default' => [
+                            [
+                                'image' => '/images/rootbio/product.png',
+                                'title' => 'Sản phẩm ROOTBIO',
+                                'description' => 'Chai phân bón sinh học dạng lỏng, dùng được cho mọi loại cây.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/banner.png',
+                                'title' => 'Banner sản phẩm',
+                                'description' => 'Hình ảnh quảng bá chính của sản phẩm.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/feature1.png',
+                                'title' => 'Cây bung đọt',
+                                'description' => 'Cây bung đọt mạnh sau 3 - 5 ngày sử dụng.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/feature2.png',
+                                'title' => 'Hiệu quả kích rễ',
+                                'description' => 'Bộ rễ phát triển nhanh gấp 5 lần sau 2 lần tưới.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/feature3.png',
+                                'title' => 'Kích thích hoa đậu quả',
+                                'description' => 'Tỷ lệ kích thích ra hoa, đậu quả lên tới 93%.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/grow.gif',
+                                'title' => 'Rễ phát triển',
+                                'description' => 'Rễ mới liên tục ra, cây hấp thu dinh dưỡng tốt hơn.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/buy.gif',
+                                'title' => 'Mua ngay ROOTBIO',
+                                'description' => 'Đặt hàng nhanh, giao hàng tận nơi.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/tech.png',
+                                'title' => 'Công nghệ sinh học',
+                                'description' => 'Ứng dụng công nghệ Probiotics hiện đại.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/tech1.png',
+                                'title' => 'Nano Thụy Sỹ',
+                                'description' => 'Công nghệ Nano đạt chuẩn công nghệ Thụy Sỹ.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/tech2.png',
+                                'title' => 'Công nghệ Probiotics',
+                                'description' => 'Hàng tỷ lợi khuẩn giúp cây tăng sức đề kháng.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/effect1.png',
+                                'title' => 'Vi lượng chelate',
+                                'description' => 'Siêu vi lượng chelate mạnh gấp 10 lần thông thường.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/effect2.png',
+                                'title' => 'Phân tử Nano',
+                                'description' => 'Nano Đạm, Nano Lân, Nano Kali hấp thu nhanh gấp 100 lần.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/effect3.png',
+                                'title' => 'Amino acid',
+                                'description' => 'Hơn 50 loại amino acid từ rong biển, bột cá, tảo biển.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/effect4.png',
+                                'title' => 'Acid humic',
+                                'description' => 'Acid humic, acid fulvic giúp hệ rễ phát triển mạnh mẽ.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/label.png',
+                                'title' => 'Nhãn sản phẩm',
+                                'description' => 'Thông tin dinh dưỡng và hướng dẫn sử dụng trên bao bì.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/cta1.jpg',
+                                'title' => 'Vườn cây thực tế',
+                                'description' => 'Hình ảnh vườn cây sau khi sử dụng ROOTBIO.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/cta2.jpg',
+                                'title' => 'Nhà vườn Lâm Đồng',
+                                'description' => 'Anh Việt Vương chia sẻ hiệu quả sau khi dùng thử.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/cta3.jpg',
+                                'title' => 'Vườn bưởi Vĩnh Long',
+                                'description' => 'Anh Trần Hùng đã dùng cho toàn bộ vườn bưởi.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/testimonial1.jpg',
+                                'title' => 'Trại cà phê Gia Lai',
+                                'description' => 'Anh Hùng chủ trại cà phê đã tin dùng ROOTBIO.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/testimonial2.gif',
+                                'title' => 'Cảm nhận khách hàng',
+                                'description' => 'Hình ảnh và lời nhắn của bà con nông dân.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/problem1.jpg',
+                                'title' => 'Cây héo rũ',
+                                'description' => 'Dấu hiệu cây thiếu dinh dưỡng thường gặp.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/problem2.webp',
+                                'title' => 'Cây vàng lá',
+                                'description' => 'Cây vàng lá, rụng lá do thiếu vi lượng.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/problem3.png',
+                                'title' => 'Cây không ra đọt',
+                                'description' => 'Cây ngừng phát triển dù đã bón phân.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/problem4.jpg',
+                                'title' => 'Cây thối rễ',
+                                'description' => 'Rễ yếu, dễ thối và chết cây.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/problem5.webp',
+                                'title' => 'Đất chai cứng',
+                                'description' => 'Đất bị chai, rễ không bám được.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/quote1.gif',
+                                'title' => 'Báo chí đưa tin',
+                                'description' => 'Sản phẩm được nhiều báo và kênh truyền hình đưa tin.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/japan.webp',
+                                'title' => 'Người Nhật đánh giá cao',
+                                'description' => 'Nguyên liệu nhập khẩu từ Nhật Bản.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/certs.png',
+                                'title' => 'Chứng nhận & xét nghiệm',
+                                'description' => 'Đạt chuẩn GMP và kiểm định an toàn nông nghiệp.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/user/user1.png',
+                                'title' => 'Khách hàng ROOTBIO',
+                                'description' => 'Bà con nông dân đã tin dùng sản phẩm.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/user/user2.png',
+                                'title' => 'Nhà vườn sử dụng',
+                                'description' => 'Cảm nhận của khách hàng sau khi dùng sản phẩm.',
+                            ],
+                            [
+                                'image' => '/images/rootbio/user/user3.jpg',
+                                'title' => 'Vườn cây sau khi dùng',
+                                'description' => 'Hình ảnh vườn cây xanh tốt sau khi bón ROOTBIO.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'key' => 'plantTypes',
                 'label' => 'Loại cây trồng',
                 'icon' => 'leaf',

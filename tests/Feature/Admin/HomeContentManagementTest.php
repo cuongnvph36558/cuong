@@ -29,7 +29,7 @@ test('admin users can view the home content editor', function () {
         ->component('admin/HomeContent')
         ->has('schema')
         ->has('content')
-        ->where('content.hero.brandName', 'ROOTBIO')
+        ->where('content.hero.brandName', 'ELICPO')
     );
 });
 
@@ -95,7 +95,7 @@ test('admin users can reset the home content to the defaults', function () {
 
     $response->assertOk();
 
-    expect(HomeContent::get()['hero']['brandName'])->toBe('ROOTBIO');
+    expect(HomeContent::get()['hero']['brandName'])->toBe('ELICPO');
 });
 
 test('non admin users cannot update the home content', function () {
@@ -105,7 +105,7 @@ test('non admin users cannot update the home content', function () {
         'content' => HomeContent::defaults(),
     ])->assertForbidden();
 
-    expect(HomeContent::get()['hero']['brandName'])->toBe('ROOTBIO');
+    expect(HomeContent::get()['hero']['brandName'])->toBe('ELICPO');
 });
 
 test('the update request rejects invalid content', function () {
@@ -114,8 +114,8 @@ test('the update request rejects invalid content', function () {
     $this->actingAs($admin);
 
     $this->put(route('admin.home-content.update'), [
-        'content' => ['solutions' => ['statsValue' => 'không phải số']],
-    ])->assertSessionHasErrors('content.solutions.statsValue');
+        'content' => ['ingredients' => ['organicPercent' => ['không phải chuỗi']]],
+    ])->assertSessionHasErrors('content.ingredients.organicPercent');
 });
 
 test('the update request accepts repeatable list fields', function () {
@@ -128,11 +128,14 @@ test('the update request accepts repeatable list fields', function () {
         ['value' => 'Điểm nổi bật mới'],
         ['value' => 'Điểm nổi bật thứ hai'],
     ];
-    $content['problems']['items'] = [
+    $content['variants']['items'] = [
         [
-            'title' => 'Vấn đề mới',
-            'description' => 'Mô tả vấn đề mới',
-            'image' => '/images/rootbio/problem1.jpg',
+            'name' => 'Đạm Cá Amino 2L',
+            'price' => '599.000đ',
+            'originalPrice' => '1.200.000đ',
+            'discount' => '-50%',
+            'badge' => 'Mới',
+            'image' => '/images/elicpo/product.png',
         ],
     ];
 
@@ -147,8 +150,8 @@ test('the update request accepts repeatable list fields', function () {
 
     expect($stored['hero']['features'])->toHaveCount(2)
         ->and($stored['hero']['features'][0]['value'])->toBe('Điểm nổi bật mới')
-        ->and($stored['problems']['items'])->toHaveCount(1)
-        ->and($stored['problems']['items'][0]['title'])->toBe('Vấn đề mới');
+        ->and($stored['variants']['items'])->toHaveCount(1)
+        ->and($stored['variants']['items'][0]['name'])->toBe('Đạm Cá Amino 2L');
 });
 
 test('admin users can upload an image for the home content', function () {

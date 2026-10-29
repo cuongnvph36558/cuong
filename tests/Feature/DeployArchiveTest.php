@@ -4,7 +4,7 @@ use App\Console\Commands\BuildDeployArchive;
 
 afterEach(function () {
     @unlink(base_path('.env.deploy'));
-    @unlink(base_path('rootbio-deploy-test.zip'));
+    @unlink(base_path('elicpo-deploy-test.zip'));
 });
 
 it('includes the environment file and the database dump in the archive', function () {
@@ -16,12 +16,12 @@ it('includes the environment file and the database dump in the archive', functio
     ]));
 
     $this->artisan('app:build-deploy-archive', [
-        '--output' => 'rootbio-deploy-test.zip',
+        '--output' => 'elicpo-deploy-test.zip',
         '--vendor' => 'none',
     ])->assertSuccessful();
 
     $archive = new ZipArchive;
-    $archive->open(base_path('rootbio-deploy-test.zip'));
+    $archive->open(base_path('elicpo-deploy-test.zip'));
 
     $names = [];
 
@@ -41,11 +41,11 @@ it('includes the environment file and the database dump in the archive', functio
 
 it('warns when the environment file is missing', function () {
     $this->artisan('app:build-deploy-archive', [
-        '--output' => 'rootbio-deploy-test.zip',
+        '--output' => 'elicpo-deploy-test.zip',
         '--vendor' => 'none',
     ])->assertSuccessful();
 
-    expect(is_file(base_path('rootbio-deploy-test.zip')))->toBeTrue();
+    expect(is_file(base_path('elicpo-deploy-test.zip')))->toBeTrue();
 });
 
 it('accepts an environment file that uses windows line endings', function () {
@@ -57,11 +57,11 @@ it('accepts an environment file that uses windows line endings', function () {
     ]));
 
     $this->artisan('app:build-deploy-archive', [
-        '--output' => 'rootbio-deploy-test.zip',
+        '--output' => 'elicpo-deploy-test.zip',
         '--vendor' => 'none',
     ])->assertSuccessful();
 
-    expect(is_file(base_path('rootbio-deploy-test.zip')))->toBeTrue();
+    expect(is_file(base_path('elicpo-deploy-test.zip')))->toBeTrue();
 });
 
 it('fails when the environment file is not production ready', function () {
@@ -73,21 +73,21 @@ it('fails when the environment file is not production ready', function () {
     ]));
 
     $this->artisan('app:build-deploy-archive', [
-        '--output' => 'rootbio-deploy-test.zip',
+        '--output' => 'elicpo-deploy-test.zip',
         '--vendor' => 'none',
     ])->assertFailed();
 
-    expect(is_file(base_path('rootbio-deploy-test.zip')))->toBeFalse();
+    expect(is_file(base_path('elicpo-deploy-test.zip')))->toBeFalse();
 });
 
 it('never ships a vendor directory when it is disabled', function () {
     $this->artisan('app:build-deploy-archive', [
-        '--output' => 'rootbio-deploy-test.zip',
+        '--output' => 'elicpo-deploy-test.zip',
         '--vendor' => 'none',
     ])->assertSuccessful();
 
     $archive = new ZipArchive;
-    $archive->open(base_path('rootbio-deploy-test.zip'));
+    $archive->open(base_path('elicpo-deploy-test.zip'));
 
     $hasVendor = false;
 

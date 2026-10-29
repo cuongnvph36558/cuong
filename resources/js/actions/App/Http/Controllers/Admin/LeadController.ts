@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\LeadController::index
- * @see app/Http/Controllers/Admin/LeadController.php:18
+ * @see app/Http/Controllers/Admin/LeadController.php:19
  * @route '/admin/leads'
  */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\LeadController::index
- * @see app/Http/Controllers/Admin/LeadController.php:18
+ * @see app/Http/Controllers/Admin/LeadController.php:19
  * @route '/admin/leads'
  */
 index.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Admin\LeadController::index
- * @see app/Http/Controllers/Admin/LeadController.php:18
+ * @see app/Http/Controllers/Admin/LeadController.php:19
  * @route '/admin/leads'
  */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -34,7 +34,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\Admin\LeadController::index
- * @see app/Http/Controllers/Admin/LeadController.php:18
+ * @see app/Http/Controllers/Admin/LeadController.php:19
  * @route '/admin/leads'
  */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -44,7 +44,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\Admin\LeadController::index
- * @see app/Http/Controllers/Admin/LeadController.php:18
+ * @see app/Http/Controllers/Admin/LeadController.php:19
  * @route '/admin/leads'
  */
     const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -54,7 +54,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\Admin\LeadController::index
- * @see app/Http/Controllers/Admin/LeadController.php:18
+ * @see app/Http/Controllers/Admin/LeadController.php:19
  * @route '/admin/leads'
  */
         indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -63,7 +63,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\Admin\LeadController::index
- * @see app/Http/Controllers/Admin/LeadController.php:18
+ * @see app/Http/Controllers/Admin/LeadController.php:19
  * @route '/admin/leads'
  */
         indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -157,7 +157,7 @@ exportMethod.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     exportMethod.form = exportMethodForm
 /**
 * @see \App\Http\Controllers\Admin\LeadController::destroy
- * @see app/Http/Controllers/Admin/LeadController.php:112
+ * @see app/Http/Controllers/Admin/LeadController.php:113
  * @route '/admin/leads/{lead}'
  */
 export const destroy = (args: { lead: number | { id: number } } | [lead: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -172,7 +172,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\LeadController::destroy
- * @see app/Http/Controllers/Admin/LeadController.php:112
+ * @see app/Http/Controllers/Admin/LeadController.php:113
  * @route '/admin/leads/{lead}'
  */
 destroy.url = (args: { lead: number | { id: number } } | [lead: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -205,7 +205,7 @@ destroy.url = (args: { lead: number | { id: number } } | [lead: number | { id: n
 
 /**
 * @see \App\Http\Controllers\Admin\LeadController::destroy
- * @see app/Http/Controllers/Admin/LeadController.php:112
+ * @see app/Http/Controllers/Admin/LeadController.php:113
  * @route '/admin/leads/{lead}'
  */
 destroy.delete = (args: { lead: number | { id: number } } | [lead: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -215,7 +215,7 @@ destroy.delete = (args: { lead: number | { id: number } } | [lead: number | { id
 
     /**
 * @see \App\Http\Controllers\Admin\LeadController::destroy
- * @see app/Http/Controllers/Admin/LeadController.php:112
+ * @see app/Http/Controllers/Admin/LeadController.php:113
  * @route '/admin/leads/{lead}'
  */
     const destroyForm = (args: { lead: number | { id: number } } | [lead: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -230,7 +230,7 @@ destroy.delete = (args: { lead: number | { id: number } } | [lead: number | { id
 
             /**
 * @see \App\Http\Controllers\Admin\LeadController::destroy
- * @see app/Http/Controllers/Admin/LeadController.php:112
+ * @see app/Http/Controllers/Admin/LeadController.php:113
  * @route '/admin/leads/{lead}'
  */
         destroyForm.delete = (args: { lead: number | { id: number } } | [lead: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

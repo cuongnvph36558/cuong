@@ -21,9 +21,10 @@ class LeadFactory extends Factory
             'name' => fake()->name(),
             'phone' => fake()->numerify('09########'),
             'address' => fake()->address(),
-            'coupon_code' => 'HT212',
-            'plant_type' => fake()->randomElement(['Cây ăn quả', 'Cây cảnh', 'Bonsai', 'Cây rau, củ']),
-            'symptoms' => fake()->randomElements(['VÀNG LÁ', 'THỐI RỄ', 'CÂY CÒI CỌC'], 2),
+            'coupon_code' => 'ELICPO10',
+            'variant' => fake()->randomElement(['Đạm Cá Amino 1L', 'Đạm Cá Amino 5L']),
+            'plant_type' => fake()->randomElement(['Cây ăn trái', 'Rau màu', 'Hoa, cây cảnh']),
+            'symptoms' => fake()->randomElements(['VÀNG LÁ', 'THỐI RỂ', 'CÂY CÒI CỌC'], 2),
             'note' => fake()->sentence(),
             'source' => 'landing',
         ];

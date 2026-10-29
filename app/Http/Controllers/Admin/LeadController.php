@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lead;
+use App\Support\HomeContent;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -44,14 +45,13 @@ class LeadController extends Controller
                 'today' => Lead::whereDate('created_at', today())->count(),
                 'week' => Lead::where('created_at', '>=', now()->subDays(7))->count(),
             ],
-            'symptoms' => [
-                'VÀNG LÁ' => Lead::whereJsonContains('symptoms', 'VÀNG LÁ')->count(),
-                'THỐI RỂ' => Lead::whereJsonContains('symptoms', 'THỐI RỂ')->count(),
-                'CÂY CÒI CỌC' => Lead::whereJsonContains('symptoms', 'CÂY CÒI CỌC')->count(),
-                'CÂY SÂU BỆNH' => Lead::whereJsonContains('symptoms', 'CÂY SÂU BỆNH')->count(),
-                'KHÔNG RA HOA' => Lead::whereJsonContains('symptoms', 'KHÔNG RA HOA')->count(),
-                'CÂY HÉO ÚA' => Lead::whereJsonContains('symptoms', 'CÂY HÉO ÚA')->count(),
-            ],
+            'symptoms' => array_combine(
+                HomeContent::symptomOptions(),
+                array_map(
+                    fn (string $symptom): int => Lead::whereJsonContains('symptoms', $symptom)->count(),
+                    HomeContent::symptomOptions(),
+                ),
+            ),
         ]);
     }
 
@@ -85,13 +85,14 @@ class LeadController extends Controller
             }
 
             fwrite($handle, "\xEF\xBB\xBF");
-            fputcsv($handle, ['Họ tên', 'Số điện thoại', 'Địa chỉ', 'Loại cây', 'Tình trạng', 'Mã giảm giá', 'Ghi chú', 'Thời gian']);
+            fputcsv($handle, ['Họ tên', 'Số điện thoại', 'Địa chỉ', 'Quy cách', 'Loại cây', 'Tình trạng', 'Mã giảm giá', 'Ghi chú', 'Thời gian']);
 
             foreach ($leads as $lead) {
                 fputcsv($handle, [
                     $lead->name,
                     $lead->phone,
                     $lead->address,
+                    $lead->variant,
                     $lead->plant_type,
                     implode(' | ', $lead->symptoms ?? []),
                     $lead->coupon_code,

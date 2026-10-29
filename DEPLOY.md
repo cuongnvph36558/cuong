@@ -1,4 +1,4 @@
-# ROOTBIO - Hướng dẫn deploy lên shared hosting (cPanel)
+# ELICPO - Hướng dẫn deploy lên shared hosting (cPanel)
 
 Dự án Laravel 13 + Inertia 3 + Vue 3 + Tailwind 4 (giống hệt bản gốc `tungg`).
 
@@ -31,14 +31,14 @@ bash deploy.sh   # Git Bash / WSL
 Lệnh này sẽ:
 - `npm install` + `npm run build` → sinh `public/build`
 - `composer install --no-dev --optimize-autoloader`
-- `php artisan app:build-deploy-archive` → đóng gói thành `rootbio-deploy.zip`
+- `php artisan app:build-deploy-archive` → đóng gói thành `ELICPO-deploy.zip`
 
 Archive **đã kèm sẵn `vendor/`**, nên trên hosting **không cần chạy composer** (nhiều shared host không cho cài extension).
 Tất cả entry trong zip dùng dấu `/` nên giải nén trên Linux không bị lỗi thư mục.
 
 ### Bước 2 — Upload lên hosting
 
-Upload `rootbio-deploy.zip` qua **cPanel → File Manager** hoặc FileZilla, giải nén vào `public_html`.
+Upload `ELICPO-deploy.zip` qua **cPanel → File Manager** hoặc FileZilla, giải nén vào `public_html`.
 
 ### Bước 3 — Cấu hình `.env` trên hosting
 
@@ -63,7 +63,7 @@ php artisan key:generate
 ### Bước 4 — Tạo database
 
 Trong cPanel → **MySQL Databases**:
-1. Tạo database (vd: `cocxinh_rootbio`) và user, gán user vào database với đủ quyền.
+1. Tạo database (vd: `cocxinh_ELICPO`) và user, gán user vào database với đủ quyền.
 2. Dùng **phpMyAdmin** → import `database/production_import.sql` (file này có sẵn schema + dữ liệu users/leads/nội dung trang chủ).
 
 Nếu muốn database trống: chỉ cần chạy `php artisan migrate --force` bên dưới.
@@ -112,7 +112,7 @@ Mặc định `QUEUE_CONNECTION=database`. Nếu hosting có cron job, thêm:
 
 | Email | Mật khẩu |
 |---|---|
-| `admin@rootbio.test` | `password` |
+| `admin@ELICPO.test` | `password` |
 | `test@example.com` | `password` |
 
 **Đổi mật khẩu ngay sau khi deploy** (đăng nhập → Settings → Security).

@@ -1,11 +1,11 @@
 @echo off
 REM ============================================================
-REM Deploy ROOTBIO (Laravel 13 + Inertia 3 + Vue 3) len shared hosting cPanel
+REM Deploy ELICPO (Laravel 13 + Inertia 3 + Vue 3) len shared hosting cPanel
 REM ============================================================
 REM Cach dung:
 REM   1. Tao .env.production tu .env.production.example, dien thong tin DB + domain
 REM   2. Chay: deploy.bat
-REM   3. Upload rootbio-deploy.zip len hosting, giai nen vao public_html
+REM   3. Upload ELICPO-deploy.zip len hosting, giai nen vao public_html
 REM   4. Doi ten .env.deploy thanh .env
 REM   5. SSH: php artisan migrate --force
 REM   6. SSH: php artisan optimize
@@ -37,8 +37,8 @@ call php artisan app:build-deploy-archive
 
 echo.
 echo ==^> HOAN TAT!
-echo    File: rootbio-deploy.zip
-echo    1. Upload rootbio-deploy.zip len hosting
+echo    File: ELICPO-deploy.zip
+echo    1. Upload ELICPO-deploy.zip len hosting
 echo    2. Giai nen vao public_html
 echo    3. Doi ten .env.deploy thanh .env
 echo    4. SSH: php artisan migrate --force

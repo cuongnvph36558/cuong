@@ -1,4 +1,4 @@
--- MySQL schema for the tungg (ROOTBIO) Laravel application
+-- MySQL schema for the tungg (ELICPO) Laravel application
 -- Run this BEFORE importing data_export.sql, or use production_import.sql which contains both.
 
 CREATE TABLE `migrations` (
@@ -120,6 +120,7 @@ CREATE TABLE `leads` (
   `phone` varchar(255) NOT NULL,
   `address` varchar(255) NULL DEFAULT NULL,
   `coupon_code` varchar(255) NULL DEFAULT NULL,
+  `variant` varchar(100) NULL DEFAULT NULL,
   `plant_type` varchar(255) NULL DEFAULT NULL,
   `symptoms` json NULL,
   `note` varchar(255) NULL DEFAULT NULL,

@@ -1,11 +1,11 @@
 #!/bin/bash
 # ============================================================
-# Deploy ROOTBIO (Laravel 13 + Inertia 3 + Vue 3) len shared hosting cPanel
+# Deploy ELICPO (Laravel 13 + Inertia 3 + Vue 3) len shared hosting cPanel
 # ============================================================
 # Cach dung:
 #   1. Tao .env.production tu .env.production.example, dien thong tin DB + domain
 #   2. Chay: bash deploy.sh
-#   3. Upload rootbio-deploy.zip len hosting, giai nen vao public_html
+#   3. Upload ELICPO-deploy.zip len hosting, giai nen vao public_html
 #   4. Doi ten .env.deploy thanh .env
 #   5. SSH: php artisan migrate --force
 #   6. SSH: php artisan optimize
@@ -38,8 +38,8 @@ php artisan app:build-deploy-archive
 
 echo ""
 echo "==> HOAN TAT!"
-echo "   File: rootbio-deploy.zip"
-echo "   1. Upload rootbio-deploy.zip len hosting"
+echo "   File: ELICPO-deploy.zip"
+echo "   1. Upload ELICPO-deploy.zip len hosting"
 echo "   2. Giai nen vao public_html"
 echo "   3. Doi ten .env.deploy thanh .env"
 echo "   4. SSH: php artisan migrate --force"

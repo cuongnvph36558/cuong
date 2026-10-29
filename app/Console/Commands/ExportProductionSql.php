@@ -49,7 +49,7 @@ class ExportProductionSql extends Command
         };
 
         $sql = "-- ============================================================\n";
-        $sql .= "-- ROOTBIO - schema + data for MySQL / MariaDB\n";
+        $sql .= "-- ELICPO - schema + data for MySQL / MariaDB\n";
         $sql .= '-- Generated: '.now()->format('Y-m-d H:i:s')."\n";
         $sql .= "-- Import this file into phpMyAdmin to get a ready-to-use database.\n";
         $sql .= "-- ============================================================\n\n";
@@ -93,6 +93,7 @@ class ExportProductionSql extends Command
             'phone' => $lead->phone,
             'address' => $lead->address,
             'coupon_code' => $lead->coupon_code,
+            'variant' => $lead->variant,
             'plant_type' => $lead->plant_type,
             'symptoms' => $lead->symptoms,
             'note' => $lead->note,
@@ -100,7 +101,7 @@ class ExportProductionSql extends Command
             'created_at' => $lead->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $lead->updated_at?->format('Y-m-d H:i:s'),
         ])->all(), [
-            'id', 'name', 'phone', 'address', 'coupon_code', 'plant_type', 'symptoms', 'note', 'source', 'created_at', 'updated_at',
+            'id', 'name', 'phone', 'address', 'coupon_code', 'variant', 'plant_type', 'symptoms', 'note', 'source', 'created_at', 'updated_at',
         ]);
 
         $sql .= $insertRows('site_settings', SiteSetting::query()->orderBy('id')->get()->map(fn (SiteSetting $setting) => [

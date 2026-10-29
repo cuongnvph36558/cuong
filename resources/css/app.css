@@ -229,18 +229,252 @@
     @apply transition-colors hover:bg-muted/50;
 }
 
-/* ===== ROOTBIO landing page ===== */
+/* ===== ELICPO landing page ===== */
 
-.rootbio-page {
-    --rootbio-green: #065f46;
+.elicpo-page {
+    --elicpo-green: #065f46;
+    --elicpo-lime: #a3e635;
 }
 
-/* Marquee (thanh ưu đãi & dải ảnh chạy ngang) */
-.rootbio-marquee-track {
-    animation: rootbio-marquee 22s linear infinite;
+/* Animated gradient text for the hero headline */
+.elicpo-gradient-text {
+    background-image: linear-gradient(
+        100deg,
+        #059669 0%,
+        #65a30d 25%,
+        #a3e635 45%,
+        #10b981 65%,
+        #059669 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: elicpo-gradient-flow 7s linear infinite;
 }
 
-@keyframes rootbio-marquee {
+@keyframes elicpo-gradient-flow {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 250% 50%;
+    }
+}
+
+/* Soft blurred colour blobs floating behind sections */
+.elicpo-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(60px);
+    opacity: 0.55;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.elicpo-blob-emerald {
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.55), transparent 70%);
+}
+
+.elicpo-blob-lime {
+    background: radial-gradient(circle, rgba(163, 230, 53, 0.55), transparent 70%);
+}
+
+.elicpo-blob-amber {
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.4), transparent 70%);
+}
+
+.elicpo-blob-a {
+    animation: elicpo-float-a 16s ease-in-out infinite alternate;
+}
+
+.elicpo-blob-b {
+    animation: elicpo-float-b 20s ease-in-out infinite alternate;
+}
+
+.elicpo-blob-c {
+    animation: elicpo-float-c 24s ease-in-out infinite alternate;
+}
+
+@keyframes elicpo-float-a {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+        transform: translate3d(12%, -18%, 0) scale(1.25);
+    }
+}
+
+@keyframes elicpo-float-b {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1.1);
+    }
+    100% {
+        transform: translate3d(-16%, 14%, 0) scale(0.9);
+    }
+}
+
+@keyframes elicpo-float-c {
+    0% {
+        transform: translate3d(0, 0, 0) scale(0.95);
+    }
+    100% {
+        transform: translate3d(18%, 10%, 0) scale(1.2);
+    }
+}
+
+/* Faint dotted grid backdrop */
+.elicpo-grid-pattern {
+    background-image: radial-gradient(
+        rgba(5, 150, 105, 0.13) 1px,
+        transparent 1px
+    );
+    background-size: 22px 22px;
+}
+
+/* Expanding rings behind the hero product shot */
+.elicpo-ring {
+    position: absolute;
+    border-radius: 9999px;
+    border: 2px solid rgba(16, 185, 129, 0.28);
+    animation: elicpo-ring-out 3.4s ease-out infinite;
+}
+
+@keyframes elicpo-ring-out {
+    0% {
+        opacity: 0.65;
+        transform: scale(0.85);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.45);
+    }
+}
+
+/* Slow cinematic zoom on the hero product image */
+.elicpo-kenburns {
+    animation: elicpo-kenburns 18s ease-in-out infinite alternate;
+}
+
+@keyframes elicpo-kenburns {
+    0% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1.14);
+    }
+}
+
+/* Gentle floating for decorative cards */
+.elicpo-float {
+    animation: elicpo-float-soft 5s ease-in-out infinite;
+}
+
+.elicpo-float-slow {
+    animation: elicpo-float-soft 7.5s ease-in-out infinite;
+}
+
+.elicpo-float-delay {
+    animation: elicpo-float-soft 6s ease-in-out 1.2s infinite;
+}
+
+@keyframes elicpo-float-soft {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+/* Card that lifts and glows on hover */
+.elicpo-lift {
+    transition:
+        transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 400ms ease;
+}
+
+.elicpo-lift:hover {
+    transform: translateY(-8px);
+    box-shadow:
+        0 24px 50px -18px rgba(5, 150, 105, 0.45),
+        0 0 0 1px rgba(16, 185, 129, 0.22);
+}
+
+/* Zoom the image inside a hovering card */
+.elicpo-zoom {
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.elicpo-lift:hover .elicpo-zoom,
+.group:hover .elicpo-zoom {
+    transform: scale(1.1);
+}
+
+/* Shimmer sweeping across badges and pills */
+.elicpo-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.elicpo-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-120%);
+    background: linear-gradient(
+        100deg,
+        transparent 20%,
+        rgba(255, 255, 255, 0.65) 50%,
+        transparent 80%
+    );
+    animation: elicpo-shimmer 3.2s ease-in-out infinite;
+}
+
+@keyframes elicpo-shimmer {
+    0%,
+    60% {
+        transform: translateX(-120%);
+    }
+    100% {
+        transform: translateX(120%);
+    }
+}
+
+/* Twinkling sparkle dots */
+.elicpo-sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: #fef08a;
+    box-shadow: 0 0 12px 3px rgba(254, 240, 138, 0.85);
+    animation: elicpo-twinkle 2.6s ease-in-out infinite;
+}
+
+@keyframes elicpo-twinkle {
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(0.4);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+/* Marquee pauses when the user hovers it */
+.elicpo-marquee-track {
+    animation: elicpo-marquee 22s linear infinite;
+}
+
+.elicpo-marquee-pause:hover .elicpo-marquee-track {
+    animation-play-state: paused;
+}
+
+@keyframes elicpo-marquee {
     from {
         transform: translateX(0);
     }
@@ -250,13 +484,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .rootbio-marquee-track {
+    .elicpo-marquee-track {
         animation: none;
     }
 }
 
 /* Light aurora for bright backgrounds */
-.rootbio-aurora {
+.elicpo-aurora {
     background:
         radial-gradient(
             55% 50% at 12% 10%,
@@ -273,11 +507,11 @@
             rgba(5, 150, 105, 0.16) 0%,
             transparent 65%
         );
-    animation: rootbio-drift 18s ease-in-out infinite alternate;
+    animation: elicpo-drift 18s ease-in-out infinite alternate;
 }
 
 /* Dark aurora variant for the CTA panels */
-.rootbio-cta-aurora {
+.elicpo-cta-aurora {
     background:
         radial-gradient(
             60% 55% at 15% 15%,
@@ -291,7 +525,7 @@
         );
 }
 
-@keyframes rootbio-drift {
+@keyframes elicpo-drift {
     0% {
         transform: translate3d(0, 0, 0) scale(1);
     }
@@ -324,11 +558,11 @@
 }
 
 /* Coupon pulse */
-.rootbio-pulse {
-    animation: rootbio-pulse 2.2s ease-in-out infinite;
+.elicpo-pulse {
+    animation: elicpo-pulse 2.2s ease-in-out infinite;
 }
 
-@keyframes rootbio-pulse {
+@keyframes elicpo-pulse {
     0%,
     100% {
         transform: scale(1);
@@ -344,7 +578,7 @@
    Buttons that must grab attention: a continuous breathing glow plus a
    sweeping highlight so users keep noticing them while scrolling. */
 
-.rootbio-cta {
+.elicpo-cta {
     position: relative;
     isolation: isolate;
     background-image: linear-gradient(
@@ -357,12 +591,12 @@
     background-repeat: no-repeat;
     background-position: 200% 0;
     animation:
-        rootbio-cta-glow 1.8s ease-in-out infinite,
-        rootbio-cta-sweep 2.4s ease-in-out infinite;
+        ELICPO-cta-glow 1.8s ease-in-out infinite,
+        ELICPO-cta-sweep 2.4s ease-in-out infinite;
 }
 
 /* Pulsing halo around the button */
-@keyframes rootbio-cta-glow {
+@keyframes elicpo-cta-glow {
     0%,
     100% {
         box-shadow:
@@ -377,17 +611,17 @@
 }
 
 /* Halo ring that expands outwards from the button */
-.rootbio-cta-ring::before {
+.elicpo-cta-ring::before {
     content: '';
     position: absolute;
     inset: 0;
     z-index: -1;
     border-radius: inherit;
     border: 2px solid rgba(34, 197, 94, 0.65);
-    animation: rootbio-cta-ring 1.8s ease-out infinite;
+    animation: elicpo-cta-ring 1.8s ease-out infinite;
 }
 
-@keyframes rootbio-cta-ring {
+@keyframes elicpo-cta-ring {
     0% {
         opacity: 0.85;
         transform: scale(1);
@@ -400,7 +634,7 @@
 }
 
 /* Lime variant for the promo bar CTA */
-.rootbio-cta-lime {
+.elicpo-cta-lime {
     background-image: linear-gradient(
         110deg,
         transparent 20%,
@@ -409,7 +643,7 @@
     );
 }
 
-@keyframes rootbio-cta-sweep {
+@keyframes elicpo-cta-sweep {
     0% {
         background-position: 200% 0;
     }
@@ -420,14 +654,14 @@
 }
 
 /* Gentle shake used on the primary offer buttons */
-.rootbio-cta-shake {
+.elicpo-cta-shake {
     animation:
-        rootbio-cta-glow 1.8s ease-in-out infinite,
-        rootbio-cta-sweep 2.4s ease-in-out infinite,
-        rootbio-cta-shake 3.2s ease-in-out infinite;
+        ELICPO-cta-glow 1.8s ease-in-out infinite,
+        ELICPO-cta-sweep 2.4s ease-in-out infinite,
+        ELICPO-cta-shake 3.2s ease-in-out infinite;
 }
 
-@keyframes rootbio-cta-shake {
+@keyframes elicpo-cta-shake {
     0%,
     86%,
     100% {
@@ -451,11 +685,11 @@
 }
 
 /* Icon inside a CTA button keeps bouncing to draw the eye */
-.rootbio-cta-icon {
-    animation: rootbio-cta-icon 1.1s ease-in-out infinite;
+.elicpo-cta-icon {
+    animation: elicpo-cta-icon 1.1s ease-in-out infinite;
 }
 
-@keyframes rootbio-cta-icon {
+@keyframes elicpo-cta-icon {
     0%,
     100% {
         transform: translateX(0);
@@ -466,7 +700,7 @@
 }
 
 /* Big offer button used in the promo bar and the floating panel */
-.rootbio-cta-xl {
+.elicpo-cta-xl {
     font-size: 0.95rem;
     line-height: 1.2;
     padding: 0.85rem 1.6rem;
@@ -474,7 +708,7 @@
 }
 
 @media (min-width: 640px) {
-    .rootbio-cta-xl {
+    .elicpo-cta-xl {
         font-size: 1.05rem;
         padding: 1rem 2.25rem;
     }
@@ -498,18 +732,30 @@
         transition: none;
     }
 
-    .rootbio-aurora,
-    .rootbio-pulse {
+    .elicpo-aurora,
+    .elicpo-pulse,
+    .elicpo-gradient-text,
+    .elicpo-blob,
+    .elicpo-ring,
+    .elicpo-kenburns,
+    .elicpo-float,
+    .elicpo-float-slow,
+    .elicpo-float-delay,
+    .elicpo-sparkle {
         animation: none;
     }
 
-    .rootbio-cta,
-    .rootbio-cta-shake,
-    .rootbio-cta-icon {
+    .elicpo-shimmer::after {
         animation: none;
     }
 
-    .rootbio-cta-ring::before {
+    .elicpo-cta,
+    .elicpo-cta-shake,
+    .elicpo-cta-icon {
+        animation: none;
+    }
+
+    .elicpo-cta-ring::before {
         animation: none;
         display: none;
     }

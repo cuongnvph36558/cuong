@@ -105,35 +105,35 @@ onUnmounted(() => {
         <div class="text-center">
             <h2
                 data-reveal
-                class="text-xl font-black tracking-tight text-emerald-950 uppercase sm:text-3xl"
+                class="px-3 text-base font-black tracking-tight text-emerald-950 uppercase sm:text-3xl"
             >
                 {{ props.heading }}
             </h2>
             <p
                 v-if="props.description"
                 data-reveal
-                class="mx-auto mt-2 max-w-2xl text-xs text-slate-600 sm:text-sm"
+                class="mx-auto mt-2 max-w-2xl px-3 text-[11px] text-slate-600 sm:text-sm"
             >
                 {{ props.description }}
             </p>
         </div>
 
         <div
-            class="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4"
+            class="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3"
         >
             <button
                 v-for="(item, index) in props.items"
                 :key="`${item.src}-${index}`"
                 type="button"
                 data-reveal
-                class="group relative aspect-square overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                class="group relative aspect-square overflow-hidden rounded-xl border border-emerald-900/10 bg-white shadow-sm transition active:scale-95 sm:rounded-2xl lg:aspect-[16/11]"
                 :aria-label="`Xem ảnh ${item.title}`"
                 @click="openLightbox(index)"
             >
                 <img
                     :src="item.src"
                     :alt="item.title"
-                    class="size-full object-cover transition duration-500 group-hover:scale-105"
+                    class="elicpo-zoom size-full object-cover"
                     loading="lazy"
                 />
 
@@ -142,10 +142,10 @@ onUnmounted(() => {
                 ></span>
 
                 <span
-                    class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-2.5 text-left"
+                    class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-2 text-left"
                 >
                     <span
-                        class="line-clamp-2 text-[10px] leading-tight font-black text-white uppercase sm:text-xs"
+                        class="line-clamp-2 text-[9px] leading-tight font-black text-white uppercase sm:text-xs"
                     >
                         {{ item.title }}
                     </span>

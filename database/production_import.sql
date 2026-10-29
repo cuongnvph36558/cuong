@@ -1,6 +1,6 @@
 -- ============================================================
--- ROOTBIO - schema + data for MySQL / MariaDB
--- Generated: 2026-10-29 01:18:37
+-- ELICPO - schema + data for MySQL / MariaDB
+-- Generated: 2026-10-29 17:01:14
 -- Import this file into phpMyAdmin to get a ready-to-use database.
 -- ============================================================
 
@@ -8,7 +8,7 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ---------- SCHEMA ----------
--- MySQL schema for the tungg (ROOTBIO) Laravel application
+-- MySQL schema for the tungg (ELICPO) Laravel application
 -- Run this BEFORE importing data_export.sql, or use production_import.sql which contains both.
 
 CREATE TABLE `migrations` (
@@ -130,6 +130,7 @@ CREATE TABLE `leads` (
   `phone` varchar(255) NOT NULL,
   `address` varchar(255) NULL DEFAULT NULL,
   `coupon_code` varchar(255) NULL DEFAULT NULL,
+  `variant` varchar(100) NULL DEFAULT NULL,
   `plant_type` varchar(255) NULL DEFAULT NULL,
   `symptoms` json NULL,
   `note` varchar(255) NULL DEFAULT NULL,
@@ -162,6 +163,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
   ('5', '2025_08_14_170933_add_two_factor_columns_to_users_table', '1'),
   ('6', '2026_10_27_000000_create_leads_table', '1'),
   ('7', '2026_10_27_154449_create_site_settings_table', '1'),
-  ('8', '2026_10_28_135910_create_feedbacks_table', '1');
+  ('8', '2026_10_28_135910_create_feedbacks_table', '1'),
+  ('9', '2026_10_29_000000_add_variant_to_leads_table', '1');
 
 SET FOREIGN_KEY_CHECKS=1;

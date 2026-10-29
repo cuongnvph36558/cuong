@@ -8,10 +8,12 @@ import {
     Building2,
     ClipboardList,
     ExternalLink,
+    Gift,
     Globe,
     Images,
     LayoutTemplate,
     Leaf,
+    Package,
     Phone,
     Plus,
     Quote,
@@ -23,6 +25,7 @@ import {
     Sparkles,
     Star,
     Tags,
+    Timer,
     Trash2,
     TriangleAlert,
     Trophy,
@@ -83,6 +86,9 @@ const icons: Record<string, unknown> = {
     rocket: Rocket,
     'building-2': Building2,
     phone: Phone,
+    timer: Timer,
+    package: Package,
+    gift: Gift,
 };
 
 const form = ref<HomeContent>(cloneContent(props.content));
@@ -242,7 +248,7 @@ async function restoreDefaults(): Promise<void> {
     <div class="admin-page p-4 md:p-6">
         <AdminPageHeader
             title="Nội dung trang chủ"
-            description="Chỉnh sửa toàn bộ nội dung hiển thị trên trang chủ ROOTBIO."
+            description="Chỉnh sửa toàn bộ nội dung hiển thị trên trang chủ ELICPO."
             :icon="LayoutTemplate"
         >
             <template #actions>

@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\SiteSetting;
+use Normalizer;
 
 /**
  * Single source of truth for the editable content of the landing page.
@@ -35,13 +36,13 @@ class HomeContent
                         'key' => 'title',
                         'label' => 'Tiêu đề trang',
                         'type' => 'text',
-                        'default' => 'Phân bón ROOTBIO',
+                        'default' => 'Phân Bón ELICPO Thế Hệ Mới - Kích Rễ Mạnh, Đi Đọt Nhanh, Siêu Đậu Trái',
                     ],
                     [
                         'key' => 'description',
                         'label' => 'Mô tả trang',
                         'type' => 'textarea',
-                        'default' => 'Phân bón sinh học ROOTBIO - kích rễ, bung đọt, hết vàng lá thối rễ chỉ sau 2 lần tưới. Nhận ưu đãi tặng 100 chai dùng thử.',
+                        'default' => 'Phân bón hữu cơ ELICPO thế hệ mới: kích rễ mạnh, đi đọt nhanh, siêu đậu trái. Chất hữu cơ 20% Amino Acid từ đạm cá, rong biển. Dùng tốt cho rau màu, cây ăn trái, hoa và cây cảnh.',
                     ],
                 ],
             ],
@@ -49,91 +50,91 @@ class HomeContent
                 'key' => 'hero',
                 'label' => 'Banner đầu trang',
                 'icon' => 'sparkles',
-                'description' => 'Phần đầu tiên bà con nhìn thấy: thương hiệu, tiêu đề và nút bấm.',
+                'description' => 'Phần đầu tiên bà con nhìn thấy: thương hiệu, tên sản phẩm, giá và nút bấm.',
                 'fields' => [
                     [
                         'key' => 'brandName',
                         'label' => 'Tên thương hiệu',
                         'type' => 'text',
-                        'default' => 'ROOTBIO',
+                        'default' => 'ELICPO',
                     ],
                     [
                         'key' => 'brandTagline',
                         'label' => 'Dòng phụ thương hiệu',
                         'type' => 'text',
-                        'default' => 'Phân bón sinh học',
+                        'default' => 'Dinh dưỡng hữu cơ cho cây trồng',
                     ],
                     [
                         'key' => 'brandLetter',
                         'label' => 'Chữ trong ô logo',
                         'type' => 'text',
-                        'default' => 'R',
+                        'default' => 'E',
                     ],
                     [
                         'key' => 'navPhone',
                         'label' => 'Số điện thoại trên thanh menu',
                         'type' => 'text',
-                        'default' => '0939.393.912',
+                        'default' => '0973.42.6704',
                     ],
                     [
                         'key' => 'navCtaLabel',
                         'label' => 'Nút menu',
                         'type' => 'text',
-                        'default' => 'Đăng ký ngay',
+                        'default' => 'Nhận tư vấn',
                     ],
                     [
                         'key' => 'badgeText',
                         'label' => 'Nhãn nổi bật',
                         'type' => 'text',
-                        'default' => 'Nhận ưu đãi - Tặng 100 chai dùng thử',
+                        'default' => 'Thế Hệ Mới - Kích Rễ Mạnh - Đi Đọt Nhanh - Siêu Đậu Trái',
                     ],
                     [
                         'key' => 'titlePrefix',
                         'label' => 'Dòng tiêu đề 1',
                         'type' => 'text',
-                        'default' => 'Phân bón',
+                        'default' => 'PHÂN BÓN',
                     ],
                     [
                         'key' => 'titleAccent',
                         'label' => 'Từ nhấn màu trong tiêu đề',
                         'type' => 'text',
-                        'default' => 'ROOTBIO',
+                        'default' => 'ELICPO',
                     ],
                     [
                         'key' => 'titleSubtitle',
                         'label' => 'Dòng tiêu đề 2',
                         'type' => 'text',
-                        'default' => 'Chỉ 2 lần phun – cây bung đọt, ra rễ mạnh',
+                        'default' => 'Thế Hệ Mới - Kích Rễ Mạnh, Đi Đọt Nhanh, Siêu Đậu Trái',
                     ],
                     [
                         'key' => 'description',
                         'label' => 'Đoạn giới thiệu',
                         'type' => 'textarea',
-                        'default' => 'Cam kết hiệu quả sau 5 - 7 ngày. Công nghệ Nano đạt chuẩn Thụy Sỹ, vi lượng chelate mạnh gấp 10 lần, axit humic 7% và 7% Kali hữu hiệu giúp cây hết vàng lá, thối rễ, còi cọc.',
+                        'default' => 'Dung tịch dinh dưỡng hữu cơ từ đạm cá, amino acid và vi chất chelate. Kích rễ mạnh, đi đọt nhanh, siêu đậu trái cho vườn cây của bà con.',
                     ],
                     [
                         'key' => 'primaryCtaLabel',
                         'label' => 'Nút chính',
                         'type' => 'text',
-                        'default' => 'Nhận ưu đãi',
+                        'default' => 'NHẬN TƯ VẤN NGAY',
                     ],
                     [
                         'key' => 'primaryCtaHref',
                         'label' => 'Liên kết nút chính',
                         'type' => 'text',
-                        'default' => '#dang-ky',
+                        'default' => '#dat-hang',
                     ],
                     [
                         'key' => 'secondaryCtaLabel',
                         'label' => 'Nút phụ',
                         'type' => 'text',
-                        'default' => 'Xem hiệu quả',
+                        'default' => 'Xem liều lượng',
                     ],
                     [
                         'key' => 'secondaryCtaHref',
                         'label' => 'Liên kết nút phụ',
                         'type' => 'text',
-                        'default' => '#hieu-qua',
+                        'default' => '#huong-dan',
                     ],
                     [
                         'key' => 'features',
@@ -148,44 +149,245 @@ class HomeContent
                             ],
                         ],
                         'default' => [
-                            ['value' => 'cam kết hiệu quả sau 5 -7 ngày'],
-                            ['value' => 'X100 LẦN'],
-                            ['value' => 'CÔNG NGHỆ TIÊN TIẾN'],
-                            ['value' => 'Vi lượng đầy đủ'],
-                            ['value' => 'Axit Humic 7%'],
-                            ['value' => 'Dạng lỏng'],
-                            ['value' => 'NPK 3-3-3'],
+                            ['value' => '20% CHẤT HỮU CƠ'],
+                            ['value' => '10% AMINO ACID'],
+                            ['value' => '12% TỶ LỆ C/N'],
+                            ['value' => 'pH H₂O 5.5'],
+                            ['value' => 'DÙNG CHO NHIỀU LOẠI CÂY'],
+                            ['value' => 'DẠNG LỎNG'],
                         ],
                     ],
                     [
                         'key' => 'productImage',
                         'label' => 'Ảnh sản phẩm',
                         'type' => 'image',
-                        'default' => '/images/rootbio/product.png',
+                        'default' => '/images/elicpo/product.png',
                     ],
                     [
                         'key' => 'productBadgeTitle',
                         'label' => 'Tiêu đề khung ảnh',
                         'type' => 'text',
-                        'default' => 'Hiệu quả gấp 10 lần',
+                        'default' => 'Phân bón hữu cơ dạng lỏng',
                     ],
                     [
                         'key' => 'productBadgeText',
                         'label' => 'Nội dung khung ảnh',
                         'type' => 'textarea',
-                        'default' => 'Hơn 3.826.534 người đã sử dụng và cho ra hiệu quả năng suất vượt trội',
+                        'default' => 'Dùng được cho rau màu, cây ăn trái, hoa và cây cảnh.',
                     ],
                     [
                         'key' => 'floatingBadgeValue',
                         'label' => 'Số trên tem nổi',
                         'type' => 'text',
-                        'default' => '100',
+                        'default' => '3X',
                     ],
                     [
                         'key' => 'floatingBadgeLabel',
                         'label' => 'Chữ trên tem nổi',
                         'type' => 'text',
-                        'default' => 'Chai dùng thử',
+                        'default' => 'Hiệu quả gấp 3',
+                    ],
+                ],
+            ],
+            [
+                'key' => 'flashSale',
+                'label' => 'Cam kết hiệu quả',
+                'icon' => 'timer',
+                'description' => 'Cam kết hiệu quả và thời hạn của sản phẩm.',
+                'fields' => [
+                    [
+                        'key' => 'eyebrow',
+                        'label' => 'Nhãn trên khối cam kết',
+                        'type' => 'text',
+                        'default' => 'Cam kết hiệu quả',
+                    ],
+                    [
+                        'key' => 'price',
+                        'label' => 'Dòng cam kết chính',
+                        'type' => 'text',
+                        'default' => 'Rễ MẠNH',
+                    ],
+                    [
+                        'key' => 'originalPrice',
+                        'label' => 'Dòng cam kết phụ (gạch ngang)',
+                        'type' => 'text',
+                        'default' => '',
+                    ],
+                    [
+                        'key' => 'discount',
+                        'label' => 'Nhãn nổi bật cạnh giá',
+                        'type' => 'text',
+                        'default' => 'MỚI',
+                    ],
+                    [
+                        'key' => 'countdownLabel',
+                        'label' => 'Nhãn đếm ngược',
+                        'type' => 'text',
+                        'default' => 'Đang có chương trình dùng thử',
+                    ],
+                    [
+                        'key' => 'giftOffer',
+                        'label' => 'Ưu đãi tặng kèm',
+                        'type' => 'text',
+                        'default' => 'Tặng 100 chai dùng thử giá ưu đãi',
+                    ],
+                    [
+                        'key' => 'effectivenessDays',
+                        'label' => 'Số ngày cam kết hiệu quả',
+                        'type' => 'text',
+                        'default' => 'Cam kết hiệu quả sau 5 - 7 ngày',
+                    ],
+                    [
+                        'key' => 'effectivenessMultiplier',
+                        'label' => 'Hệ số hiệu quả nổi bật',
+                        'type' => 'text',
+                        'default' => 'X100 LẦN',
+                    ],
+                    [
+                        'key' => 'totalUsers',
+                        'label' => 'Số người đã sử dụng',
+                        'type' => 'text',
+                        'default' => '3.826.534 người đã sử dụng và cho ra hiệu quả năng suất vượt trội',
+                    ],
+                    [
+                        'key' => 'durationHours',
+                        'label' => 'Số giờ của đồng hồ đếm ngược',
+                        'type' => 'number',
+                        'default' => 15,
+                    ],
+                    [
+                        'key' => 'urgencyText',
+                        'label' => 'Dòng kêu gọi hành động',
+                        'type' => 'text',
+                        'default' => 'Liên hệ ngay để được tư vấn liều lượng phù hợp',
+                    ],
+                    [
+                        'key' => 'stockNote',
+                        'label' => 'Ghi chú tồn kho',
+                        'type' => 'text',
+                        'default' => 'Số lượng có hạn trong đợt này.',
+                    ],
+                ],
+            ],
+            [
+                'key' => 'variants',
+                'label' => 'Quy cách sản phẩm',
+                'icon' => 'package',
+                'description' => 'Các quy cách (1L, 5L) bà con có thể chọn khi đặt hàng.',
+                'fields' => [
+                    [
+                        'key' => 'heading',
+                        'label' => 'Tiêu đề section',
+                        'type' => 'text',
+                        'default' => 'Quy cách 1L • 5L dùng cho nhiều loại cây',
+                    ],
+                    [
+                        'key' => 'description',
+                        'label' => 'Mô tả',
+                        'type' => 'textarea',
+                        'default' => 'Chọn quy cách phù hợp với diện tích vườn của bà con.',
+                    ],
+                    [
+                        'key' => 'items',
+                        'label' => 'Các quy cách',
+                        'type' => 'list',
+                        'itemLabel' => 'Quy cách',
+                        'itemFields' => [
+                            [
+                                'key' => 'name',
+                                'label' => 'Tên quy cách',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'badge',
+                                'label' => 'Nhãn riêng',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'description',
+                                'label' => 'Mô tả',
+                                'type' => 'textarea',
+                            ],
+                            [
+                                'key' => 'image',
+                                'label' => 'Ảnh minh hoạ',
+                                'type' => 'image',
+                            ],
+                        ],
+                        'default' => [
+                            [
+                                'name' => 'Chai 1 lít',
+                                'badge' => 'Dùng thử',
+                                'description' => 'Phù hợp vườn nhỏ, cây trồng thử nghiệm hoặc bón định kỳ.',
+                                'image' => '/images/elicpo/product.png',
+                            ],
+                            [
+                                'name' => 'Can 5 lít',
+                                'badge' => 'Tiết kiệm nhất',
+                                'description' => 'Phù hợp vườn lớn, cây ăn trái và bón theo mùa.',
+                                'image' => '/images/elicpo/banner.png',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'key' => 'benefits',
+                'label' => 'Công dụng nổi bật',
+                'icon' => 'trophy',
+                'description' => 'Ba công dụng chính của sản phẩm.',
+                'fields' => [
+                    [
+                        'key' => 'eyebrow',
+                        'label' => 'Dòng nhỏ phía trên',
+                        'type' => 'text',
+                        'default' => '3 công dụng nổi bật',
+                    ],
+                    [
+                        'key' => 'heading',
+                        'label' => 'Tiêu đề section',
+                        'type' => 'text',
+                        'default' => 'Kích Rễ Mạnh - Đi Đọt Nhanh - Siêu Đậu Trái',
+                    ],
+                    [
+                        'key' => 'items',
+                        'label' => 'Các công dụng',
+                        'type' => 'list',
+                        'itemLabel' => 'Công dụng',
+                        'itemFields' => [
+                            [
+                                'key' => 'title',
+                                'label' => 'Tiêu đề',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'description',
+                                'label' => 'Mô tả',
+                                'type' => 'textarea',
+                            ],
+                            [
+                                'key' => 'image',
+                                'label' => 'Ảnh minh hoạ',
+                                'type' => 'image',
+                            ],
+                        ],
+                        'default' => [
+                            [
+                                'title' => 'Kích rễ mạnh',
+                                'description' => 'Hỗ trợ bộ rễ ra rễ mới liên tục, hút dinh dưỡng nhanh hơn.',
+                                'image' => '/images/elicpo/feature1.png',
+                            ],
+                            [
+                                'title' => 'Đi đọt nhanh',
+                                'description' => 'Đâm chồi, bung đọt mạnh chỉ sau 3 - 5 ngày sử dụng.',
+                                'image' => '/images/elicpo/effect2.png',
+                            ],
+                            [
+                                'title' => 'Siêu đậu trái',
+                                'description' => 'Nuôi hoa, nuôi trái giúp cây đậu quả đều và nặng ký.',
+                                'image' => '/images/elicpo/effect3.png',
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -199,7 +401,7 @@ class HomeContent
                         'key' => 'heading',
                         'label' => 'Tiêu đề section',
                         'type' => 'text',
-                        'default' => 'Thư viện hình ảnh sản phẩm',
+                        'default' => 'Hình ảnh thực tế sản phẩm ELICPO',
                     ],
                     [
                         'key' => 'description',
@@ -231,159 +433,89 @@ class HomeContent
                         ],
                         'default' => [
                             [
-                                'image' => '/images/rootbio/product.png',
-                                'title' => 'Sản phẩm ROOTBIO',
-                                'description' => 'Chai phân bón sinh học dạng lỏng, dùng được cho mọi loại cây.',
+                                'image' => '/images/elicpo/product.png',
+                                'title' => 'Sản phẩm ELICPO',
+                                'description' => 'Chai phân bón hữu cơ dạng lỏng, dùng được cho mọi loại cây.',
                             ],
                             [
-                                'image' => '/images/rootbio/banner.png',
+                                'image' => '/images/elicpo/banner.png',
                                 'title' => 'Banner sản phẩm',
                                 'description' => 'Hình ảnh quảng bá chính của sản phẩm.',
                             ],
                             [
-                                'image' => '/images/rootbio/feature1.png',
-                                'title' => 'Cây bung đọt',
-                                'description' => 'Cây bung đọt mạnh sau 3 - 5 ngày sử dụng.',
+                                'image' => '/images/elicpo/feature1.png',
+                                'title' => 'Kích rễ mạnh',
+                                'description' => 'Bộ rễ phát triển liên tục sau 3 - 5 ngày sử dụng.',
                             ],
                             [
-                                'image' => '/images/rootbio/feature2.png',
-                                'title' => 'Hiệu quả kích rễ',
-                                'description' => 'Bộ rễ phát triển nhanh gấp 5 lần sau 2 lần tưới.',
+                                'image' => '/images/elicpo/effect2.png',
+                                'title' => 'Đi đọt nhanh',
+                                'description' => 'Chồi non đâm mạnh, tán cây phát triển nhanh chóng.',
                             ],
                             [
-                                'image' => '/images/rootbio/feature3.png',
-                                'title' => 'Kích thích hoa đậu quả',
-                                'description' => 'Tỷ lệ kích thích ra hoa, đậu quả lên tới 93%.',
+                                'image' => '/images/elicpo/effect3.png',
+                                'title' => 'Siêu đậu trái',
+                                'description' => 'Cây ra hoa đều, quả to và nặng ký.',
                             ],
                             [
-                                'image' => '/images/rootbio/grow.gif',
-                                'title' => 'Rễ phát triển',
-                                'description' => 'Rễ mới liên tục ra, cây hấp thu dinh dưỡng tốt hơn.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/buy.gif',
-                                'title' => 'Mua ngay ROOTBIO',
-                                'description' => 'Đặt hàng nhanh, giao hàng tận nơi.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/tech.png',
-                                'title' => 'Công nghệ sinh học',
-                                'description' => 'Ứng dụng công nghệ Probiotics hiện đại.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/tech1.png',
-                                'title' => 'Nano Thụy Sỹ',
-                                'description' => 'Công nghệ Nano đạt chuẩn công nghệ Thụy Sỹ.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/tech2.png',
-                                'title' => 'Công nghệ Probiotics',
-                                'description' => 'Hàng tỷ lợi khuẩn giúp cây tăng sức đề kháng.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/effect1.png',
-                                'title' => 'Vi lượng chelate',
-                                'description' => 'Siêu vi lượng chelate mạnh gấp 10 lần thông thường.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/effect2.png',
-                                'title' => 'Phân tử Nano',
-                                'description' => 'Nano Đạm, Nano Lân, Nano Kali hấp thu nhanh gấp 100 lần.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/effect3.png',
-                                'title' => 'Amino acid',
-                                'description' => 'Hơn 50 loại amino acid từ rong biển, bột cá, tảo biển.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/effect4.png',
-                                'title' => 'Acid humic',
-                                'description' => 'Acid humic, acid fulvic giúp hệ rễ phát triển mạnh mẽ.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/label.png',
+                                'image' => '/images/elicpo/label.png',
                                 'title' => 'Nhãn sản phẩm',
                                 'description' => 'Thông tin dinh dưỡng và hướng dẫn sử dụng trên bao bì.',
                             ],
                             [
-                                'image' => '/images/rootbio/cta1.jpg',
+                                'image' => '/images/elicpo/effect1.png',
+                                'title' => 'Vi lượng chelate',
+                                'description' => 'Siêu vi lượng chelate mạnh gấp 10 lần thông thường.',
+                            ],
+                            [
+                                'image' => '/images/elicpo/cta1.jpg',
                                 'title' => 'Vườn cây thực tế',
-                                'description' => 'Hình ảnh vườn cây sau khi sử dụng ROOTBIO.',
+                                'description' => 'Hình ảnh vườn cây sau khi sử dụng sản phẩm.',
                             ],
                             [
-                                'image' => '/images/rootbio/cta2.jpg',
-                                'title' => 'Nhà vườn Lâm Đồng',
-                                'description' => 'Anh Việt Vương chia sẻ hiệu quả sau khi dùng thử.',
+                                'image' => '/images/elicpo/cta2.jpg',
+                                'title' => 'Nhà vườn 1',
+                                'description' => 'Cảm nhận của anh chị sau khi dùng phân bón ELICPO.',
                             ],
                             [
-                                'image' => '/images/rootbio/cta3.jpg',
-                                'title' => 'Vườn bưởi Vĩnh Long',
-                                'description' => 'Anh Trần Hùng đã dùng cho toàn bộ vườn bưởi.',
+                                'image' => '/images/elicpo/cta3.jpg',
+                                'title' => 'Nhà vườn 2',
+                                'description' => 'Cảm nhận của anh chị sau khi dùng phân bón ELICPO.',
                             ],
                             [
-                                'image' => '/images/rootbio/testimonial1.jpg',
-                                'title' => 'Trại cà phê Gia Lai',
-                                'description' => 'Anh Hùng chủ trại cà phê đã tin dùng ROOTBIO.',
+                                'image' => '/images/elicpo/tech.png',
+                                'title' => 'Công nghệ Nano',
+                                'description' => 'Công nghệ Nano giúp hấp thu nhanh gấp 100 lần.',
                             ],
                             [
-                                'image' => '/images/rootbio/testimonial2.gif',
-                                'title' => 'Cảm nhận khách hàng',
-                                'description' => 'Hình ảnh và lời nhắn của bà con nông dân.',
+                                'image' => '/images/elicpo/tech1.png',
+                                'title' => 'Dinh dưỡng chelate',
+                                'description' => 'Vi chất chelate giúp cây hấp thu dinh dưỡng trọn vẹn.',
                             ],
                             [
-                                'image' => '/images/rootbio/problem1.jpg',
-                                'title' => 'Cây héo rũ',
-                                'description' => 'Dấu hiệu cây thiếu dinh dưỡng thường gặp.',
+                                'image' => '/images/elicpo/testimonial1.jpg',
+                                'title' => 'Cảm nhận nhà vườn',
+                                'description' => 'Anh Hùng chủ trại cà phê chia sẻ hiệu quả sau khi dùng thử.',
                             ],
                             [
-                                'image' => '/images/rootbio/problem2.webp',
-                                'title' => 'Cây vàng lá',
-                                'description' => 'Cây vàng lá, rụng lá do thiếu vi lượng.',
+                                'image' => '/images/elicpo/user/user1.png',
+                                'title' => 'Khách hàng ELICPO',
+                                'description' => 'Khách hàng đã tin dùng và giới thiệu bạn bè.',
                             ],
                             [
-                                'image' => '/images/rootbio/problem3.png',
-                                'title' => 'Cây không ra đọt',
-                                'description' => 'Cây ngừng phát triển dù đã bón phân.',
+                                'image' => '/images/elicpo/user/user2.png',
+                                'title' => 'Khách hàng ELICPO',
+                                'description' => 'Khách hàng đã tin dùng và giới thiệu bạn bè.',
                             ],
                             [
-                                'image' => '/images/rootbio/problem4.jpg',
-                                'title' => 'Cây thối rễ',
-                                'description' => 'Rễ yếu, dễ thối và chết cây.',
+                                'image' => '/images/elicpo/japan.webp',
+                                'title' => 'Nguồn gốc nguyên liệu',
+                                'description' => 'Nguyên liệu đạm cá và rong biển chọn lọc từ nguồn uy tín.',
                             ],
                             [
-                                'image' => '/images/rootbio/problem5.webp',
-                                'title' => 'Đất chai cứng',
-                                'description' => 'Đất bị chai, rễ không bám được.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/quote1.gif',
-                                'title' => 'Báo chí đưa tin',
-                                'description' => 'Sản phẩm được nhiều báo và kênh truyền hình đưa tin.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/japan.webp',
-                                'title' => 'Người Nhật đánh giá cao',
-                                'description' => 'Nguyên liệu nhập khẩu từ Nhật Bản.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/certs.png',
-                                'title' => 'Chứng nhận & xét nghiệm',
-                                'description' => 'Đạt chuẩn GMP và kiểm định an toàn nông nghiệp.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/user/user1.png',
-                                'title' => 'Khách hàng ROOTBIO',
-                                'description' => 'Bà con nông dân đã tin dùng sản phẩm.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/user/user2.png',
-                                'title' => 'Nhà vườn sử dụng',
-                                'description' => 'Cảm nhận của khách hàng sau khi dùng sản phẩm.',
-                            ],
-                            [
-                                'image' => '/images/rootbio/user/user3.jpg',
-                                'title' => 'Vườn cây sau khi dùng',
-                                'description' => 'Hình ảnh vườn cây xanh tốt sau khi bón ROOTBIO.',
+                                'image' => '/images/elicpo/certs.png',
+                                'title' => 'Chứng nhận chất lượng',
+                                'description' => 'Sản phẩm được kiểm nghiệm và chứng nhận đạt chuẩn.',
                             ],
                         ],
                     ],
@@ -399,7 +531,13 @@ class HomeContent
                         'key' => 'heading',
                         'label' => 'Tiêu đề section',
                         'type' => 'text',
-                        'default' => 'Giải pháp an toàn cho mọi loại cây',
+                        'default' => 'Phù hợp nhiều loại cây',
+                    ],
+                    [
+                        'key' => 'description',
+                        'label' => 'Mô tả',
+                        'type' => 'textarea',
+                        'default' => 'Dùng theo hướng dẫn trên nhãn, tùy từng loại cây và giai đoạn sinh trưởng.',
                     ],
                     [
                         'key' => 'items',
@@ -412,46 +550,6 @@ class HomeContent
                                 'label' => 'Tên loại cây',
                                 'type' => 'text',
                             ],
-                        ],
-                        'default' => [
-                            ['value' => 'Cây thân gỗ'],
-                            ['value' => 'Cây Bonsai'],
-                            ['value' => 'Cây ăn quả'],
-                            ['value' => 'Cây Rau, củ'],
-                            ['value' => 'Các cây hoa'],
-                            ['value' => 'Các cây cảnh'],
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'key' => 'problems',
-                'label' => 'Vấn đề bà con gặp',
-                'icon' => 'triangle-alert',
-                'description' => 'Các triệu chứng cây trồng hay gặp và cảnh báo.',
-                'fields' => [
-                    [
-                        'key' => 'heading',
-                        'label' => 'Tiêu đề section',
-                        'type' => 'text',
-                        'default' => 'Bà con đang đau đầu về điều gì?',
-                    ],
-                    [
-                        'key' => 'items',
-                        'label' => 'Các vấn đề',
-                        'type' => 'list',
-                        'itemLabel' => 'Vấn đề',
-                        'itemFields' => [
-                            [
-                                'key' => 'title',
-                                'label' => 'Tiêu đề',
-                                'type' => 'text',
-                            ],
-                            [
-                                'key' => 'description',
-                                'label' => 'Mô tả',
-                                'type' => 'textarea',
-                            ],
                             [
                                 'key' => 'image',
                                 'label' => 'Ảnh minh hoạ',
@@ -460,94 +558,65 @@ class HomeContent
                         ],
                         'default' => [
                             [
-                                'title' => 'Cây không ra đọt, ngừng phát triển',
-                                'description' => 'Cây không ra đọt, thậm chí ngừng phát triển dù đã bón phân.',
-                                'image' => '/images/rootbio/problem3.png',
+                                'value' => 'Rau màu',
+                                'image' => '/images/elicpo/effect1.png',
                             ],
                             [
-                                'title' => 'Đất chai cứng, cây không bám rễ',
-                                'description' => 'Đất trồng lâu năm bị chai, rễ không thể lấy dinh dưỡng, khiến cây còi cọc.',
-                                'image' => '/images/rootbio/problem5.webp',
+                                'value' => 'Cây ăn trái',
+                                'image' => '/images/elicpo/effect2.png',
                             ],
                             [
-                                'title' => 'Cây héo rũ, rễ yếu, dễ chết',
-                                'description' => 'Cây non nhưng mà rễ không phát triển, nhanh héo rũ, thậm chí chết cây.',
-                                'image' => '/images/rootbio/problem1.jpg',
+                                'value' => 'Hoa, cây cảnh',
+                                'image' => '/images/elicpo/effect3.png',
                             ],
                             [
-                                'title' => 'Cây thối rễ, cây suy kiệt',
-                                'description' => 'Cây yếu, khó ra đọt thường bị nấm hại rễ, giâm cành nhưng không thành công.',
-                                'image' => '/images/rootbio/problem4.jpg',
+                                'value' => 'Cây thân gỗ',
+                                'image' => '/images/elicpo/effect4.png',
                             ],
-                        ],
-                    ],
-                    [
-                        'key' => 'warningTitle',
-                        'label' => 'Tiêu đề cảnh báo',
-                        'type' => 'text',
-                        'default' => 'Cảnh báo!',
-                    ],
-                    [
-                        'key' => 'warningText',
-                        'label' => 'Nội dung cảnh báo',
-                        'type' => 'textarea',
-                        'default' => 'Cây khó kích rễ, kích đọt và chậm đẻ nhánh chủ yếu do đất trồng nghèo dinh dưỡng, chai cứng hoặc bị úng nước, khiến rễ không thể phát triển và hấp thu chất cần thiết. Ngoài ra, việc bón phân không cân đối, thiếu vi lượng quan trọng cũng làm cây suy yếu, khó ra đọt và chậm đẻ nhánh.',
-                    ],
-                    [
-                        'key' => 'warningTags',
-                        'label' => 'Các thẻ cảnh báo',
-                        'type' => 'list',
-                        'itemLabel' => 'Thẻ',
-                        'itemFields' => [
                             [
-                                'key' => 'value',
-                                'label' => 'Nội dung thẻ',
-                                'type' => 'text',
+                                'value' => 'Cây bonsai',
+                                'image' => '/images/elicpo/tech.png',
                             ],
-                        ],
-                        'default' => [
-                            ['value' => 'CÂY CÒI CỌC'],
-                            ['value' => 'CÂY VÀNG LÁ'],
-                            ['value' => 'CÂY THỐI RỄ'],
-                            ['value' => 'ĐẤT BẠC MÀU'],
-                            ['value' => 'MẤT MÙA, GIẢM NĂNG SUẤT'],
+                            [
+                                'value' => 'Cây rau, củ',
+                                'image' => '/images/elicpo/tech1.png',
+                            ],
                         ],
                     ],
                 ],
             ],
             [
-                'key' => 'solutions',
-                'label' => 'Hiệu quả & Lợi ích',
-                'icon' => 'flask-conical',
-                'description' => 'Các cam kết hiệu quả và con số thống kê.',
+                'key' => 'dosage',
+                'label' => 'Hướng dẫn & liều lượng',
+                'icon' => 'beaker',
+                'description' => 'Liều lượng pha theo từng giai đoạn sinh trưởng.',
                 'fields' => [
-                    [
-                        'key' => 'eyebrow',
-                        'label' => 'Dòng nhỏ phía trên',
-                        'type' => 'text',
-                        'default' => 'Chỉ 2 lần phun',
-                    ],
                     [
                         'key' => 'heading',
                         'label' => 'Tiêu đề section',
                         'type' => 'text',
-                        'default' => 'Giải quyết ngay các vấn đề',
+                        'default' => 'Hướng dẫn sử dụng',
                     ],
                     [
                         'key' => 'description',
                         'label' => 'Mô tả',
                         'type' => 'textarea',
-                        'default' => 'Chỉ cần 2 lần phun, tái sinh lại bộ rễ, hấp thu dinh dưỡng siêu tốt. Mầm, chồi khỏe mạnh, cây suy khoẻ lại thần kỳ.',
+                        'default' => 'Pha phân bón ELICPO cùng 20 lít nước, điều chỉnh liều lượng theo từng giai đoạn phát triển của cây.',
                     ],
                     [
                         'key' => 'items',
-                        'label' => 'Các cam kết hiệu quả',
+                        'label' => 'Các giai đoạn',
                         'type' => 'list',
-                        'itemLabel' => 'Cam kết',
+                        'itemLabel' => 'Giai đoạn',
                         'itemFields' => [
                             [
-                                'key' => 'title',
-                                'label' => 'Tiêu đề',
+                                'key' => 'stage',
+                                'label' => 'Tên giai đoạn',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'dosage',
+                                'label' => 'Liều lượng',
                                 'type' => 'text',
                             ],
                             [
@@ -555,182 +624,30 @@ class HomeContent
                                 'label' => 'Mô tả',
                                 'type' => 'textarea',
                             ],
-                            [
-                                'key' => 'image',
-                                'label' => 'Ảnh minh hoạ',
-                                'type' => 'image',
-                            ],
                         ],
                         'default' => [
                             [
-                                'title' => 'HẾT Vàng Lá Thối Rễ sau 2 lần tưới',
-                                'description' => 'Kích thích RA RỄ nhanh, cây tăng trưởng mạnh! Cây hấp thụ tối đa dưỡng chất, cây nhanh lớn, bung đọt mạnh, kích rễ nhanh phát triển gấp 5 lần sau 2 lần sử dụng nhờ 45% lượng axit humic có trong sản phẩm.',
-                                'image' => '/images/rootbio/feature5.png',
+                                'stage' => 'Giai đoạn cây con',
+                                'dosage' => '30 – 50ml / 20 lít nước',
+                                'description' => 'Hỗ trợ phát triển rễ và thân lá.',
                             ],
                             [
-                                'title' => 'Đảm bảo tỷ lệ kích thích ra hoa, đậu quả lên tới 93%',
-                                'description' => 'Chỉ sau 2 lần tưới với 7% Kali hữu hiệu. Tổng hợp các chất điều hòa sinh trưởng, kích thích quả, hoa, lá phát triển mạnh mẽ, tăng 30% chất lượng nông sản so với thông thường.',
-                                'image' => '/images/rootbio/feature6.png',
+                                'stage' => 'Giai đoạn trước ra hoa',
+                                'dosage' => '70 – 100ml / 20 lít nước',
+                                'description' => 'Bổ sung dinh dưỡng trước khi ra hoa.',
                             ],
                             [
-                                'title' => 'Tăng sức đề kháng với công nghệ Probiotics',
-                                'description' => 'Ứng dụng công nghệ Probiotics cung cấp hàng tỷ lợi khuẩn cho cây và môi trường đất, tăng khả năng chống nấm bệnh và cải thiện chất đất.',
-                                'image' => '/images/rootbio/tech1.png',
-                            ],
-                            [
-                                'title' => 'Công nghệ Nano đạt chuẩn công nghệ Thụy Sỹ',
-                                'description' => 'Giúp cây hấp thụ qua lá nhanh hơn, hiệu quả hơn gấp 3 lần so với bón gốc.',
-                                'image' => '/images/rootbio/tech2.png',
+                                'stage' => 'Mang trái & phục hồi',
+                                'dosage' => '80 – 100ml / 20 lít nước',
+                                'description' => 'Dùng khi cây mang trái hoặc sau thu hoạch.',
                             ],
                         ],
                     ],
                     [
-                        'key' => 'statsEyebrow',
-                        'label' => 'Dòng dẫn thống kê',
-                        'type' => 'text',
-                        'default' => 'Theo thống kê lên đến hơn',
-                    ],
-                    [
-                        'key' => 'statsValue',
-                        'label' => 'Con số lớn',
-                        'type' => 'number',
-                        'default' => 3826534,
-                    ],
-                    [
-                        'key' => 'statsValueLabel',
-                        'label' => 'Chú thích con số lớn',
-                        'type' => 'text',
-                        'default' => 'người đã sử dụng và cho ra hiệu quả năng suất vượt trội',
-                    ],
-                    [
-                        'key' => 'statsSecondaryValue',
-                        'label' => 'Con số phụ',
-                        'type' => 'number',
-                        'default' => 99,
-                    ],
-                    [
-                        'key' => 'statsSecondaryLabel',
-                        'label' => 'Chú thích con số phụ',
-                        'type' => 'text',
-                        'default' => 'người đăng ký nhận ưu đãi',
-                    ],
-                ],
-            ],
-            [
-                'key' => 'press',
-                'label' => 'Báo chí & Nhật Bản',
-                'icon' => 'globe',
-                'description' => 'Phần giới thiệu sản phẩm được báo chí và người Nhật đánh giá.',
-                'fields' => [
-                    [
-                        'key' => 'heading',
-                        'label' => 'Tiêu đề',
-                        'type' => 'textarea',
-                        'default' => 'Những ngày gần đây, trên một số tờ báo và kênh truyền hình nổi tiếng xuất hiện thông tin về sản phẩm Phân bón ROOTBIO giúp cây ra rễ mạnh, mầm khoẻ, sinh trưởng tốt.',
-                    ],
-                    [
-                        'key' => 'description',
-                        'label' => 'Mô tả',
-                        'type' => 'textarea',
-                        'default' => 'Sản phẩm cũng được người Nhật đánh giá cao, khi lấy nguồn nguyên liệu nhập khẩu chất lượng từ Nhật Bản.',
-                    ],
-                    [
-                        'key' => 'badgeOne',
-                        'label' => 'Huy hiệu 1',
-                        'type' => 'text',
-                        'default' => 'Được người Nhật đánh giá cao',
-                    ],
-                    [
-                        'key' => 'badgeTwo',
-                        'label' => 'Huy hiệu 2',
-                        'type' => 'text',
-                        'default' => 'Được chứng nhận bởi báo chí',
-                    ],
-                    [
-                        'key' => 'image',
-                        'label' => 'Ảnh minh hoạ',
-                        'type' => 'image',
-                        'default' => '/images/rootbio/japan.webp',
-                    ],
-                ],
-            ],
-            [
-                'key' => 'testimonials',
-                'label' => 'Cảm nhận khách hàng',
-                'icon' => 'quote',
-                'description' => 'Các đánh giá của bà con nông dân sau khi dùng sản phẩm.',
-                'fields' => [
-                    [
-                        'key' => 'heading',
-                        'label' => 'Tiêu đề section',
-                        'type' => 'text',
-                        'default' => 'Bà con nông dân sau khi sử dụng phân bón ROOTBIO',
-                    ],
-                    [
-                        'key' => 'items',
-                        'label' => 'Cảm nhận',
+                        'key' => 'tips',
+                        'label' => 'Mẹo tưới & thời điểm',
                         'type' => 'list',
-                        'itemLabel' => 'Cảm nhận',
-                        'itemFields' => [
-                            [
-                                'key' => 'quote',
-                                'label' => 'Nội dung cảm nhận',
-                                'type' => 'textarea',
-                            ],
-                            [
-                                'key' => 'author',
-                                'label' => 'Tên người gửi',
-                                'type' => 'text',
-                            ],
-                            [
-                                'key' => 'image',
-                                'label' => 'Ảnh đại diện',
-                                'type' => 'image',
-                            ],
-                        ],
-                        'default' => [
-                            [
-                                'quote' => 'Tôi đã dùng rất nhiều loại phân bón khác nhau, nhưng để tiết kiệm và hiệu quả nhanh nhất thì có lẽ là sản phẩm phân bón ROOTBIO này. hiệu quả rất nhanh mà lại tiết kiệm.',
-                                'author' => 'Anh Hùng chủ trại Cà Phê Gia Lai',
-                                'image' => '/images/rootbio/testimonial1.jpg',
-                            ],
-                            [
-                                'quote' => 'Rất cảm ơn ROOTBIO đã cứu sống vườn cây của tôi, tôi không nghĩ nó hiệu quả nhanh đến vậy. lúc đầu thấy quảng cáo thì cũng mua thử dùng trước cho vài gốc. Ai ngờ hiệu quả nhanh thật sự, đúng là hàng nhật, chất thật.',
-                                'author' => 'Anh Trần Hùng chủ trại bưởi ở Vĩnh Long',
-                                'image' => '/images/rootbio/cta3.jpg',
-                            ],
-                            [
-                                'quote' => 'Tôi cũng chỉ vô tình được bà con tặng cho 1 lọ dùng thử. Nhưng đúng là hiệu quả khách xa với nhưng loại phân bón trước kia từng sử dụng tôi mới đặt thêm 2 thùng về dùng cho toàn bộ vườn cây của mình. Bà con yên tâm mà dùng.',
-                                'author' => 'Anh Việt Vương chủ trại ở Lâm Đồng',
-                                'image' => '/images/rootbio/cta2.jpg',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'key' => 'highlights',
-                'label' => 'Tác dụng nổi bật',
-                'icon' => 'trophy',
-                'description' => 'Danh sách các tác dụng nổi bật của sản phẩm.',
-                'fields' => [
-                    [
-                        'key' => 'heading',
-                        'label' => 'Tiêu đề nhỏ',
-                        'type' => 'text',
-                        'default' => 'Tác dụng nổi bật của ROOTBIO',
-                    ],
-                    [
-                        'key' => 'subheading',
-                        'label' => 'Tiêu đề lớn',
-                        'type' => 'text',
-                        'default' => 'Cây xanh dày lá - vọt đọt - bung đọt chỉ sau 3 - 5 ngày',
-                    ],
-                    [
-                        'key' => 'items',
-                        'label' => 'Các tác dụng',
-                        'type' => 'list',
-                        'itemLabel' => 'Tác dụng',
+                        'itemLabel' => 'Mẹo',
                         'itemFields' => [
                             [
                                 'key' => 'value',
@@ -739,25 +656,75 @@ class HomeContent
                             ],
                         ],
                         'default' => [
-                            ['value' => 'Siêu kích rễ, đi đọt cho cây sầu riêng, ca cao, cafe, điều, tiêu…'],
-                            ['value' => 'Siêu kích mầm cho mọi loại cây, cây cảnh, cây bonsai, rau màu, cây ăn quả'],
-                            ['value' => 'Mầm xanh ra đều mơn mởn khỏe mạnh, không chết thối, hoa trái phát triển mạnh'],
-                            ['value' => 'Nguyên liệu nhập khẩu Nhật Bản, ứng dụng công nghệ sinh học của Nhật Bản'],
+                            ['value' => 'Tưới ướt đẫm vùng rễ cây.'],
+                            ['value' => 'Sử dụng định kỳ 10 – 15 ngày/lần.'],
+                            ['value' => 'Tưới vào sáng sớm hoặc chiều tối.'],
                         ],
                     ],
                 ],
             ],
             [
                 'key' => 'ingredients',
-                'label' => 'Thành phần nguyên liệu',
-                'icon' => 'beaker',
-                'description' => 'Công nghệ và thành phần có trong sản phẩm.',
+                'label' => 'Thành phần & dinh dưỡng',
+                'icon' => 'flask-conical',
+                'description' => 'Công thức dinh dưỡng và các chỉ số phân tích của sản phẩm.',
                 'fields' => [
                     [
                         'key' => 'heading',
                         'label' => 'Tiêu đề section',
                         'type' => 'text',
-                        'default' => 'Thành phần nguyên liệu và công nghệ',
+                        'default' => 'Dinh dưỡng & nguyên liệu',
+                    ],
+                    [
+                        'key' => 'organicPercent',
+                        'label' => 'Tỷ lệ chất hữu cơ',
+                        'type' => 'text',
+                        'default' => '20%',
+                    ],
+                    [
+                        'key' => 'fishPercent',
+                        'label' => 'Tỷ lệ nguyên liệu đạm cá',
+                        'type' => 'text',
+                        'default' => '45%',
+                    ],
+                    [
+                        'key' => 'aminoPercent',
+                        'label' => 'Tỷ lệ amino acid',
+                        'type' => 'text',
+                        'default' => '10%',
+                    ],
+                    [
+                        'key' => 'cnRatio',
+                        'label' => 'Tỷ lệ C/N',
+                        'type' => 'text',
+                        'default' => '12%',
+                    ],
+                    [
+                        'key' => 'ph',
+                        'label' => 'Độ pH H₂O',
+                        'type' => 'text',
+                        'default' => '5.5',
+                    ],
+                    [
+                        'key' => 'supplements',
+                        'label' => 'Dưỡng chất bổ sung',
+                        'type' => 'list',
+                        'itemLabel' => 'Chất bổ sung',
+                        'itemFields' => [
+                            [
+                                'key' => 'value',
+                                'label' => 'Tên chất',
+                                'type' => 'text',
+                            ],
+                        ],
+                        'default' => [
+                            ['value' => 'Vitamin C'],
+                            ['value' => 'Vitamin B6'],
+                            ['value' => 'Tryptophan'],
+                            ['value' => 'Rong biển'],
+                            ['value' => 'Chlomequat Chloride'],
+                            ['value' => 'Auxin'],
+                        ],
                     ],
                     [
                         'key' => 'items',
@@ -785,22 +752,22 @@ class HomeContent
                             [
                                 'title' => 'Siêu Vi Lượng Chelate',
                                 'description' => 'Dòng siêu vi lượng này mạnh gấp 10 lần so với các dòng vi lượng thông thường.',
-                                'image' => '/images/rootbio/effect1.png',
+                                'image' => '/images/elicpo/effect1.png',
                             ],
                             [
                                 'title' => 'Công nghệ Nano',
-                                'description' => 'Giúp các phân tử Nano Đạm, Nano Lân, Nano Kali giúp hấp thụ nhanh gấp 100 lần.',
-                                'image' => '/images/rootbio/effect2.png',
+                                'description' => 'Giúp các phân tử Nano Đạm, Nano Lân, Nano Kali hấp thu nhanh gấp 100 lần.',
+                                'image' => '/images/elicpo/effect2.png',
                             ],
                             [
                                 'title' => 'Amino acid',
                                 'description' => 'Từ rong biển, bột cá, tảo biển, bột thịt giúp cung cấp hơn 50 loại amino acid.',
-                                'image' => '/images/rootbio/effect3.png',
+                                'image' => '/images/elicpo/effect3.png',
                             ],
                             [
                                 'title' => 'Acid humic, Acid Fulvic',
-                                'description' => 'Tinh chất bột khoáng... giúp hệ rễ của cây trồng phát triển cực kì mạnh mẽ.',
-                                'image' => '/images/rootbio/effect4.png',
+                                'description' => 'Giúp hệ rễ của cây trồng phát triển cực kì mạnh mẽ.',
+                                'image' => '/images/elicpo/effect4.png',
                             ],
                         ],
                     ],
@@ -809,153 +776,6 @@ class HomeContent
                         'label' => 'Dòng kết section',
                         'type' => 'text',
                         'default' => 'Hiệu quả gấp 10 lần',
-                    ],
-                ],
-            ],
-            [
-                'key' => 'cta',
-                'label' => 'Form đăng ký',
-                'icon' => 'clipboard-list',
-                'description' => 'Nội dung quay cuốn và form đăng ký nhận ưu đãi.',
-                'fields' => [
-                    [
-                        'key' => 'heading',
-                        'label' => 'Tiêu đề section',
-                        'type' => 'text',
-                        'default' => 'Bà con đăng ký để được kỹ sư nông nghiệp tư vấn miễn phí',
-                    ],
-                    [
-                        'key' => 'description',
-                        'label' => 'Mô tả',
-                        'type' => 'textarea',
-                        'default' => 'Chọn tình trạng cây trồng để được chuyên gia tư vấn cải thiện ngay.',
-                    ],
-                    [
-                        'key' => 'benefits',
-                        'label' => 'Các lợi ích',
-                        'type' => 'list',
-                        'itemLabel' => 'Lợi ích',
-                        'itemFields' => [
-                            [
-                                'key' => 'value',
-                                'label' => 'Nội dung',
-                                'type' => 'text',
-                            ],
-                        ],
-                        'default' => [
-                            ['value' => 'kích thích bung rễ cực mạnh'],
-                            ['value' => 'nuôi hoa trái tốt, lá xanh mơn mởn'],
-                            ['value' => 'KÍCH THÍCH BẬT CHỒI, BUNG ĐỌT'],
-                            ['value' => 'TIẾT KIỆM CHI PHÍ, HIỆU QUẢ LÂU DÀI'],
-                        ],
-                    ],
-                    [
-                        'key' => 'commitments',
-                        'label' => 'Các cam kết',
-                        'type' => 'list',
-                        'itemLabel' => 'Cam kết',
-                        'itemFields' => [
-                            [
-                                'key' => 'value',
-                                'label' => 'Nội dung',
-                                'type' => 'text',
-                            ],
-                        ],
-                        'default' => [
-                            ['value' => 'Tự hào là biểu tượng của sự đồng lòng và phục vụ, mang lại nguồn cung ứng phân bón chế phẩm sinh học hàng đầu.'],
-                            ['value' => 'Sản phẩm được các cơ quan nhà nước kiểm nghiệm và chứng nhận, được kiểm soát chặt chẽ về chất lượng cũng giá thành hợp lý.'],
-                            ['value' => 'Công ty đã nhận được nhiều bằng khen, chứng nhận để trở thành một trong những công ty tiên phong và có khả năng xuất sắc trong việc tạo ra những sản phẩm sinh học chất lượng.'],
-                            ['value' => 'Được đưa ra thị trường Nhật Bản. Không chỉ đáp ứng được yêu cầu và kỳ vọng của khách hàng, mà còn vượt qua được các đối thủ cạnh tranh trong thị trường.'],
-                        ],
-                    ],
-                    [
-                        'key' => 'formTitle',
-                        'label' => 'Tiêu đề form',
-                        'type' => 'text',
-                        'default' => 'Anh/Chị hãy điền thông tin để được chuyên gia tư vấn',
-                    ],
-                    [
-                        'key' => 'formSubtitle',
-                        'label' => 'Mô tả form',
-                        'type' => 'text',
-                        'default' => 'Kỹ sư nông nghiệp sẽ liên hệ trực tiếp tư vấn miễn phí.',
-                    ],
-                    [
-                        'key' => 'couponCode',
-                        'label' => 'Mã giảm giá mặc định',
-                        'type' => 'text',
-                        'default' => 'HT212',
-                    ],
-                    [
-                        'key' => 'plantTypes',
-                        'label' => 'Loại cây trong form',
-                        'type' => 'list',
-                        'itemLabel' => 'Loại cây',
-                        'itemFields' => [
-                            [
-                                'key' => 'value',
-                                'label' => 'Tên loại cây',
-                                'type' => 'text',
-                            ],
-                        ],
-                        'default' => [
-                            ['value' => 'Cây ăn quả'],
-                            ['value' => 'Cây cảnh'],
-                            ['value' => 'Cây Bonsai'],
-                            ['value' => 'Cây thân gỗ'],
-                            ['value' => 'Cây rau, củ'],
-                            ['value' => 'Cây hoa'],
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'key' => 'certificates',
-                'label' => 'Chứng nhận & Xét nghiệm',
-                'icon' => 'shield-check',
-                'description' => 'Ảnh chứng nhận và thông tin kiểm định sản phẩm.',
-                'fields' => [
-                    [
-                        'key' => 'heading',
-                        'label' => 'Tiêu đề',
-                        'type' => 'text',
-                        'default' => 'Chứng nhận và xét nghiệm phân bón ROOTBIO',
-                    ],
-                    [
-                        'key' => 'description',
-                        'label' => 'Mô tả',
-                        'type' => 'textarea',
-                        'default' => 'Sản phẩm PHÂN BÓN ROOTBIO được Cục An toàn NÔNG NGHIỆP kiểm định an toàn và chất lượng, được bào chế theo công nghệ hiện đại và đạt chuẩn GMP.',
-                    ],
-                    [
-                        'key' => 'image',
-                        'label' => 'Ảnh chứng nhận',
-                        'type' => 'image',
-                        'default' => '/images/rootbio/certs.png',
-                    ],
-                    [
-                        'key' => 'primaryCtaLabel',
-                        'label' => 'Nút chính',
-                        'type' => 'text',
-                        'default' => 'Chỉ 2 lần phun – Đăng ký ngay',
-                    ],
-                    [
-                        'key' => 'primaryCtaHref',
-                        'label' => 'Liên kết nút chính',
-                        'type' => 'text',
-                        'default' => '#dang-ky',
-                    ],
-                    [
-                        'key' => 'secondaryCtaLabel',
-                        'label' => 'Nút phụ',
-                        'type' => 'text',
-                        'default' => 'Gọi 0973.42.6704',
-                    ],
-                    [
-                        'key' => 'secondaryCtaHref',
-                        'label' => 'Liên kết nút phụ',
-                        'type' => 'text',
-                        'default' => 'tel:0973426704',
                     ],
                 ],
             ],
@@ -995,6 +815,130 @@ class HomeContent
                 ],
             ],
             [
+                'key' => 'combos',
+                'label' => 'Combo ưu đãi',
+                'icon' => 'gift',
+                'description' => 'Các combo mua nhiều tặng nhiều quà.',
+                'fields' => [
+                    [
+                        'key' => 'heading',
+                        'label' => 'Tiêu đề section',
+                        'type' => 'text',
+                        'default' => 'Chọn combo phân bón ELICPO',
+                    ],
+                    [
+                        'key' => 'description',
+                        'label' => 'Mô tả',
+                        'type' => 'textarea',
+                        'default' => 'Mua càng nhiều, quà càng lớn.',
+                    ],
+                    [
+                        'key' => 'items',
+                        'label' => 'Các combo',
+                        'type' => 'list',
+                        'itemLabel' => 'Combo',
+                        'itemFields' => [
+                            [
+                                'key' => 'name',
+                                'label' => 'Tên combo',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'gift',
+                                'label' => 'Quà tặng',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'badge',
+                                'label' => 'Nhãn riêng',
+                                'type' => 'text',
+                            ],
+                        ],
+                        'default' => [
+                            [
+                                'name' => 'Combo 1 chai 1 lít',
+                                'gift' => 'Tặng 3 Nano Kali + 1 lọ kích rễ TC01 · FREESHIP',
+                                'badge' => 'Combo dùng thử',
+                            ],
+                            [
+                                'name' => 'Combo 2 chai 2 lít',
+                                'gift' => 'Tặng 5 Nano Kali + 1 lọ TC01 · FREESHIP',
+                                'badge' => '',
+                            ],
+                            [
+                                'name' => 'Combo 3 chai 3 lít',
+                                'gift' => 'Tặng 7 Nano Kali + 1 lọ TC01 · FREESHIP',
+                                'badge' => '',
+                            ],
+                            [
+                                'name' => 'Combo 1 can 5 lít',
+                                'gift' => 'Tặng 10 Nano Kali + 1 lọ TC01 · FREESHIP',
+                                'badge' => 'Combo nhà vườn',
+                            ],
+                            [
+                                'name' => 'Combo 2 can 5 lít',
+                                'gift' => 'Tặng 15 Nano Kali + 2 lọ kích rễ TC01 · FREESHIP',
+                                'badge' => 'Bán chạy nhất',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'key' => 'testimonials',
+                'label' => 'Cảm nhận khách hàng',
+                'icon' => 'quote',
+                'description' => 'Các đánh giá của bà con nông dân sau khi dùng sản phẩm.',
+                'fields' => [
+                    [
+                        'key' => 'heading',
+                        'label' => 'Tiêu đề section',
+                        'type' => 'text',
+                        'default' => 'Bà con nông dân sau khi sử dụng sản phẩm',
+                    ],
+                    [
+                        'key' => 'items',
+                        'label' => 'Cảm nhận',
+                        'type' => 'list',
+                        'itemLabel' => 'Cảm nhận',
+                        'itemFields' => [
+                            [
+                                'key' => 'quote',
+                                'label' => 'Nội dung cảm nhận',
+                                'type' => 'textarea',
+                            ],
+                            [
+                                'key' => 'author',
+                                'label' => 'Tên người gửi',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'image',
+                                'label' => 'Ảnh đại diện',
+                                'type' => 'image',
+                            ],
+                        ],
+                        'default' => [
+                            [
+                                'quote' => 'Tôi đã dùng rất nhiều loại phân bón khác nhau, nhưng để hiệu quả nhanh nhất thì có lẽ là phân bón ELICPO. Hiệu quả rất nhanh mà lại dễ dùng.',
+                                'author' => 'Anh Hùng chủ trại Cà Phê Gia Lai',
+                                'image' => '/images/elicpo/testimonial1.jpg',
+                            ],
+                            [
+                                'quote' => 'Rất cảm ơn sản phẩm đã cứu sống vườn cây của tôi. Ban đầu thấy quảng cáo thì cũng mua thử dùng trước cho vài gốc, ai ngờ hiệu quả nhanh thật sự.',
+                                'author' => 'Anh Trần Hùng chủ trại bưởi ở Vĩnh Long',
+                                'image' => '/images/elicpo/cta3.jpg',
+                            ],
+                            [
+                                'quote' => 'Tôi cũng chỉ vô tình được bà con tặng cho 1 lọ dùng thử, nhưng đúng là hiệu quả khác xa so với những loại phân bón trước đây tôi từng sử dụng, tôi mới đặt thêm 2 thùng về dùng cho toàn bộ vườn cây.',
+                                'author' => 'Anh Việt Vương chủ trại ở Lâm Đồng',
+                                'image' => '/images/elicpo/cta2.jpg',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'key' => 'reviews',
                 'label' => 'Đánh giá khách hàng',
                 'icon' => 'star',
@@ -1004,7 +948,7 @@ class HomeContent
                         'key' => 'heading',
                         'label' => 'Tiêu đề section',
                         'type' => 'text',
-                        'default' => 'Khách hàng đánh giá về phân bón ROOTBIO',
+                        'default' => 'Khách hàng đánh giá về sản phẩm',
                     ],
                     [
                         'key' => 'averageRating',
@@ -1017,31 +961,6 @@ class HomeContent
                         'label' => 'Số nhận xét',
                         'type' => 'text',
                         'default' => '1.545 nhận xét',
-                    ],
-                    [
-                        'key' => 'ratingBars',
-                        'label' => 'Biểu đồ điểm',
-                        'type' => 'list',
-                        'itemLabel' => 'Mức điểm',
-                        'itemFields' => [
-                            [
-                                'key' => 'stars',
-                                'label' => 'Số sao',
-                                'type' => 'number',
-                            ],
-                            [
-                                'key' => 'percent',
-                                'label' => 'Tỉ lệ (%)',
-                                'type' => 'number',
-                            ],
-                        ],
-                        'default' => [
-                            ['stars' => 5, 'percent' => 100],
-                            ['stars' => 4, 'percent' => 0],
-                            ['stars' => 3, 'percent' => 0],
-                            ['stars' => 2, 'percent' => 0],
-                            ['stars' => 1, 'percent' => 0],
-                        ],
                     ],
                     [
                         'key' => 'items',
@@ -1074,12 +993,12 @@ class HomeContent
                             [
                                 'name' => 'Văn Long',
                                 'time' => '45 phút trước',
-                                'content' => 'Thích cái là hàng trực tiếp từ nhà máy nên cũng yên tâm, với cả giá cũng hợp lý. Xài mấy ngày là thấy rể với đọt ra rồi, nhanh thiệt.',
+                                'content' => 'Thích cái là hàng trực tiếp từ nhà máy nên cũng yên tâm. Xài mấy ngày là thấy rễ với đọt ra rồi.',
                             ],
                             [
                                 'name' => 'Kim Hậu',
                                 'time' => '1 giờ trước',
-                                'content' => 'Nhà mình có vườn sầu, mà thấy bác hàng xóm quảng cáo quá trời, mua 1 thùng về dùng thử, hiệu quả lắm, mà mua theo thùng thì được chiết khấu ưu đãi nhiều nữa.',
+                                'content' => 'Nhà mình có vườn sầu, mua 1 thùng về dùng thử, hiệu quả lắm, mà mua theo thùng thì được chiết khấu ưu đãi nữa.',
                             ],
                             [
                                 'name' => 'Kim Lan',
@@ -1089,8 +1008,275 @@ class HomeContent
                             [
                                 'name' => 'Uyên Trần',
                                 'time' => '2 tiếng trước',
-                                'content' => 'Cái này mua theo vườn bên cạnh tại thấy cây tốt mà ra hoa cũng đậu quả nhiều. Cũng may nó mới cứ được cái rẫy nhà mình.',
+                                'content' => 'Cái này mua theo vườn bên cạnh thấy cây tốt mà ra hoa cũng đậu quả nhiều.',
                             ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'key' => 'problems',
+                'label' => 'Vấn đề & cách khắc phục',
+                'icon' => 'alert-triangle',
+                'description' => 'Các tình trạng cây thường gặp và kết quả sau khi dùng ELICPO.',
+                'fields' => [
+                    [
+                        'key' => 'heading',
+                        'label' => 'Tiêu đề section',
+                        'type' => 'text',
+                        'default' => 'Bà con đang đau đầu về điều gì?',
+                    ],
+                    [
+                        'key' => 'warningTitle',
+                        'label' => 'Tiêu đề cảnh báo',
+                        'type' => 'text',
+                        'default' => 'CẢNH BÁO!',
+                    ],
+                    [
+                        'key' => 'warningText',
+                        'label' => 'Nội dung cảnh báo',
+                        'type' => 'textarea',
+                        'default' => 'Cây khó kích rễ, kích đọt và chậm đẻ nhánh chủ yếu do đất trồng nghèo dinh dưỡng, chai cứng hoặc bị úng nước, khiến rễ không thể phát triển và hấp thu chất cần thiết. Nếu không có biện pháp cải thiện kịp thời, cây sẽ còi cọc, giảm năng suất.',
+                    ],
+                    [
+                        'key' => 'solutionTitle',
+                        'label' => 'Tiêu đề khối giải pháp',
+                        'type' => 'text',
+                        'default' => 'Chỉ 2 lần phun - Giải quyết ngay các vấn đề',
+                    ],
+                    [
+                        'key' => 'solutionText',
+                        'label' => 'Mô tả giải pháp',
+                        'type' => 'textarea',
+                        'default' => 'Chỉ cần 2 lần phun, tái sinh lại bộ rễ, hấp thu dinh dưỡng siêu tốt. Mầm, chồi khỏe mạnh, cây suy khoẻ lại thần kỳ.',
+                    ],
+                    [
+                        'key' => 'items',
+                        'label' => 'Các vấn đề',
+                        'type' => 'list',
+                        'itemLabel' => 'Vấn đề',
+                        'itemFields' => [
+                            [
+                                'key' => 'title',
+                                'label' => 'Tiêu đề',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'description',
+                                'label' => 'Mô tả',
+                                'type' => 'textarea',
+                            ],
+                            [
+                                'key' => 'image',
+                                'label' => 'Ảnh vấn đề',
+                                'type' => 'image',
+                            ],
+                            [
+                                'key' => 'resultImage',
+                                'label' => 'Ảnh kết quả',
+                                'type' => 'image',
+                            ],
+                            [
+                                'key' => 'result',
+                                'label' => 'Kết quả',
+                                'type' => 'text',
+                            ],
+                        ],
+                        'default' => [
+                            [
+                                'title' => 'Cây không ra đọt, ngừng phát triển',
+                                'description' => 'Cây không ra đọt, thậm chí ngừng phát triển dù đã bón phân.',
+                                'image' => '/images/elicpo/problem1.jpg',
+                                'resultImage' => '/images/elicpo/effect1.png',
+                                'result' => 'Kích rễ mạnh',
+                            ],
+                            [
+                                'title' => 'Đất chai cứng, cây không bám rễ',
+                                'description' => 'Đất trồng lâu năm bị chai, rễ không thể lấy dinh dưỡng, khiến cây còi cọc.',
+                                'image' => '/images/elicpo/problem2.webp',
+                                'resultImage' => '/images/elicpo/feature1.png',
+                                'result' => 'Rễ phát triển',
+                            ],
+                            [
+                                'title' => 'Cây héo rũ, rễ yếu, dễ chết',
+                                'description' => 'Cây non nhưng rễ không phát triển, nhanh héo rũ, thậm chí chết cây.',
+                                'image' => '/images/elicpo/problem3.png',
+                                'resultImage' => '/images/elicpo/grow.gif',
+                                'result' => 'Đi đọt nhanh',
+                            ],
+                            [
+                                'title' => 'Cây thối rễ, cây suy kiệt',
+                                'description' => 'Cây yếu, khó ra đọt thường bị nấm hại rễ, giâm cành nhưng không thành công.',
+                                'image' => '/images/elicpo/problem4.jpg',
+                                'resultImage' => '/images/elicpo/tech.png',
+                                'result' => 'Chống nấm',
+                            ],
+                            [
+                                'title' => 'Mất mùa, giảm năng suất',
+                                'description' => 'Cây ra hoa không đạt, quả không đủ lớn, năng suất giảm mạnh.',
+                                'image' => '/images/elicpo/problem5.webp',
+                                'resultImage' => '/images/elicpo/effect3.png',
+                                'result' => 'Siêu đậu trái',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'key' => 'highlights',
+                'label' => 'Cam kết & đặc tính',
+                'icon' => 'badge-check',
+                'description' => 'Các cam kết nổi bật về công nghệ và nguồn gốc.',
+                'fields' => [
+                    [
+                        'key' => 'items',
+                        'label' => 'Các cam kết',
+                        'type' => 'list',
+                        'itemLabel' => 'Cam kết',
+                        'itemFields' => [
+                            [
+                                'key' => 'title',
+                                'label' => 'Tiêu đề',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'value',
+                                'label' => 'Giá trị',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'image',
+                                'label' => 'Ảnh minh hoạ',
+                                'type' => 'image',
+                            ],
+                        ],
+                        'default' => [
+                            [
+                                'title' => 'Công nghệ tiên tiến',
+                                'value' => 'CÔNG NGHỆ TIÊN TIẾN',
+                                'image' => '/images/elicpo/tech.png',
+                            ],
+                            [
+                                'title' => 'Vi lượng đầy đủ',
+                                'value' => 'VI LƯỢNG ĐẦY ĐỦ',
+                                'image' => '/images/elicpo/effect1.png',
+                            ],
+                            [
+                                'title' => 'Axit humic 7%',
+                                'value' => 'AXIT HUMIC 7%',
+                                'image' => '/images/elicpo/tech1.png',
+                            ],
+                            [
+                                'title' => 'Dạng lỏng',
+                                'value' => 'DẠNG LỎNG',
+                                'image' => '/images/elicpo/feature4.png',
+                            ],
+                            [
+                                'title' => 'NPK 3-3-3',
+                                'value' => 'NPK 3-3-3',
+                                'image' => '/images/elicpo/feature2.png',
+                            ],
+                            [
+                                'title' => 'Nguyên liệu Nhật Bản',
+                                'value' => 'ĐƯỢC NGƯỜI NHẬT ĐÁNH GIÁ CAO',
+                                'image' => '/images/elicpo/japan.webp',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'key' => 'cta',
+                'label' => 'Form đặt hàng',
+                'icon' => 'clipboard-list',
+                'description' => 'Nội dung quay cuốn và form đặt hàng nhanh.',
+                'fields' => [
+                    [
+                        'key' => 'heading',
+                        'label' => 'Tiêu đề section',
+                        'type' => 'text',
+                        'default' => 'Để lại thông tin, nhận tư vấn miễn phí',
+                    ],
+                    [
+                        'key' => 'description',
+                        'label' => 'Mô tả',
+                        'type' => 'textarea',
+                        'default' => 'Chỉ cần họ tên và số điện thoại. Kỹ sư nông nghiệp sẽ gọi xác nhận trong 15 phút.',
+                    ],
+                    [
+                        'key' => 'benefits',
+                        'label' => 'Các lợi ích',
+                        'type' => 'list',
+                        'itemLabel' => 'Lợi ích',
+                        'itemFields' => [
+                            [
+                                'key' => 'value',
+                                'label' => 'Nội dung',
+                                'type' => 'text',
+                            ],
+                        ],
+                        'default' => [
+                            ['value' => 'Giao nhanh 2 - 3 ngày'],
+                            ['value' => 'Nhận voucher 15K nếu đơn giao trễ'],
+                            ['value' => 'FREESHIP toàn quốc'],
+                            ['value' => 'Đổi trả miễn phí trong 7 ngày'],
+                        ],
+                    ],
+                    [
+                        'key' => 'commitments',
+                        'label' => 'Các cam kết',
+                        'type' => 'list',
+                        'itemLabel' => 'Cam kết',
+                        'itemFields' => [
+                            [
+                                'key' => 'value',
+                                'label' => 'Nội dung',
+                                'type' => 'text',
+                            ],
+                        ],
+                        'default' => [
+                            ['value' => 'Sản phẩm được kiểm nghiệm và chứng nhận, kiểm soát chặt chẽ về chất lượng.'],
+                            ['value' => 'Hỗ trợ đổi trả trong 7 ngày.'],
+                            ['value' => 'Đội ngũ tư vấn nông nghiệp tận tình, hỗ trợ bà con 24/7.'],
+                        ],
+                    ],
+                    [
+                        'key' => 'formTitle',
+                        'label' => 'Tiêu đề form',
+                        'type' => 'text',
+                        'default' => 'Nhập tên và số điện thoại để được tư vấn',
+                    ],
+                    [
+                        'key' => 'formSubtitle',
+                        'label' => 'Mô tả form',
+                        'type' => 'text',
+                        'default' => 'Kỹ sư nông nghiệp sẽ liên hệ trực tiếp tư vấn miễn phí.',
+                    ],
+                    [
+                        'key' => 'couponCode',
+                        'label' => 'Mã giảm giá mặc định',
+                        'type' => 'text',
+                        'default' => 'ELICPO10',
+                    ],
+                    [
+                        'key' => 'plantTypes',
+                        'label' => 'Loại cây trong form',
+                        'type' => 'list',
+                        'itemLabel' => 'Loại cây',
+                        'itemFields' => [
+                            [
+                                'key' => 'value',
+                                'label' => 'Tên loại cây',
+                                'type' => 'text',
+                            ],
+                        ],
+                        'default' => [
+                            ['value' => 'Rau màu'],
+                            ['value' => 'Cây ăn trái'],
+                            ['value' => 'Hoa, cây cảnh'],
+                            ['value' => 'Cây thân gỗ'],
+                            ['value' => 'Cây bonsai'],
+                            ['value' => 'Cây rau, củ'],
                         ],
                     ],
                 ],
@@ -1105,7 +1291,7 @@ class HomeContent
                         'key' => 'heading',
                         'label' => 'Tiêu đề',
                         'type' => 'textarea',
-                        'default' => 'Sử dụng phân bón ROOTBIO sẽ giúp cây trồng của bạn chắc khoẻ từ sâu bên trong, phát triển một cách mạnh mẽ, đem đến năng suất vượt trội',
+                        'default' => 'Cảm ơn bạn đã đăng ký!',
                     ],
                     [
                         'key' => 'couponLabel',
@@ -1117,7 +1303,7 @@ class HomeContent
                         'key' => 'couponCode',
                         'label' => 'Mã ưu đãi',
                         'type' => 'text',
-                        'default' => 'HT212',
+                        'default' => 'ELICPO10',
                     ],
                     [
                         'key' => 'peopleCount',
@@ -1135,13 +1321,13 @@ class HomeContent
                         'key' => 'buttonLabel',
                         'label' => 'Nút bấm',
                         'type' => 'text',
-                        'default' => 'Đăng ký ngay',
+                        'default' => 'Đặt hàng ngay',
                     ],
                     [
                         'key' => 'buttonHref',
                         'label' => 'Liên kết nút bấm',
                         'type' => 'text',
-                        'default' => '#dang-ky',
+                        'default' => '#dat-hang',
                     ],
                 ],
             ],
@@ -1155,19 +1341,19 @@ class HomeContent
                         'key' => 'brandName',
                         'label' => 'Tên thương hiệu',
                         'type' => 'text',
-                        'default' => 'ROOTBIO',
+                        'default' => 'ELICPO',
                     ],
                     [
                         'key' => 'companyName',
                         'label' => 'Tên công ty',
                         'type' => 'text',
-                        'default' => 'CÔNG TY TNHH WI GROUP',
+                        'default' => 'CÔNG TY TNHH ELICPO VIỆT NAM',
                     ],
                     [
                         'key' => 'address',
                         'label' => 'Địa chỉ',
                         'type' => 'textarea',
-                        'default' => 'ĐỊA CHỈ: Tầng 4 Toà TH OFFICE TOWER 18, Số 438 Đường Khương Đình, Phường Hạ Đình, Thanh Xuân, Hà Nội',
+                        'default' => 'Tầng 4 Toà TH OFFICE TOWER 18, Số 438 Đường Khương Đình, Phường Hạ Đình, Thanh Xuân, Hà Nội',
                     ],
                     [
                         'key' => 'hotline',
@@ -1216,7 +1402,7 @@ class HomeContent
                         'key' => 'copyright',
                         'label' => 'Bản quyền',
                         'type' => 'text',
-                        'default' => 'Copyright @ ROOTBIO - Tập Đoàn Phân Bón Sinh Học. All Rights Reserved',
+                        'default' => 'Copyright @ ELICPO - Tập Đoàn Phân Bón Hữu Cơ. All Rights Reserved',
                     ],
                 ],
             ],
@@ -1240,15 +1426,15 @@ class HomeContent
                     ],
                     [
                         'key' => 'registerLabel',
-                        'label' => 'Nút đăng ký',
+                        'label' => 'Nút đặt hàng',
                         'type' => 'text',
-                        'default' => 'Đăng ký nhận ưu đãi',
+                        'default' => 'Đăng ký tư vấn',
                     ],
                     [
                         'key' => 'registerHref',
-                        'label' => 'Liên kết đăng ký',
+                        'label' => 'Liên kết đặt hàng',
                         'type' => 'text',
-                        'default' => '#dang-ky',
+                        'default' => '#dat-hang',
                     ],
                 ],
             ],
@@ -1331,7 +1517,7 @@ class HomeContent
     public static function symptomOptions(): array
     {
         return array_values(array_filter(array_map(
-            static fn (array $item): string => (string) ($item['value'] ?? ''),
+            static fn (array $item): string => static::normalizeText((string) ($item['value'] ?? '')),
             static::get()['problemSelector']['items'] ?? [],
         )));
     }
@@ -1344,8 +1530,37 @@ class HomeContent
     public static function plantTypeOptions(): array
     {
         return array_values(array_filter(array_map(
-            static fn (array $item): string => (string) ($item['value'] ?? ''),
+            static fn (array $item): string => static::normalizeText((string) ($item['value'] ?? '')),
             static::get()['cta']['plantTypes'] ?? [],
         )));
+    }
+
+    /**
+     * Get the list of product variants offered in the order form.
+     *
+     * @return array<int, string>
+     */
+    public static function variantOptions(): array
+    {
+        return array_values(array_filter(array_map(
+            static fn (array $item): string => static::normalizeText((string) ($item['name'] ?? '')),
+            static::get()['variants']['items'] ?? [],
+        )));
+    }
+
+    /**
+     * Convert a string to the composed Unicode form (NFC).
+     *
+     * Vietnamese text may be stored in the composed or the decomposed Unicode
+     * form. Both represent the same string, so every label is normalised to
+     * keep comparisons between stored options and submitted values reliable.
+     */
+    public static function normalizeText(string $value): string
+    {
+        if ($value === '' || ! class_exists(Normalizer::class)) {
+            return $value;
+        }
+
+        return Normalizer::normalize($value, Normalizer::FORM_C) ?: $value;
     }
 }

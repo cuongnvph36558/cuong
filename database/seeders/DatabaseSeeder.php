@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $admin = User::firstOrCreate(
-            ['email' => 'admin@rootbio.test'],
+            ['email' => 'admin@ELICPO.test'],
             [
-                'name' => 'Admin ROOTBIO',
+                'name' => 'Admin ELICPO',
                 'password' => 'password',
                 'email_verified_at' => now(),
             ],
@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         $admin->save();
 
         if (Lead::count() === 0) {
-            Lead::factory()->count(12)->create();
+            $this->call(DemoLeadSeeder::class);
         }
     }
 }

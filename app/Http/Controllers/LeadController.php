@@ -21,14 +21,15 @@ class LeadController extends Controller
 
         if ($request->expectsJson()) {
             return response()->json([
-                'message' => 'Cảm ơn bác đã để lại thông tin. Kỹ sư nông nghiệp sẽ liên hệ trực tiếp để tư vấn và báo giá cho mình ạ!',
+                'message' => 'Cảm ơn bạn đã đăng ký! Chuyên gia nông nghiệp sẽ gọi cho bạn trong thời gian sớm nhất.',
                 'lead' => [
                     'id' => $lead->id,
                     'name' => $lead->name,
+                    'variant' => $lead->variant,
                 ],
             ]);
         }
 
-        return back()->with('success', 'Cảm ơn bác đã để lại thông tin!');
+        return back()->with('success', 'Cảm ơn bạn đã đăng ký!');
     }
 }

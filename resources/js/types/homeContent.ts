@@ -21,6 +21,16 @@ export type HomeContentImageItem = {
     value?: string;
     stars?: number;
     percent?: number;
+    price?: string;
+    originalPrice?: string;
+    discount?: string;
+    badge?: string;
+    saving?: string;
+    gift?: string;
+    stage?: string;
+    dosage?: string;
+    result?: string;
+    resultImage?: string;
 };
 
 export type HomeContentListField = {

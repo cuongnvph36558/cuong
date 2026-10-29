@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
  * @property string $phone
  * @property string|null $address
  * @property string|null $coupon_code
+ * @property string|null $variant
  * @property string|null $plant_type
  * @property array<int, string>|null $symptoms
  * @property string|null $note
@@ -26,6 +27,7 @@ use Illuminate\Support\Carbon;
     'phone',
     'address',
     'coupon_code',
+    'variant',
     'plant_type',
     'symptoms',
     'note',

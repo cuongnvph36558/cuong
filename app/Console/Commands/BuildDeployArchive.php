@@ -19,7 +19,7 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 use ZipArchive;
 
-#[Signature('app:build-deploy-archive {--output=rootbio-deploy.zip} {--vendor=vendor}')]
+#[Signature('app:build-deploy-archive {--output=ELICPO-deploy.zip} {--vendor=vendor}')]
 #[Description('Build a deployable archive for shared hosting')]
 class BuildDeployArchive extends Command
 {

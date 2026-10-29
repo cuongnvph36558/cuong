@@ -5,7 +5,7 @@
 # Build output
 /public/hot
 /bootstrap/ssr
-/rootbio-deploy.zip
+/elicpo-deploy.zip
 /vendor.zip
 
 # Environment files & secrets

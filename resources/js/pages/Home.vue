@@ -1,33 +1,18 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import {
-    ArrowRight,
-    Award,
-    Check,
-    Leaf,
-    Phone,
-    Quote,
-    Sparkles,
-    Star,
-    TrendingUp,
-} from '@lucide/vue';
-import { computed } from 'vue';
-import FloatingCta from '@/components/FloatingCta.vue';
+import { Phone, Sparkles, Star } from '@lucide/vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import FloatingConsult from '@/components/FloatingConsult.vue';
+import FloatingLeadDock from '@/components/FloatingLeadDock.vue';
 import ImageGallery, { type GalleryItem } from '@/components/ImageGallery.vue';
-import LeadForm from '@/components/LeadForm.vue';
+import OrderForm from '@/components/OrderForm.vue';
 import PromoBar from '@/components/PromoBar.vue';
-import RegisterModal from '@/components/RegisterModal.vue';
-import TiltCard from '@/components/TiltCard.vue';
-import { useCounter } from '@/composables/useCounter';
+import RegistrationNotifier from '@/components/RegistrationNotifier.vue';
 import { useScrollReveal } from '@/composables/useScrollReveal';
 import type { Feedback } from '@/types/feedback';
-import type {
-    HomeContent,
-    HomeContentImageItem,
-} from '@/types/homeContent';
+import type { HomeContent, HomeContentImageItem } from '@/types/homeContent';
 
 useScrollReveal();
-useCounter();
 
 type Props = {
     content: HomeContent;
@@ -61,53 +46,20 @@ function list(key: string, field: string): ImageItem[] {
 }
 
 const seo = computed(() => ({
-    title: text('seo', 'title', 'Phân bón ROOTBIO'),
+    title: text('seo', 'title', 'Phân Bón ELICPO'),
     description: text('seo', 'description'),
 }));
 
-const features = computed(() => list('hero', 'features'));
-const plantTypes = computed(() => list('plantTypes', 'items'));
-const problems = computed(() => list('problems', 'items'));
-const warningTags = computed(() => list('problems', 'warningTags'));
-const solutions = computed(() => list('solutions', 'items'));
-const testimonials = computed(() => list('testimonials', 'items'));
 const highlights = computed(() => list('highlights', 'items'));
-const ingredients = computed(() => list('ingredients', 'items'));
-const benefits = computed(() => list('cta', 'benefits'));
-const commitments = computed(() => list('cta', 'commitments'));
+const problems = computed(() => list('problems', 'items'));
+const testimonials = computed(() => list('testimonials', 'items'));
+const benefits = computed(() => list('benefits', 'items'));
+const combos = computed(() => list('combos', 'items'));
+const ctaBenefits = computed(() => list('cta', 'benefits'));
+const plantTypes = computed(() => list('plantTypes', 'items'));
 const reviews = computed(() => list('reviews', 'items'));
-const problemTags = computed(() => list('problemSelector', 'items'));
-const infoLinks = computed(() => list('footer', 'infoLinks'));
-const formPlantTypes = computed(() =>
-    list('cta', 'plantTypes').map((item) => item.value ?? ''),
-);
-const formSymptoms = computed(() =>
-    list('problemSelector', 'items').map((item) => item.value ?? ''),
-);
+const ingredients = computed(() => list('ingredients', 'items'));
 
-/** Gallery of real product / farm photos used by the image-first sections. */
-const gallery = computed(() => [
-    { src: '/images/rootbio/feature1.png', label: 'Cây bung đọt' },
-    { src: '/images/rootbio/grow.gif', label: 'Rễ phát triển' },
-    { src: '/images/rootbio/tech.png', label: 'Công nghệ Nano' },
-    { src: '/images/rootbio/label.png', label: 'Nhãn sản phẩm' },
-    { src: '/images/rootbio/cta1.jpg', label: 'Vườn cây' },
-    { src: '/images/rootbio/testimonial1.jpg', label: 'Nhà vườn' },
-    { src: '/images/rootbio/quote1.gif', label: 'Báo chí' },
-    { src: '/images/rootbio/user/user1.png', label: 'Khách hàng' },
-]);
-
-/** Gallery section managed in admin, with graceful fallback to the marquee items. */
-const gallerySectionHeading = computed(() =>
-    text('gallery', 'heading', 'Thư viện hình ảnh sản phẩm'),
-);
-const gallerySectionDescription = computed(() =>
-    text(
-        'gallery',
-        'description',
-        'Bấm vào ảnh để xem phóng to hình ảnh sản phẩm và vườn cây thực tế của bà con.',
-    ),
-);
 const galleryItems = computed<GalleryItem[]>(() => {
     const items = list('gallery', 'items')
         .filter((item) => typeof item.image === 'string' && item.image !== '')
@@ -121,29 +73,37 @@ const galleryItems = computed<GalleryItem[]>(() => {
         return items;
     }
 
-    return gallery.value.map((item) => ({
-        src: item.src,
-        title: item.label,
-        description: '',
-    }));
+    return [];
 });
 
-const plantImages = computed(() => {
-    const sources = [
-        '/images/rootbio/effect1.png',
-        '/images/rootbio/effect2.png',
-        '/images/rootbio/effect3.png',
-        '/images/rootbio/effect4.png',
-        '/images/rootbio/tech1.png',
-        '/images/rootbio/tech2.png',
-    ];
+const plantCards = computed(() =>
+    plantTypes.value.map((plant) => ({
+        name: plant.value ?? '',
+        image: plant.image ?? '/images/elicpo/effect1.png',
+    })),
+);
 
-    return plantTypes.value.map((plant, index) => ({
-        label: plant.value ?? '',
-        image: sources[index % sources.length] ?? sources[0],
-    }));
+const remaining = ref(15 * 60);
+let timer: ReturnType<typeof setInterval> | undefined;
+
+const countdown = computed(() => {
+    const hours = Math.floor(remaining.value / 3600);
+    const minutes = String(Math.floor((remaining.value % 3600) / 60)).padStart(
+        2,
+        '0',
+    );
+    const seconds = String(remaining.value % 60).padStart(2, '0');
+
+    return `${String(hours).padStart(2, '0')}:${minutes}:${seconds}`;
 });
 
+onMounted(() => {
+    timer = setInterval(() => {
+        remaining.value = remaining.value > 0 ? remaining.value - 1 : 15 * 60;
+    }, 1000);
+});
+
+onUnmounted(() => clearInterval(timer));
 </script>
 
 <template>
@@ -151,874 +111,803 @@ const plantImages = computed(() => {
         <meta name="description" :content="seo.description" />
     </Head>
 
-    <div class="rootbio-page flex min-h-screen flex-col bg-white text-slate-800">
-        <!-- ===== PROMO BAR (đăng ký & ưu đãi, hiển thị liên tục) ===== -->
+    <div class="elicpo-page flex min-h-screen flex-col bg-white text-slate-800">
+        <!-- ===== THANH ƯU ĐÃI (cố định trên cùng) ===== -->
         <PromoBar
             :message="text('hero', 'badgeText')"
-            :coupon-code="text('finalCta', 'couponCode', 'HT212')"
-            :cta-label="text('hero', 'primaryCtaLabel', 'Nhận ưu đãi')"
-            :cta-href="text('hero', 'primaryCtaHref', '#dang-ky')"
+            :coupon-code="text('finalCta', 'couponCode', 'ELICPO10')"
             :hotline="text('hero', 'navPhone', '0973.42.6704')"
             :hotline-href="`tel:${text('hero', 'navPhone').replace(/\D/g, '')}`"
         />
 
-        <!-- ===== NAV ===== -->
-        <nav
-            class="relative z-40 border-b border-emerald-900/10 bg-white"
-        >
-            <div
-                class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-3 py-2.5 sm:px-6"
-            >
-                <div class="flex min-w-0 items-center gap-2">
-                    <div
-                        class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-lime-500 text-sm font-black text-white"
-                    >
-                        {{ text('hero', 'brandLetter', 'R') }}
-                    </div>
-                    <div class="min-w-0 leading-tight">
-                        <p
-                            class="truncate text-sm font-black text-emerald-900 uppercase"
-                        >
-                            {{ text('hero', 'brandName', 'ROOTBIO') }}
-                        </p>
-                        <p class="truncate text-[10px] font-medium text-emerald-700/80">
-                            {{ text('hero', 'brandTagline', 'Phân bón sinh học') }}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="flex shrink-0 items-center gap-2">
-                    <a
-                        :href="`tel:${text('hero', 'navPhone').replace(/\D/g, '')}`"
-                        class="hidden items-center gap-1.5 rounded-full border border-emerald-700/30 px-3 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-50 sm:inline-flex"
-                    >
-                        <Phone class="size-3.5" />
-                        {{ text('hero', 'navPhone') }}
-                    </a>
-                    <a
-                        :href="text('hero', 'primaryCtaHref', '#dang-ky')"
-                        class="rootbio-cta rootbio-cta-ring shrink-0 rounded-full bg-emerald-600 px-4 py-2 text-xs font-black text-white uppercase shadow-md shadow-emerald-600/25"
-                    >
-                        {{ text('hero', 'navCtaLabel', 'Đăng ký ngay') }}
-                    </a>
-                </div>
-            </div>
-        </nav>
-
-        <!-- ===== HERO ===== -->
+        <!-- ===== HERO: ẢNH LÀ CHÍNH ===== -->
         <header class="relative overflow-hidden bg-emerald-50/60">
-            <div class="rootbio-aurora absolute inset-0 opacity-70"></div>
+            <div class="elicpo-aurora absolute inset-0 opacity-70"></div>
+            <div class="elicpo-grid-pattern absolute inset-0 opacity-50"></div>
 
             <div
-                class="relative mx-auto grid max-w-7xl items-center gap-5 px-3 py-5 sm:px-6 sm:py-8 lg:grid-cols-2 lg:gap-10"
-            >
-                <div>
-                    <p
-                        data-reveal
-                        class="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[11px] font-black tracking-wide text-emerald-700 uppercase ring-1 ring-emerald-600/20"
+                class="elicpo-blob elicpo-blob-emerald elicpo-blob-a -top-20 -left-16 size-72"
+            ></div>
+            <div
+                class="elicpo-blob elicpo-blob-lime elicpo-blob-b top-0 right-0 size-80"
+            ></div>
+
+            <span class="elicpo-sparkle top-16 left-[10%]"></span>
+            <span class="elicpo-sparkle top-8 right-[16%] [animation-delay:1.2s]"></span>
+
+            <div class="relative px-3 pt-4 pb-6">
+                <!-- Thương hiệu -->
+                <div class="flex items-center gap-2">
+                    <div
+                        class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-600 to-lime-500 text-xs font-black text-white"
                     >
-                        <Sparkles class="size-3.5" />
-                        {{ text('hero', 'badgeText') }}
+                        {{ text('hero', 'brandLetter', 'E') }}
+                    </div>
+                    <p class="text-sm font-black text-emerald-950 uppercase">
+                        {{ text('hero', 'brandName', 'ELICPO') }}
+                    </p>
+                </div>
+
+                <!-- Ảnh sản phẩm lớn, nổi bật -->
+                <div class="relative mt-3" data-reveal>
+                    <div
+                        class="pointer-events-none absolute inset-0 flex items-center justify-center"
+                    >
+                        <div class="elicpo-ring size-56"></div>
+                        <div class="elicpo-ring size-56 [animation-delay:1.1s]"></div>
+                        <div class="elicpo-ring size-56 [animation-delay:2.2s]"></div>
+                    </div>
+
+                    <div
+                        class="relative aspect-square overflow-hidden rounded-3xl border-2 border-white/70 bg-white shadow-2xl shadow-emerald-900/20"
+                    >
+                        <img
+                            :src="text('hero', 'productImage')"
+                            alt="Phân bón ELICPO"
+                            class="elicpo-kenburns size-full object-cover"
+                            fetchpriority="high"
+                        />
+                        <div
+                            class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-emerald-950/55 to-transparent"
+                        ></div>
+                        <div
+                            class="absolute right-2 bottom-2 left-2 rounded-xl bg-white/95 p-2 shadow-lg backdrop-blur"
+                        >
+                            <p class="text-[11px] font-black text-emerald-700 uppercase">
+                                {{ text('hero', 'productBadgeTitle') }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="elicpo-float-slow absolute -top-3 -left-2 rounded-xl bg-lime-400 px-2.5 py-1.5 shadow-lg shadow-lime-500/40"
+                    >
+                        <p class="text-base font-black text-emerald-950">
+                            {{ text('hero', 'floatingBadgeValue', '3X') }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tiêu đề + ưu đãi -->
+                <div class="mt-4" data-reveal>
+                    <p
+                        class="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1 text-[10px] font-black tracking-wide text-white uppercase"
+                    >
+                        <Sparkles class="size-3" />
+                        Nhận ưu đãi
                     </p>
 
                     <h1
-                        data-reveal
-                        class="mt-3 text-[1.75rem] leading-[1.1] font-black tracking-tight text-emerald-950 uppercase sm:text-4xl lg:text-5xl"
+                        class="mt-2 text-[1.75rem] leading-[1.08] font-black tracking-tight text-emerald-950 uppercase"
                     >
-                        {{ text('hero', 'titlePrefix', 'Phân bón') }}
-                        <span class="text-emerald-600">
-                            {{ text('hero', 'titleAccent', 'ROOTBIO') }}
+                        {{ text('hero', 'titlePrefix', 'PHÂN BÓN') }}
+                        <span class="elicpo-gradient-text">
+                            {{ text('hero', 'titleAccent', 'ELICPO') }}
                         </span>
                     </h1>
 
+                    <!-- Ưu đãi: số to, ít chữ -->
+                    <div class="mt-3 flex items-end gap-2">
+                        <p class="text-4xl font-black leading-none text-emerald-700">
+                            {{ text('flashSale', 'effectivenessMultiplier', 'X100 LẦN') }}
+                        </p>
+                        <p class="pb-1 text-[11px] leading-tight font-black text-emerald-900 uppercase">
+                            {{ text('flashSale', 'effectivenessDays', 'Cam kết hiệu quả sau 5 - 7 ngày') }}
+                        </p>
+                    </div>
+
                     <p
-                        data-reveal
-                        class="mt-2 text-sm font-bold text-emerald-800 sm:text-base"
+                        class="mt-2 inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1 text-[10px] font-black text-amber-950 uppercase"
                     >
-                        {{ text('hero', 'titleSubtitle') }}
+                        {{ text('flashSale', 'countdownLabel', 'Đang có chương trình dùng thử') }}
+                        <span class="elicpo-pulse tabular-nums">{{ countdown }}</span>
                     </p>
-
-                    <div data-reveal class="mt-4 flex flex-wrap gap-2">
-                        <a
-                            :href="text('hero', 'primaryCtaHref', '#dang-ky')"
-                            class="rootbio-cta rootbio-cta-ring rootbio-cta-shake inline-flex items-center gap-2 rounded-full bg-emerald-600 px-7 py-4 text-base font-black text-white uppercase shadow-lg shadow-emerald-600/25 sm:text-lg"
-                        >
-                            {{ text('hero', 'primaryCtaLabel', 'Nhận ưu đãi') }}
-                            <ArrowRight class="rootbio-cta-icon size-5" />
-                        </a>
-                        <a
-                            :href="text('hero', 'secondaryCtaHref', '#hieu-qua')"
-                            class="inline-flex items-center gap-2 rounded-full border-2 border-emerald-700/40 px-6 py-3 text-sm font-bold text-emerald-800 uppercase transition hover:bg-emerald-50"
-                        >
-                            {{ text('hero', 'secondaryCtaLabel', 'Xem hiệu quả') }}
-                        </a>
-                    </div>
-
-                    <div
-                        data-reveal
-                        class="mt-4 flex flex-wrap gap-1.5"
-                    >
-                        <span
-                            v-for="feature in features"
-                            :key="feature.value"
-                            class="rounded-full border border-emerald-900/10 bg-white px-2.5 py-1 text-[10px] font-bold text-emerald-900 uppercase shadow-sm"
-                        >
-                            {{ feature.value }}
-                        </span>
-                    </div>
                 </div>
 
-                <!-- Hero image (image-first) -->
-                <div class="relative" data-reveal>
-                    <TiltCard :max="8" :scale="1.03">
-                        <div
-                            class="relative aspect-square overflow-hidden rounded-3xl border border-emerald-900/10 bg-white shadow-xl shadow-emerald-900/10"
-                        >
-                            <img
-                                :src="text('hero', 'productImage')"
-                                alt="Phân bón ROOTBIO"
-                                class="size-full object-cover"
-                                fetchpriority="high"
-                            />
-                            <div
-                                class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-emerald-950/45 to-transparent"
-                            ></div>
-                            <div
-                                class="absolute right-3 bottom-3 left-3 rounded-2xl bg-white/95 p-3 shadow-lg backdrop-blur"
-                            >
-                                <p class="text-xs font-black text-emerald-700 uppercase">
-                                    {{ text('hero', 'productBadgeTitle') }}
-                                </p>
-                                <p class="mt-0.5 text-[11px] text-slate-600">
-                                    {{ text('hero', 'productBadgeText') }}
-                                </p>
-                            </div>
-                        </div>
-                    </TiltCard>
-
-                    <div
-                        class="absolute -top-3 -left-2 flex animate-bounce items-center gap-2 rounded-2xl bg-lime-400 px-3 py-2 shadow-lg shadow-lime-500/30"
+                <!-- 3 công dụng: ảnh dọc, chữ overlay -->
+                <div class="mt-4 grid grid-cols-3 gap-2">
+                    <a
+                        v-for="(benefit, index) in benefits"
+                        :key="benefit.title"
+                        href="#cong-dung"
+                        class="group relative overflow-hidden rounded-2xl border-2 border-white bg-white shadow-lg shadow-emerald-900/10"
+                        :class="
+                            index === 1
+                                ? 'elicpo-float'
+                                : index === 2
+                                  ? 'elicpo-float-delay'
+                                  : ''
+                        "
                     >
-                        <p class="text-lg font-black text-emerald-950">
-                            {{ text('hero', 'floatingBadgeValue', '100') }}
-                        </p>
-                        <p
-                            class="text-[10px] leading-tight font-bold text-emerald-900 uppercase"
+                        <img
+                            :src="benefit.image"
+                            :alt="benefit.title"
+                            class="elicpo-zoom aspect-[3/4] w-full object-cover"
+                            loading="lazy"
+                        />
+                        <span
+                            class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-emerald-950/90 to-transparent p-1.5 pt-5 text-center text-[9px] leading-tight font-black text-white uppercase"
                         >
-                            {{ text('hero', 'floatingBadgeLabel', 'Chai dùng thử') }}
-                        </p>
-                    </div>
+                            {{ benefit.title }}
+                        </span>
+                    </a>
+                </div>
+
+                <!-- CTA -->
+                <div class="mt-4 flex items-center gap-2">
+                    <a
+                        href="#dat-hang"
+                        class="elicpo-cta h-13 flex-1 rounded-xl bg-emerald-600 py-4 text-center text-sm font-black text-white uppercase shadow-lg shadow-emerald-600/30"
+                    >
+                        Đăng ký tư vấn
+                    </a>
+                    <a
+                        :href="`tel:${text('hero', 'navPhone').replace(/\D/g, '')}`"
+                        class="flex size-13 shrink-0 items-center justify-center rounded-xl border-2 border-emerald-700 bg-white/80 text-emerald-700 backdrop-blur"
+                        :aria-label="`Gọi ${text('hero', 'navPhone')}`"
+                    >
+                        <Phone class="size-5" />
+                    </a>
                 </div>
             </div>
         </header>
 
-        <!-- ===== IMAGE GALLERY STRIP ===== -->
-        <section class="relative bg-white py-5">
-            <div class="relative overflow-hidden">
-                <div class="rootbio-marquee-track flex w-max items-center">
-                    <div
-                        v-for="copy in 2"
-                        :key="copy"
-                        class="flex items-center gap-3 pr-3"
+        <!-- ===== ĐẶC TÍNH (ẢNH LÀ CHÍNH) ===== -->
+        <section class="bg-white py-5">
+            <div class="grid grid-cols-3 gap-2 px-3">
+                <div
+                    v-for="item in highlights"
+                    :key="item.title"
+                    data-reveal
+                    class="group relative overflow-hidden rounded-xl border border-emerald-900/10 bg-white shadow-sm"
+                >
+                    <img
+                        :src="item.image"
+                        :alt="item.value ?? item.title"
+                        class="elicpo-zoom aspect-square w-full object-cover"
+                        loading="lazy"
+                    />
+                    <span
+                        class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-emerald-950/90 to-transparent p-1 pt-4 text-center text-[8px] leading-tight font-black text-white uppercase"
                     >
-                        <figure
-                            v-for="item in gallery"
-                            :key="`${copy}-${item.src}`"
-                            class="w-40 shrink-0 overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm sm:w-52"
-                        >
+                        {{ item.value ?? item.title }}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== LOẠI CÂY ===== -->
+        <section class="bg-emerald-50/70 py-5">
+            <h2
+                data-reveal
+                class="px-3 text-center text-base font-black tracking-tight text-emerald-950 uppercase"
+            >
+                Dùng cho mọi loại cây
+            </h2>
+
+            <div class="mt-3 grid grid-cols-3 gap-2 px-3">
+                <figure
+                    v-for="plant in plantCards"
+                    :key="plant.name"
+                    data-reveal
+                    class="group overflow-hidden rounded-xl border border-emerald-900/10 bg-white shadow-sm"
+                >
+                    <img
+                        :src="plant.image"
+                        :alt="plant.name"
+                        class="elicpo-zoom aspect-square w-full object-cover"
+                        loading="lazy"
+                    />
+                    <figcaption
+                        class="px-1 py-1.5 text-center text-[9px] font-black text-emerald-900 uppercase"
+                    >
+                        {{ plant.name }}
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- ===== VẤN ĐỀ → KẾT QUẢ ===== -->
+        <section id="cong-dung" class="bg-white py-5">
+            <h2
+                data-reveal
+                class="px-3 text-center text-base font-black tracking-tight text-emerald-950 uppercase"
+            >
+                {{ text('problems', 'heading', 'Bà con đau đầu về điều gì?') }}
+            </h2>
+
+            <!-- Cảnh báo -->
+            <div
+                data-reveal
+                class="mx-3 mt-3 overflow-hidden rounded-xl border-2 border-amber-400 bg-amber-50"
+            >
+                <p
+                    class="bg-amber-400 py-1.5 text-center text-[11px] font-black text-amber-950 uppercase"
+                >
+                    {{ text('problems', 'warningTitle', 'CẢNH BÁO!') }}
+                </p>
+                <p
+                    class="px-3 py-2 text-[11px] leading-relaxed text-amber-900"
+                >
+                    {{ text('problems', 'warningText') }}
+                </p>
+            </div>
+
+            <!-- Cặp ảnh trước / sau -->
+            <div class="mt-3 space-y-2.5 px-3">
+                <article
+                    v-for="problem in problems"
+                    :key="problem.title"
+                    data-reveal
+                    class="elicpo-lift overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm"
+                >
+                    <div class="grid grid-cols-2 gap-0.5 bg-emerald-900/5">
+                        <figure class="relative overflow-hidden">
                             <img
-                                :src="item.src"
-                                :alt="item.label"
+                                :src="problem.image"
+                                :alt="problem.title"
                                 class="aspect-square w-full object-cover"
                                 loading="lazy"
                             />
                             <figcaption
-                                class="px-2 py-1.5 text-center text-[10px] font-bold text-emerald-900 uppercase"
+                                class="absolute inset-x-0 bottom-0 bg-emerald-950/85 px-1 py-1 text-center text-[8px] font-black text-white uppercase"
                             >
-                                {{ item.label }}
+                                {{ problem.title }}
+                            </figcaption>
+                        </figure>
+
+                        <figure class="relative overflow-hidden">
+                            <img
+                                :src="problem.resultImage"
+                                :alt="problem.result"
+                                class="aspect-square w-full object-cover"
+                                loading="lazy"
+                            />
+                            <figcaption
+                                class="absolute inset-x-0 bottom-0 bg-emerald-600/90 px-1 py-1 text-center text-[8px] font-black text-white uppercase"
+                            >
+                                {{ problem.result }}
                             </figcaption>
                         </figure>
                     </div>
-                </div>
+                </article>
+            </div>
+
+            <!-- Triệu chứng -->
+            <div
+                data-reveal
+                class="mt-3 flex flex-wrap justify-center gap-1.5 px-3"
+            >
+                <span
+                    v-for="tag in [
+                        'Cây còi cọc',
+                        'Cây vàng lá',
+                        'Cây thối rễ',
+                        'Đất bạc màu',
+                        'Mất mùa',
+                    ]"
+                    :key="tag"
+                    class="rounded-full border-2 border-amber-300 bg-amber-50 px-3 py-1.5 text-[10px] font-black text-amber-700 uppercase"
+                >
+                    {{ tag }}
+                </span>
             </div>
         </section>
 
-        <!-- ===== IMAGE GALLERY (Thư viện ảnh) ===== -->
-        <section class="relative bg-white py-8 sm:py-10">
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <ImageGallery
-                    :items="galleryItems"
-                    :heading="gallerySectionHeading"
-                    :description="gallerySectionDescription"
-                />
-            </div>
-        </section>
-
-        <!-- ===== PROBLEMS (image grid) ===== -->
-        <section class="relative bg-white py-8 sm:py-10">
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <h2
-                    data-reveal
-                    class="text-center text-xl font-black tracking-tight text-emerald-950 uppercase sm:text-3xl"
-                >
-                    {{ text('problems', 'heading') }}
-                </h2>
-
-                <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                    <article
-                        v-for="problem in problems"
-                        :key="problem.title"
-                        data-reveal
-                        class="group relative overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm"
-                    >
-                        <img
-                            :src="problem.image"
-                            :alt="problem.title"
-                            class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
-                            loading="lazy"
-                        />
-                        <div
-                            class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-emerald-950/90 via-emerald-950/60 to-transparent p-3 pt-8"
-                        >
-                            <h3
-                                class="text-xs leading-snug font-black text-white uppercase sm:text-sm"
-                            >
-                                {{ problem.title }}
-                            </h3>
-                        </div>
-                    </article>
-                </div>
-
-                <div
-                    data-reveal
-                    class="mt-4 flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-amber-300 bg-amber-50 p-3"
-                >
-                    <span
-                        class="text-xs font-black text-amber-700 uppercase"
-                    >
-                        {{ text('problems', 'warningTitle', 'Cảnh báo!') }}
-                    </span>
-                    <span
-                        v-for="tag in warningTags"
-                        :key="tag.value"
-                        class="rounded-full border border-amber-300 bg-white px-2.5 py-0.5 text-[10px] font-black text-amber-700 uppercase"
-                    >
-                        {{ tag.value }}
-                    </span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== SOLUTIONS (image cards) ===== -->
-        <section
-            id="hieu-qua"
-            class="relative bg-emerald-50/70 py-8 sm:py-10"
-        >
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <div class="text-center">
-                    <p
-                        data-reveal
-                        class="text-[11px] font-black tracking-[0.25em] text-emerald-600 uppercase"
-                    >
-                        {{ text('solutions', 'eyebrow') }}
-                    </p>
-                    <h2
-                        data-reveal
-                        class="mt-1 text-xl font-black tracking-tight text-emerald-950 uppercase sm:text-3xl"
-                    >
-                        {{ text('solutions', 'heading') }}
-                    </h2>
-                </div>
-
-                <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                    <article
-                        v-for="solution in solutions"
-                        :key="solution.title"
-                        data-reveal
-                        class="group overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm"
-                    >
-                        <img
-                            :src="solution.image"
-                            :alt="solution.title"
-                            class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
-                            loading="lazy"
-                        />
-                        <div class="p-3">
-                            <h3
-                                class="text-xs leading-snug font-black text-emerald-900 uppercase sm:text-sm"
-                            >
-                                {{ solution.title }}
-                            </h3>
-                            <p
-                                class="mt-1 line-clamp-3 text-[11px] leading-relaxed text-slate-600"
-                            >
-                                {{ solution.description }}
-                            </p>
-                        </div>
-                    </article>
-                </div>
-
-                <div
-                    data-reveal
-                    class="mt-6 grid gap-3 overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-700 to-emerald-500 p-5 text-center text-white sm:grid-cols-2"
-                >
-                    <div>
-                        <p class="text-xs font-black uppercase">
-                            {{ text('solutions', 'statsEyebrow') }}
-                        </p>
-                        <p
-                            class="rootbio-counter text-3xl font-black text-lime-200 sm:text-5xl"
-                            :data-target="number('solutions', 'statsValue', 3826534)"
-                        >
-                            0
-                        </p>
-                        <p class="text-[11px] text-emerald-50">
-                            {{ text('solutions', 'statsValueLabel') }}
-                        </p>
-                    </div>
-                    <div class="sm:border-l sm:border-white/20">
-                        <p
-                            class="rootbio-counter text-3xl font-black text-white sm:text-5xl"
-                            :data-target="
-                                number('solutions', 'statsSecondaryValue', 99)
-                            "
-                        >
-                            0
-                        </p>
-                        <p class="text-[11px] text-emerald-50">
-                            {{ text('solutions', 'statsSecondaryLabel') }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== INGREDIENTS ===== -->
-        <section class="relative bg-white py-8 sm:py-10">
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <h2
-                    data-reveal
-                    class="text-center text-xl font-black tracking-tight text-emerald-950 uppercase sm:text-3xl"
-                >
-                    {{ text('ingredients', 'heading') }}
-                </h2>
-
-                <div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
-                    <article
-                        v-for="ingredient in ingredients"
-                        :key="ingredient.title"
-                        data-reveal
-                        class="overflow-hidden rounded-2xl border border-emerald-900/10 bg-white text-center shadow-sm"
-                    >
-                        <img
-                            :src="ingredient.image"
-                            :alt="ingredient.title"
-                            class="aspect-square w-full object-cover"
-                            loading="lazy"
-                        />
-                        <div class="p-2.5">
-                            <h3
-                                class="text-[11px] font-black text-emerald-900 uppercase sm:text-xs"
-                            >
-                                {{ ingredient.title }}
-                            </h3>
-                            <p
-                                class="mt-0.5 line-clamp-2 text-[10px] leading-relaxed text-slate-600"
-                            >
-                                {{ ingredient.description }}
-                            </p>
-                        </div>
-                    </article>
-                </div>
-
+        <!-- ===== CHỈ 2 LẦN PHUN ===== -->
+        <section class="bg-emerald-50/70 py-5">
+            <div class="px-3 text-center">
                 <p
                     data-reveal
-                    class="mt-5 text-center text-sm font-black tracking-[0.15em] text-emerald-700 uppercase sm:text-xl"
+                    class="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1.5 text-[10px] font-black tracking-wide text-white uppercase"
                 >
-                    {{ text('ingredients', 'footerText') }}
+                    <Sparkles class="size-3" />
+                    {{ text('problems', 'solutionTitle', 'Chỉ 2 lần phun') }}
                 </p>
             </div>
-        </section>
 
-        <!-- ===== PLANT TYPES (image chips) ===== -->
-        <section class="relative bg-emerald-50/70 py-8 sm:py-10">
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <h2
-                    data-reveal
-                    class="text-center text-xl font-black tracking-tight text-emerald-950 uppercase sm:text-3xl"
-                >
-                    {{ text('plantTypes', 'heading') }}
-                </h2>
-
+            <div class="mt-3 grid grid-cols-2 gap-2 px-3">
                 <div
-                    class="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-6"
+                    v-for="item in [
+                        {
+                            image: '/images/elicpo/effect1.png',
+                            title: 'Hết vàng lá, thối rễ',
+                        },
+                        {
+                            image: '/images/elicpo/feature1.png',
+                            title: 'Kích rễ nhanh',
+                        },
+                        {
+                            image: '/images/elicpo/effect3.png',
+                            title: 'Đậu quả tới 93%',
+                        },
+                        {
+                            image: '/images/elicpo/tech.png',
+                            title: 'Tăng 30% năng suất',
+                        },
+                    ]"
+                    :key="item.title"
+                    data-reveal
+                    class="elicpo-lift group overflow-hidden rounded-xl border border-emerald-900/10 bg-white shadow-sm"
                 >
-                    <figure
-                        v-for="plant in plantImages"
-                        :key="plant.label"
-                        data-reveal
-                        class="overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm"
-                    >
-                        <img
-                            :src="plant.image"
-                            :alt="plant.label"
-                            class="aspect-square w-full object-cover"
-                            loading="lazy"
-                        />
-                        <figcaption
-                            class="px-1.5 py-1.5 text-center text-[10px] font-black text-emerald-900 uppercase"
-                        >
-                            {{ plant.label }}
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== HIGHLIGHTS ===== -->
-        <section class="relative bg-white py-8 sm:py-10">
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <div class="text-center">
-                    <h2
-                        data-reveal
-                        class="text-sm font-black text-emerald-700 uppercase"
-                    >
-                        {{ text('highlights', 'heading') }}
-                    </h2>
+                    <img
+                        :src="item.image"
+                        :alt="item.title"
+                        class="elicpo-zoom aspect-square w-full object-cover"
+                        loading="lazy"
+                    />
                     <p
-                        data-reveal
-                        class="mt-1 text-lg font-black tracking-tight text-emerald-950 uppercase sm:text-2xl"
+                        class="px-2 py-1.5 text-center text-[9px] leading-tight font-black text-emerald-900 uppercase"
                     >
-                        {{ text('highlights', 'subheading') }}
+                        {{ item.title }}
                     </p>
                 </div>
+            </div>
 
-                <ul class="mt-5 grid gap-2.5 md:grid-cols-2">
+            <p
+                data-reveal
+                class="mt-3 px-3 text-center text-[11px] font-black tracking-wide text-emerald-700 uppercase"
+            >
+                {{ text('flashSale', 'totalUsers') }}
+            </p>
+        </section>
+
+        <!-- ===== ẢNH THỰC TẾ ===== -->
+        <section class="bg-white py-5">
+            <ImageGallery
+                :items="galleryItems"
+                :heading="text('gallery', 'heading', 'Hình ảnh thực tế')"
+                :description="''"
+            />
+        </section>
+
+        <!-- ===== COMBO ===== -->
+        <section class="bg-emerald-50/70 py-5">
+            <h2
+                data-reveal
+                class="px-3 text-center text-base font-black tracking-tight text-emerald-950 uppercase"
+            >
+                {{ text('combos', 'heading', 'Combo ưu đãi') }}
+            </h2>
+
+            <div class="mt-3 grid grid-cols-2 gap-2 px-3">
+                <article
+                    v-for="(combo, index) in combos"
+                    :key="combo.name"
+                    data-reveal
+                    class="elicpo-lift group overflow-hidden rounded-xl border border-emerald-900/10 bg-white shadow-sm"
+                >
+                    <div class="relative overflow-hidden">
+                        <img
+                            :src="
+                                index % 2 === 0
+                                    ? '/images/elicpo/product.png'
+                                    : '/images/elicpo/banner.png'
+                            "
+                            :alt="combo.name"
+                            class="elicpo-zoom aspect-[4/3] w-full object-cover"
+                            loading="lazy"
+                        />
+                        <span
+                            v-if="combo.badge"
+                            class="elicpo-shimmer absolute top-1.5 left-1.5 rounded-full bg-lime-400 px-1.5 py-0.5 text-[8px] font-black text-emerald-950 uppercase"
+                        >
+                            {{ combo.badge }}
+                        </span>
+                    </div>
+                    <div class="p-2">
+                        <h3 class="text-[10px] font-black text-emerald-900 uppercase">
+                            {{ combo.name }}
+                        </h3>
+                        <p class="mt-0.5 text-[9px] leading-relaxed text-slate-600">
+                            {{ combo.gift }}
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ===== CẢM NHẬN ===== -->
+        <section class="bg-white py-5">
+            <div class="flex items-center justify-center gap-1 px-3 text-amber-500">
+                <Star v-for="star in 5" :key="star" class="size-4 fill-current" />
+            </div>
+            <p class="mt-1 px-3 text-center text-base font-black text-emerald-950 uppercase">
+                {{ number('reviews', 'averageRating', 5) }} ·
+                {{ text('reviews', 'totalReviews') }}
+            </p>
+
+            <div class="mt-3 space-y-2.5 px-3">
+                <figure
+                    v-for="testimonial in testimonials"
+                    :key="testimonial.author"
+                    data-reveal
+                    class="elicpo-lift group overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm"
+                >
+                    <img
+                        :src="testimonial.image"
+                        :alt="testimonial.author"
+                        class="elicpo-zoom aspect-[4/3] w-full object-cover"
+                        loading="lazy"
+                    />
+                    <figcaption class="p-2.5">
+                        <p
+                            class="line-clamp-3 text-[11px] leading-relaxed text-slate-700 italic"
+                        >
+                            "{{ testimonial.quote }}"
+                        </p>
+                        <p
+                            class="mt-1.5 border-t border-slate-100 pt-1.5 text-[10px] font-black text-emerald-900 uppercase"
+                        >
+                            {{ testimonial.author }}
+                        </p>
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- ===== CÔNG DỤNG NỔI BẬT ===== -->
+        <section class="bg-emerald-50/70 py-5">
+            <div class="grid grid-cols-2 gap-2 px-3">
+                <article
+                    v-for="benefit in [
+                        {
+                            image: '/images/elicpo/feature1.png',
+                            title: 'Siêu kích rễ',
+                        },
+                        {
+                            image: '/images/elicpo/effect2.png',
+                            title: 'Kích thích bung đọt',
+                        },
+                        {
+                            image: '/images/elicpo/effect3.png',
+                            title: 'Nuôi hoa trái tốt',
+                        },
+                        {
+                            image: '/images/elicpo/tech.png',
+                            title: 'Tiết kiệm chi phí',
+                        },
+                    ]"
+                    :key="benefit.title"
+                    data-reveal
+                    class="elicpo-lift group overflow-hidden rounded-xl border border-emerald-900/10 bg-white shadow-sm"
+                >
+                    <img
+                        :src="benefit.image"
+                        :alt="benefit.title"
+                        class="elicpo-zoom aspect-[4/3] w-full object-cover"
+                        loading="lazy"
+                    />
+                    <p class="px-2 py-1.5 text-center text-[10px] font-black text-emerald-900 uppercase">
+                        {{ benefit.title }}
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <!-- ===== THÀNH PHẦN ===== -->
+        <section class="bg-white py-5">
+            <h2
+                data-reveal
+                class="px-3 text-center text-base font-black tracking-tight text-emerald-950 uppercase"
+            >
+                Thành phần & công nghệ
+            </h2>
+
+            <div class="mt-3 grid grid-cols-2 gap-2 px-3">
+                <article
+                    v-for="ingredient in ingredients"
+                    :key="ingredient.title"
+                    data-reveal
+                    class="elicpo-lift group overflow-hidden rounded-xl border border-emerald-900/10 bg-white text-center shadow-sm"
+                >
+                    <img
+                        :src="ingredient.image"
+                        :alt="ingredient.title"
+                        class="elicpo-zoom aspect-square w-full object-cover"
+                        loading="lazy"
+                    />
+                    <div class="p-2">
+                        <h3 class="text-[10px] font-black text-emerald-900 uppercase">
+                            {{ ingredient.title }}
+                        </h3>
+                        <p
+                            class="mt-0.5 line-clamp-2 text-[9px] leading-relaxed text-slate-600"
+                        >
+                            {{ ingredient.description }}
+                        </p>
+                    </div>
+                </article>
+            </div>
+
+            <p
+                data-reveal
+                class="mt-3 px-3 text-center text-xs font-black tracking-[0.15em] text-emerald-700 uppercase"
+            >
+                {{ text('ingredients', 'footerText', 'Hiệu quả gấp 10 lần') }}
+            </p>
+        </section>
+
+        <!-- ===== CHỨNG NHẬN ===== -->
+        <section class="bg-emerald-50/70 py-5">
+            <div class="grid grid-cols-2 gap-2 px-3">
+                <figure
+                    data-reveal
+                    class="elicpo-lift overflow-hidden rounded-xl border border-emerald-900/10 bg-white shadow-sm"
+                >
+                    <img
+                        src="/images/elicpo/japan.webp"
+                        alt="Nguồn gốc Nhật Bản"
+                        class="elicpo-zoom aspect-square w-full object-cover"
+                        loading="lazy"
+                    />
+                    <figcaption class="p-2 text-center text-[9px] font-black text-emerald-900 uppercase">
+                        Người Nhật đánh giá cao
+                    </figcaption>
+                </figure>
+
+                <figure
+                    data-reveal
+                    class="elicpo-lift overflow-hidden rounded-xl border border-emerald-900/10 bg-white shadow-sm"
+                >
+                    <img
+                        src="/images/elicpo/certs.png"
+                        alt="Chứng nhận chất lượng"
+                        class="elicpo-zoom aspect-square w-full object-cover"
+                        loading="lazy"
+                    />
+                    <figcaption class="p-2 text-center text-[9px] font-black text-emerald-900 uppercase">
+                        Chứng nhận chất lượng
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- ===== ĐĂNG KÝ TƯ VẤN (đầy đủ) ===== -->
+        <section
+            id="dat-hang"
+            class="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-lime-50 py-6"
+        >
+            <div
+                class="elicpo-blob elicpo-blob-emerald elicpo-blob-a -top-16 -left-16 size-72 opacity-40"
+            ></div>
+            <div
+                class="elicpo-blob elicpo-blob-lime elicpo-blob-c -right-12 bottom-0 size-72 opacity-40"
+            ></div>
+            <div class="elicpo-grid-pattern absolute inset-0 opacity-40"></div>
+
+            <div class="relative px-3">
+                <h2
+                    data-reveal
+                    class="text-center text-lg leading-snug font-black text-emerald-950 uppercase"
+                >
+                    {{ text('cta', 'heading', 'Đăng ký để được tư vấn miễn phí') }}
+                </h2>
+
+                <!-- Quyền lợi: icon + 1 dòng -->
+                <ul class="mt-3 grid grid-cols-2 gap-2">
                     <li
-                        v-for="(item, index) in highlights"
-                        :key="item.value"
-                        data-reveal
-                        class="flex items-start gap-3 rounded-2xl border border-emerald-900/10 bg-emerald-50/60 p-3.5"
+                        v-for="benefit in ctaBenefits"
+                        :key="benefit.value"
+                        class="elicpo-lift flex items-center gap-1.5 rounded-xl border border-emerald-900/10 bg-white p-2 shadow-sm"
                     >
                         <span
-                            class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-xs font-black text-white"
+                            class="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700"
                         >
-                            {{ index + 1 }}
+                            <Star class="size-3" />
                         </span>
-                        <span class="text-xs leading-relaxed font-medium text-slate-700 sm:text-sm">{{
-                            item.value
-                        }}</span>
+                        <span class="text-[10px] leading-tight font-bold text-emerald-900">
+                            {{ benefit.value }}
+                        </span>
                     </li>
                 </ul>
-            </div>
-        </section>
 
-        <!-- ===== TESTIMONIALS ===== -->
-        <section class="relative bg-emerald-50/70 py-8 sm:py-10">
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <h2
+                <!-- Social proof -->
+                <div
                     data-reveal
-                    class="text-center text-xl font-black tracking-tight text-emerald-950 uppercase sm:text-3xl"
+                    class="mt-3 flex items-center gap-2 rounded-xl border border-emerald-900/10 bg-white p-2"
                 >
-                    {{ text('testimonials', 'heading') }}
-                </h2>
-
-                <div class="mt-6 grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-                    <figure
-                        v-for="testimonial in testimonials"
-                        :key="testimonial.author"
-                        data-reveal
-                        class="overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm"
-                    >
+                    <div class="flex -space-x-2">
                         <img
-                            :src="testimonial.image"
-                            :alt="testimonial.author"
-                            class="aspect-[4/3] w-full object-cover"
+                            v-for="person in [
+                                '/images/elicpo/user/user1.png',
+                                '/images/elicpo/user/user2.png',
+                                '/images/elicpo/user/user3.jpg',
+                            ]"
+                            :key="person"
+                            :src="person"
+                            alt="Khách hàng ELICPO"
+                            class="size-7 rounded-full border-2 border-white object-cover"
                             loading="lazy"
                         />
-                        <figcaption class="p-3">
-                            <Quote class="size-4 text-emerald-400" />
-                            <p
-                                class="mt-1 line-clamp-3 text-[11px] leading-relaxed text-slate-700 italic"
-                            >
-                                "{{ testimonial.quote }}"
-                            </p>
-                            <p
-                                class="mt-2 border-t border-slate-100 pt-2 text-[11px] font-black text-emerald-900 uppercase"
-                            >
-                                {{ testimonial.author }}
-                            </p>
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== PROBLEM SELECTOR ===== -->
-        <section class="relative bg-white py-8 sm:py-10">
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <h2
-                    data-reveal
-                    class="text-center text-xl font-black tracking-tight text-emerald-950 uppercase sm:text-3xl"
-                >
-                    {{ text('problemSelector', 'heading') }}
-                </h2>
-
-                <div class="mt-5 flex flex-wrap justify-center gap-2">
-                    <span
-                        v-for="tag in problemTags"
-                        :key="tag.value"
-                        data-reveal
-                        class="rounded-full border-2 border-amber-300 bg-amber-50 px-4 py-2 text-xs font-black text-amber-700 uppercase shadow-sm sm:text-sm"
-                    >
-                        {{ tag.value }}
-                    </span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== PRESS & CERTIFICATES ===== -->
-        <section class="relative bg-emerald-50/70 py-8 sm:py-10">
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <div class="grid gap-3 sm:grid-cols-2">
-                    <figure
-                        data-reveal
-                        class="overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm"
-                    >
-                        <img
-                            :src="text('press', 'image')"
-                            alt="Sản phẩm ROOTBIO được người Nhật đánh giá cao"
-                            class="aspect-[4/3] w-full object-cover"
-                            loading="lazy"
-                        />
-                        <figcaption
-                            class="flex flex-wrap items-center gap-2 p-3"
+                        <span
+                            class="flex size-7 items-center justify-center rounded-full border-2 border-white bg-emerald-600 text-[9px] font-black text-white"
                         >
-                            <span
-                                class="rounded-full bg-emerald-700 px-3 py-1 text-[10px] font-black text-white uppercase"
-                            >
-                                {{ text('press', 'badgeOne') }}
-                            </span>
-                            <span
-                                class="rounded-full border-2 border-emerald-700 px-3 py-1 text-[10px] font-black text-emerald-800 uppercase"
-                            >
-                                {{ text('press', 'badgeTwo') }}
-                            </span>
-                        </figcaption>
-                    </figure>
-
-                    <figure
-                        data-reveal
-                        class="overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm"
-                    >
-                        <img
-                            :src="text('certificates', 'image')"
-                            alt="Chứng nhận và xét nghiệm phân bón ROOTBIO"
-                            class="aspect-[4/3] w-full object-cover"
-                            loading="lazy"
-                        />
-                        <figcaption class="p-3">
-                            <h3
-                                class="flex items-center gap-1.5 text-xs font-black text-emerald-900 uppercase"
-                            >
-                                <Award class="size-4" />
-                                {{ text('certificates', 'heading') }}
-                            </h3>
-                            <p
-                                class="mt-1 line-clamp-2 text-[11px] leading-relaxed text-slate-600"
-                            >
-                                {{ text('certificates', 'description') }}
-                            </p>
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== REVIEWS ===== -->
-        <section class="relative bg-white py-8 sm:py-10">
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <div class="grid gap-4 lg:grid-cols-3">
-                    <div
-                        data-reveal
-                        class="rounded-2xl border border-emerald-900/10 bg-emerald-50/60 p-4 text-center"
-                    >
-                        <div
-                            class="flex items-center justify-center gap-1 text-amber-500"
-                        >
+                            +{{ number('finalCta', 'peopleCount', 99) }}
+                        </span>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-0.5 text-amber-500">
                             <Star
                                 v-for="star in 5"
                                 :key="star"
-                                class="size-4 fill-current"
+                                class="size-3 fill-current"
                             />
                         </div>
-                        <p
-                            class="mt-2 text-4xl font-black text-emerald-600"
-                        >
-                            {{ number('reviews', 'averageRating', 5) }}
+                        <p class="text-[10px] font-bold text-slate-600">
+                            Đang có
+                            <strong class="text-emerald-700">{{
+                                number('finalCta', 'peopleCount', 99)
+                            }}</strong>
+                            người đăng ký nhận ưu đãi
                         </p>
-                        <p class="text-xs text-slate-500">
-                            {{ text('reviews', 'totalReviews') }}
-                        </p>
-                    </div>
-
-                    <div class="space-y-2 lg:col-span-2">
-                        <article
-                            v-for="review in reviews"
-                            :key="review.name"
-                            data-reveal
-                            class="rounded-2xl border border-emerald-900/10 bg-white p-3 shadow-sm"
-                        >
-                            <div
-                                class="flex items-center justify-between gap-3"
-                            >
-                                <p class="text-xs font-black text-emerald-900">
-                                    {{ review.name }}
-                                </p>
-                                <p class="shrink-0 text-[10px] text-slate-400">
-                                    {{ review.time }}
-                                </p>
-                            </div>
-                            <p class="mt-1 line-clamp-2 text-xs text-slate-600">
-                                {{ review.content }}
-                            </p>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== CUSTOMER FEEDBACK GALLERY ===== -->
-        <section
-            v-if="props.feedbacks.length"
-            class="relative bg-lime-50 py-8 sm:py-10"
-        >
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <h2
-                    data-reveal
-                    class="text-center text-xl font-black tracking-tight text-emerald-950 uppercase sm:text-2xl"
-                >
-                    Hình ảnh vườn cây của bà con
-                </h2>
-
-                <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    <article
-                        v-for="feedback in props.feedbacks"
-                        :key="feedback.id"
-                        data-reveal
-                        class="overflow-hidden rounded-2xl border border-emerald-900/10 bg-white shadow-sm"
-                    >
-                        <img
-                            v-if="feedback.image"
-                            :src="feedback.image"
-                            :alt="feedback.name"
-                            class="aspect-[4/3] w-full object-cover"
-                            loading="lazy"
-                        />
-
-                        <div class="p-3">
-                            <div class="flex items-center gap-2">
-                                <p class="truncate text-xs font-black text-emerald-900">
-                                    {{ feedback.name }}
-                                </p>
-                                <div class="ml-auto flex gap-0.5 text-amber-500">
-                                    <span
-                                        v-for="star in 5"
-                                        :key="star"
-                                        class="text-[10px]"
-                                        :class="
-                                            star <= feedback.rating
-                                                ? 'opacity-100'
-                                                : 'opacity-25'
-                                        "
-                                    >
-                                        ★
-                                    </span>
-                                </div>
-                            </div>
-                            <p
-                                class="mt-1 line-clamp-2 text-[11px] leading-relaxed text-slate-600 italic"
-                            >
-                                "{{ feedback.content }}"
-                            </p>
-
-                            <div
-                                v-if="feedback.photos?.length"
-                                class="mt-2 grid grid-cols-3 gap-1.5"
-                            >
-                                <img
-                                    v-for="(photo, index) in feedback.photos"
-                                    :key="index"
-                                    :src="photo"
-                                    :alt="`Ảnh cây trồng của ${feedback.name}`"
-                                    class="aspect-square w-full rounded-lg object-cover"
-                                    loading="lazy"
-                                />
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== CTA FORM ===== -->
-        <section
-            id="dang-ky"
-            class="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-lime-50 py-10 sm:py-12"
-        >
-            <div class="mx-auto grid max-w-7xl items-start gap-6 px-3 sm:px-6 lg:grid-cols-2 lg:gap-10">
-                <div>
-                    <h2
-                        data-reveal
-                        class="text-xl leading-snug font-black text-emerald-950 uppercase sm:text-2xl"
-                    >
-                        {{ text('cta', 'heading') }}
-                    </h2>
-
-                    <ul class="mt-4 grid gap-2 sm:grid-cols-2">
-                        <li
-                            v-for="benefit in benefits"
-                            :key="benefit.value"
-                            class="flex items-center gap-2 rounded-xl border border-emerald-900/10 bg-white p-2.5 shadow-sm"
-                        >
-                            <span
-                                class="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700"
-                            >
-                                <Check class="size-3" />
-                            </span>
-                            <span class="text-[11px] font-bold text-emerald-900 sm:text-xs">
-                                {{ benefit.value }}
-                            </span>
-                        </li>
-                    </ul>
-
-                    <ul class="mt-4 grid gap-1.5">
-                        <li
-                            v-for="commitment in commitments"
-                            :key="commitment.value"
-                            class="flex items-start gap-2 text-[11px] leading-relaxed text-slate-600"
-                        >
-                            <Leaf class="mt-0.5 size-3 shrink-0 text-emerald-500" />
-                            <span class="line-clamp-2">{{ commitment.value }}</span>
-                        </li>
-                    </ul>
-
-                    <!-- Oversized offer CTA -->
-                    <div class="mt-6 flex flex-wrap items-center gap-3">
-                        <a
-                            :href="text('hero', 'primaryCtaHref', '#dang-ky')"
-                            class="rootbio-cta rootbio-cta-ring rootbio-cta-shake inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-600 via-emerald-500 to-lime-500 px-8 py-5 text-xl font-black text-white uppercase shadow-2xl shadow-emerald-600/40 sm:text-2xl"
-                        >
-                            {{ text('hero', 'primaryCtaLabel', 'Nhận ưu đãi') }}
-                            <ArrowRight class="rootbio-cta-icon size-6" />
-                        </a>
-
-                        <a
-                            :href="`tel:${text('footer', 'hotline', '0973.42.6704').replace(/\D/g, '')}`"
-                            class="rootbio-cta rootbio-cta-ring inline-flex items-center gap-2 rounded-full border-2 border-emerald-700 bg-white px-7 py-5 text-lg font-black text-emerald-800 uppercase shadow-xl shadow-emerald-900/10"
-                        >
-                            <Phone class="size-5" />
-                            {{ text('footer', 'hotline', '0973.42.6704') }}
-                        </a>
                     </div>
                 </div>
 
-                <div data-reveal>
-                    <LeadForm
+                <!-- Form đầy đủ -->
+                <div data-reveal class="mt-3">
+                    <OrderForm
                         :title="text('cta', 'formTitle')"
                         :subtitle="text('cta', 'formSubtitle')"
-                        :coupon-code="text('cta', 'couponCode', 'HT212')"
-                        :plant-types="formPlantTypes"
-                        :symptoms="formSymptoms"
+                        :coupon-code="text('cta', 'couponCode', 'ELICPO10')"
                     />
                 </div>
             </div>
         </section>
 
+        <!-- ===== ĐÁNH GIÁ ===== -->
+        <section class="bg-white py-5">
+            <div class="space-y-2 px-3">
+                <article
+                    v-for="review in reviews"
+                    :key="review.name"
+                    data-reveal
+                    class="rounded-xl border border-emerald-900/10 bg-white p-2.5 shadow-sm"
+                >
+                    <div class="flex items-center justify-between gap-2">
+                        <p class="text-[11px] font-black text-emerald-900">
+                            {{ review.name }}
+                        </p>
+                        <p class="shrink-0 text-[9px] text-slate-400">
+                            {{ review.time }}
+                        </p>
+                    </div>
+                    <p class="mt-1 line-clamp-2 text-[11px] text-slate-600">
+                        {{ review.content }}
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <!-- ===== ẢNH KHÁCH HÀNG ===== -->
+        <section
+            v-if="props.feedbacks.length"
+            class="bg-emerald-50/70 py-5"
+        >
+            <h2
+                data-reveal
+                class="px-3 text-center text-base font-black tracking-tight text-emerald-950 uppercase"
+            >
+                Vườn cây của bà con
+            </h2>
+
+            <div class="mt-3 grid grid-cols-2 gap-2 px-3">
+                <article
+                    v-for="feedback in props.feedbacks"
+                    :key="feedback.id"
+                    data-reveal
+                    class="elicpo-lift group overflow-hidden rounded-xl border border-emerald-900/10 bg-white shadow-sm"
+                >
+                    <img
+                        v-if="feedback.image"
+                        :src="feedback.image"
+                        :alt="feedback.name"
+                        class="elicpo-zoom aspect-[4/3] w-full object-cover"
+                        loading="lazy"
+                    />
+
+                    <div class="p-2">
+                        <div class="flex items-center gap-1.5">
+                            <p class="truncate text-[10px] font-black text-emerald-900">
+                                {{ feedback.name }}
+                            </p>
+                            <div class="ml-auto flex gap-0.5 text-amber-500">
+                                <span
+                                    v-for="star in 5"
+                                    :key="star"
+                                    class="text-[8px]"
+                                    :class="
+                                        star <= feedback.rating
+                                            ? 'opacity-100'
+                                            : 'opacity-25'
+                                    "
+                                >
+                                    ★
+                                </span>
+                            </div>
+                        </div>
+
+                        <div
+                            v-if="feedback.photos?.length"
+                            class="mt-1.5 grid grid-cols-3 gap-1"
+                        >
+                            <img
+                                v-for="(photo, index) in feedback.photos"
+                                :key="index"
+                                :src="photo"
+                                :alt="`Ảnh cây trồng của ${feedback.name}`"
+                                class="elicpo-zoom aspect-square w-full rounded-md object-cover"
+                                loading="lazy"
+                            />
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
         <!-- ===== FOOTER ===== -->
         <footer
-            class="rootbio-footer border-t border-emerald-900/10 bg-emerald-50/60 pt-6 pb-24 text-slate-600 sm:pb-8"
+            class="border-t border-emerald-900/10 bg-emerald-50/60 pt-4 pb-28 text-slate-600"
         >
-            <div class="mx-auto max-w-7xl px-3 sm:px-6">
-                <div class="grid gap-5 md:grid-cols-3">
-                    <div>
-                        <p class="text-base font-black text-emerald-900 uppercase">
-                            {{ text('footer', 'brandName', 'ROOTBIO') }}
-                        </p>
-                        <p class="mt-1.5 text-[11px] leading-relaxed">
-                            {{ text('footer', 'companyName') }}<br />
-                            {{ text('footer', 'address') }}<br />
-                            HOTLINE:
-                            <a
-                                :href="text('footer', 'hotlineHref')"
-                                class="font-bold text-emerald-700 hover:underline"
-                            >
-                                {{ text('footer', 'hotline') }}
-                            </a>
-                        </p>
-                    </div>
-
-                    <div>
-                        <p class="flex items-center gap-1.5 font-black text-emerald-900 uppercase">
-                            <TrendingUp class="size-4" />
-                            {{ text('footer', 'plantListHeading') }}
-                        </p>
-                        <ul class="mt-2 grid grid-cols-2 gap-1 text-[11px]">
-                            <li
-                                v-for="plant in plantTypes"
-                                :key="plant.value"
-                            >
-                                {{ plant.value }}
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <p class="font-black text-emerald-900 uppercase">
-                            {{ text('footer', 'infoHeading') }}
-                        </p>
-                        <ul class="mt-2 space-y-1 text-[11px]">
-                            <li v-for="link in infoLinks" :key="link.value">
-                                {{ link.value }}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="px-3">
+                <p class="text-sm font-black text-emerald-900 uppercase">
+                    {{ text('footer', 'brandName', 'ELICPO') }}
+                </p>
+                <p class="mt-1 text-[10px] leading-relaxed">
+                    {{ text('footer', 'companyName') }}<br />
+                    {{ text('footer', 'address') }}<br />
+                    HOTLINE:
+                    <a
+                        :href="text('footer', 'hotlineHref')"
+                        class="font-bold text-emerald-700 hover:underline"
+                    >
+                        {{ text('footer', 'hotline') }}
+                    </a>
+                </p>
 
                 <p
-                    class="mt-5 border-t border-emerald-900/10 pt-4 text-center text-[10px] text-slate-500"
+                    class="mt-3 border-t border-emerald-900/10 pt-3 text-center text-[9px] text-slate-500"
                 >
                     {{ text('footer', 'copyright') }}
                 </p>
             </div>
         </footer>
 
-        <!-- ===== FLOATING CTA (ưu đãi & đăng ký nổi bật, hiển thị liên tục) ===== -->
-        <FloatingCta
-            :coupon-code="text('finalCta', 'couponCode', 'HT212')"
-            :register-label="text('stickyCta', 'registerLabel', 'Đăng ký nhận ưu đãi')"
-            :register-href="text('stickyCta', 'registerHref', '#dang-ky')"
+        <!-- ===== NỔI TRÊN MÀN HÌNH ===== -->
+        <FloatingConsult
             :hotline="text('footer', 'hotline', '0973.42.6704')"
             :hotline-href="text('footer', 'hotlineHref', 'tel:0973426704')"
+            :coupon-code="text('finalCta', 'couponCode', 'ELICPO10')"
             :people-count="number('finalCta', 'peopleCount', 99)"
         />
 
-        <!-- ===== REGISTER MODAL (hiện ngay khi vào trang) ===== -->
-        <RegisterModal
-            :title="text('finalCta', 'title', 'Nhận ưu đãi - Tặng 100 chai dùng thử')"
-            :subtitle="text('finalCta', 'subtitle', 'Điền thông tin để kỹ sư nông nghiệp tư vấn miễn phí.')"
-            :coupon-code="text('finalCta', 'couponCode', 'HT212')"
-            :people-count="number('finalCta', 'peopleCount', 99)"
+        <FloatingLeadDock
             :hotline="text('footer', 'hotline', '0973.42.6704')"
             :hotline-href="text('footer', 'hotlineHref', 'tel:0973426704')"
-            :images="
-                galleryItems.map((item) => ({
-                    src: item.src,
-                    title: item.title,
-                }))
-            "
-            :plant-types="formPlantTypes"
-            :symptoms="formSymptoms"
+            :submit-label="text('stickyCta', 'registerLabel', 'Đăng ký tư vấn')"
         />
+
+        <!-- ===== THÔNG BÁO ĐĂNG KÝ MỖI 10 GIÂY ===== -->
+        <RegistrationNotifier />
     </div>
 </template>

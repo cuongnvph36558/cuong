@@ -29,6 +29,7 @@ type Lead = {
     phone: string;
     address: string | null;
     coupon_code: string | null;
+    variant: string | null;
     plant_type: string | null;
     symptoms: string[] | null;
     note: string | null;
@@ -139,7 +140,7 @@ function formatDate(value: string): string {
     <div class="admin-page p-4 md:p-6">
         <AdminPageHeader
             title="Dữ liệu khách hàng"
-            description="Tất cả khách hàng đăng ký từ trang chủ ROOTBIO."
+            description="Tất cả khách hàng đăng ký từ trang chủ ELICPO."
             :icon="Users"
         >
             <template #actions>
@@ -263,6 +264,7 @@ function formatDate(value: string): string {
                             <th>Họ tên</th>
                             <th>Số điện thoại</th>
                             <th>Địa chỉ</th>
+                            <th>Quy cách</th>
                             <th>Loại cây</th>
                             <th>Tình trạng</th>
                             <th>Mã</th>
@@ -303,6 +305,9 @@ function formatDate(value: string): string {
                             </td>
                             <td class="text-muted-foreground">
                                 {{ lead.address ?? '—' }}
+                            </td>
+                            <td class="text-muted-foreground">
+                                {{ lead.variant ?? '—' }}
                             </td>
                             <td class="text-muted-foreground">
                                 {{ lead.plant_type ?? '—' }}
